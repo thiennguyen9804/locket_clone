@@ -1,0 +1,120 @@
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State />
+          <State>
+            <id>Android Lint: Accessibility</id>
+          </State>
+          <State>
+            <id>Android Lint: Correctness</id>
+          </State>
+          <State>
+            <id>Android Lint: Internationalization</id>
+          </State>
+          <State>
+            <id>Android Lint: Interoperability</id>
+          </State>
+          <State>
+            <id>Android Lint: Performance</id>
+          </State>
+          <State>
+            <id>Android Lint: Productivity</id>
+          </State>
+          <State>
+            <id>Android Lint: Security</id>
+          </State>
+          <State>
+            <id>Android Lint: Usability</id>
+          </State>
+          <State>
+            <id>Best practisesGradle</id>
+          </State>
+          <State>
+            <id>C/C++</id>
+          </State>
+          <State>
+            <id>CodePlugin DevKit</id>
+          </State>
+          <State>
+            <id>Data Flow AnalysisC/C++</id>
+          </State>
+          <State>
+            <id>Gradle</id>
+          </State>
+          <State>
+            <id>GradleMigrationKotlin</id>
+          </State>
+          <State>
+            <id>Java</id>
+          </State>
+          <State>
+            <id>Java 10Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 11Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 14Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 15Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 16Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 19Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 20Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 5Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 7Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 8Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java 9Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Java language level migration aidsJava</id>
+          </State>
+          <State>
+            <id>Kotlin</id>
+          </State>
+          <State>
+            <id>MigrationKotlin</id>
+          </State>
+          <State>
+            <id>Packaging issuesJava</id>
+          </State>
+          <State>
+            <id>Plugin DevKit</id>
+          </State>
+          <State>
+            <id>Probable bugsGradle</id>
+          </State>
+          <State>
+            <id>StyleGradle</id>
+          </State>
+          <State>
+            <id>Validity issuesGradle</id>
+          </State>
+        </expanded-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="Android API 31 Platform" project-jdk-type="Android SDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="io.flutter" />
+  </component>
+</project>

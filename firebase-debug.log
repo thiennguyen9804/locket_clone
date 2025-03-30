@@ -1,0 +1,76 @@
+[debug] [2025-02-21T13:14:44.463Z] ----------------------------------------------------------------------
+[debug] [2025-02-21T13:14:44.467Z] Command:       D:\NodeJS\node.exe C:\Users\Welcome\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init emulators
+[debug] [2025-02-21T13:14:44.467Z] CLI Version:   13.30.0
+[debug] [2025-02-21T13:14:44.467Z] Platform:      win32
+[debug] [2025-02-21T13:14:44.467Z] Node Version:  v20.18.3
+[debug] [2025-02-21T13:14:44.467Z] Time:          Fri Feb 21 2025 20:14:44 GMT+0700 (Indochina Time)
+[debug] [2025-02-21T13:14:44.467Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-21T13:14:44.683Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2025-02-21T13:14:44.687Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-21T13:14:44.687Z] > authorizing via signed-in user (thiennguyen9804@gmail.com)
+[debug] [2025-02-21T13:14:44.689Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\locket_clone
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[debug] [2025-02-21T13:15:11.737Z] ----------------------------------------------------------------------
+[debug] [2025-02-21T13:15:11.739Z] Command:       D:\NodeJS\node.exe C:\Users\Welcome\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init emulators
+[debug] [2025-02-21T13:15:11.739Z] CLI Version:   13.30.0
+[debug] [2025-02-21T13:15:11.739Z] Platform:      win32
+[debug] [2025-02-21T13:15:11.739Z] Node Version:  v20.18.3
+[debug] [2025-02-21T13:15:11.739Z] Time:          Fri Feb 21 2025 20:15:11 GMT+0700 (Indochina Time)
+[debug] [2025-02-21T13:15:11.740Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-02-21T13:15:11.918Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2025-02-21T13:15:11.921Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-02-21T13:15:11.921Z] > authorizing via signed-in user (thiennguyen9804@gmail.com)
+[debug] [2025-02-21T13:15:11.922Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  D:\locket_clone
+
+Before we get started, keep in mind:
+
+  * You are initializing within an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2025-02-21T13:15:18.365Z] Checked if tokens are valid: true, expires at: 1740146968424
+[debug] [2025-02-21T13:15:18.366Z] Checked if tokens are valid: true, expires at: 1740146968424
+[debug] [2025-02-21T13:15:18.368Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-02-21T13:15:19.176Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-02-21T13:15:19.176Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project locket-clone-41234 (locket clone) 
+[info] 
+=== Emulators Setup
+[info] i  apphosting: Initializing Emulator {"metadata":{"emulator":{"name":"apphosting"},"message":"Initializing Emulator"}}
+[warn] !  Failed to auto-detect your project's start command. Consider manually setting the start command by setting `firebase.json#emulators.apphosting.startCommand` {"metadata":{"emulator":{"name":"apphosting"},"message":"Failed to auto-detect your project's start command. Consider manually setting the start command by setting `firebase.json#emulators.apphosting.startCommand`"}}
+[debug] [2025-02-21T13:15:54.780Z] Checked if tokens are valid: true, expires at: 1740146968424
+[debug] [2025-02-21T13:15:54.780Z] Checked if tokens are valid: true, expires at: 1740146968424
+[debug] [2025-02-21T13:15:54.780Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2025-02-21T13:15:55.408Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-02-21T13:15:55.409Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
