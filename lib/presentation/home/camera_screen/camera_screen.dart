@@ -31,6 +31,8 @@ class _CameraScreenState extends State<CameraScreen> {
   bool isCamScr = true;
   XFile? pictureFile;
   Isolate? imgFlipIso;
+  // String caption;
+  TextEditingController captionController = TextEditingController();
 
   bool _isFrontCam() =>
       _cameras[_selectedCameraIndex].lensDirection == CameraLensDirection.front;
@@ -134,22 +136,19 @@ class _CameraScreenState extends State<CameraScreen> {
                 isCamScr ? FlashBtn() : CancelBtn(onTap: _cancelHandler),
                 Spacer(),
                 isCamScr
-                    ? CaptureBtn(onTap: _takePicture)
+                    ? CaptureBtn(takePicture: _takePicture, sendImg: (){},)
                     : SendBtn(onTap: _sendPicture),
                 Spacer(),
-                ChangeCamBtn(
-                  onTap: _changeCam,
+                Opacity(
+                  opacity: isCamScr ? 1 : 0,
+                  child: ChangeCamBtn(onTap: isCamScr ? _changeCam : () {}),
                 ),
               ],
             ),
           ),
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           _newsfeedBtn(() {}),
-          SizedBox(
-            height: 50,
-          ),
+          SizedBox(height: 50),
         ],
       ),
     );
@@ -174,7 +173,7 @@ class _CameraScreenState extends State<CameraScreen> {
           Icons.keyboard_arrow_down_rounded,
           color: AppTheme.mainColor,
           size: 30,
-        )
+        ),
       ],
     );
   }
@@ -186,9 +185,7 @@ class _CameraScreenState extends State<CameraScreen> {
         width: size,
         height: size,
         child: Center(
-          child: CircularProgressIndicator(
-            color: AppTheme.mainColor,
-          ),
+          child: CircularProgressIndicator(color: AppTheme.mainColor),
         ),
       );
     }
@@ -247,9 +244,7 @@ class _CameraScreenState extends State<CameraScreen> {
             width: size,
             height: size,
             child: Center(
-              child: CircularProgressIndicator(
-                color: AppTheme.mainColor,
-              ),
+              child: CircularProgressIndicator(color: AppTheme.mainColor),
             ),
           );
         }
@@ -265,6 +260,7 @@ class _CameraScreenState extends State<CameraScreen> {
     return TakenImage(
       imageFile: file,
       xFlip: _isFrontCam(),
+      controller: captionController,
     );
   }
 

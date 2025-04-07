@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/home/hayashing/developments/flutter/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/hayashing/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/hayashing/locket_clone_app/locket_clone/android/app/.cxx/Debug/2t6k6t5g/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/hayashing/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/hayashing/locket_clone_app/locket_clone/android/app/.cxx/Debug/2t6k6t5g/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

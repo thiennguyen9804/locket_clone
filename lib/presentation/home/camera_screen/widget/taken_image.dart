@@ -6,10 +6,12 @@ import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
 class TakenImage extends StatelessWidget {
   final File imageFile;
   final bool xFlip;
+  final TextEditingController controller;
   const TakenImage({
     super.key,
     required this.imageFile,
     required this.xFlip,
+    required this.controller,
   });
 
   @override
@@ -59,10 +61,7 @@ class TakenImage extends StatelessWidget {
                           ],
                           child: Transform.flip(
                             flipX: xFlip,
-                            child: Image.file(
-                              imageFile,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Image.file(imageFile, fit: BoxFit.cover),
                           ),
                         ),
                       ),
@@ -83,12 +82,24 @@ class TakenImage extends StatelessWidget {
                     color: Color(0xffF2F2F2),
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Text(
-                    'test caption',
-                    style: TextStyle().copyWith(
-                      color: Color(0xff5F5F5F),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(minWidth: 30),
+                    child: IntrinsicWidth(
+                      child: TextField(
+                        controller: controller,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(0xff5F5F5F),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          isCollapsed: true,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        cursorColor: Color(0xff5F5F5F),
+                      ),
                     ),
                   ),
                 ),
@@ -96,9 +107,7 @@ class TakenImage extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
-          height: 37,
-        ),
+        SizedBox(height: 37),
       ],
     );
   }

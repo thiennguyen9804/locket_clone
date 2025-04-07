@@ -1,5 +1,6 @@
 class NetworkConstant {
-  static const BASE_URL = 'http://10.0.149.211:8181/';
+  static const _IP = '10.0.174.80';
+  static const BASE_URL = 'http://${_IP}:8181/';
   static const SIGN_UP = '${BASE_URL}auth/sign-up';
   static const SIGN_IN = '${BASE_URL}auth/sign-in';
   static const USER = '${BASE_URL}auth/';
