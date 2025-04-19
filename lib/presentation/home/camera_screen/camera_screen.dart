@@ -3,15 +3,19 @@ import 'dart:isolate';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
+import 'package:locket_clone/common/bloc/button/upload_img_cubit.dart';
 import 'package:locket_clone/common/widgets/anim_pressable.dart';
 import 'package:locket_clone/common/widgets/button/cancel_btn.dart';
 import 'package:locket_clone/common/widgets/button/capture_btn.dart';
 import 'package:locket_clone/common/widgets/button/change_cam_btn.dart';
 import 'package:locket_clone/common/widgets/button/flash_btn.dart';
 import 'package:locket_clone/common/widgets/button/send_btn.dart';
+import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
 import 'package:locket_clone/core/configs/theme/app_theme.dart';
 import 'package:locket_clone/domain/repository/post_repository.dart';
+import 'package:locket_clone/presentation/data/upload_post.dart';
 import 'package:locket_clone/presentation/home/camera_screen/widget/taken_image.dart';
 import 'package:locket_clone/set_up_sl.dart';
 import 'package:image/image.dart' as img;
@@ -33,6 +37,7 @@ class _CameraScreenState extends State<CameraScreen> {
   Isolate? imgFlipIso;
   // String caption;
   TextEditingController captionController = TextEditingController();
+  final transHelper = TransitionHelper();
 
   bool _isFrontCam() =>
       _cameras[_selectedCameraIndex].lensDirection == CameraLensDirection.front;
@@ -58,12 +63,6 @@ class _CameraScreenState extends State<CameraScreen> {
 
     setState(() {
       pictureFile = file;
-    });
-  }
-
-  void _sendPicture() {
-    setState(() {
-      isCamScr = true;
     });
   }
 
@@ -122,40 +121,100 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Column(
-        children: [
-          SizedBox(height: 100),
-          isCamScr ? _cameraWidget() : _takenImageWidget(),
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                isCamScr ? FlashBtn() : CancelBtn(onTap: _cancelHandler),
-                Spacer(),
-                isCamScr
-                    ? CaptureBtn(takePicture: _takePicture, sendImg: (){},)
-                    : SendBtn(onTap: _sendPicture),
-                Spacer(),
-                Opacity(
-                  opacity: isCamScr ? 1 : 0,
-                  child: ChangeCamBtn(onTap: isCamScr ? _changeCam : () {}),
-                ),
-              ],
+      child: BlocProvider<UploadImgCubit>(
+        create:
+            (context) => UploadImgCubit(
+              takePicture: _takePicture,
+              onSendImageSuccess: onSendImageSuccess,
             ),
-          ),
-          SizedBox(height: 20),
-          _newsfeedBtn(() {}),
-          SizedBox(height: 50),
-        ],
+        child: BlocConsumer<UploadImgCubit, UploadImgState>(
+          listener: (context, state) {
+            print(state);
+            if (state is CaptureState) {
+              transHelper.unlock();
+            }
+            if (state is SendImageSuccess) {
+              _cancelHandler();
+              transHelper.unlock();
+            } else if (state is SendImageLoading || state is SendImageState) {
+              transHelper.lock();
+            }
+          },
+          builder: (context, state) {
+            return Column(
+              children: [
+                SizedBox(height: 100),
+                isCamScr ? _cameraWidget() : _takenImageWidget(),
+                Spacer(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      isCamScr ? FlashBtn() : cancelBtn(),
+                      Spacer(),
+                      captureBtn(),
+                      Spacer(),
+                      Opacity(
+                        opacity: isCamScr ? 1 : 0,
+                        child: ChangeCamBtn(
+                          onTap: isCamScr ? _changeCam : () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20),
+                _newsfeedBtn(() {}),
+                SizedBox(height: 50),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
 
+  void onSendImageSuccess() {
+    _cancelHandler();
+  }
+
+  Widget cancelBtn() {
+    return Builder(
+      builder: (context) {
+        return CancelBtn(
+          onTap: () {
+            context.read<UploadImgCubit>().onCancel();
+            _cancelHandler();
+          },
+        );
+      },
+    );
+  }
+
+  Widget captureBtn() {
+    return Builder(
+      builder: (context) {
+        return CaptureBtn(
+          onSendImage: () {
+            context.read<UploadImgCubit>().onSendImage(
+              UploadPost(
+                imagePath: pictureFile!.path,
+                caption: captionController.text,
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   Widget _newsfeedBtn(VoidCallback onTap) {
-    return AnimPressable(icon: _newsfeed(), onTap: onTap);
+    return Opacity(
+      opacity: isCamScr ? 1 : 0,
+      child: AnimPressable(icon: _newsfeed(), onTap: onTap),
+    );
   }
 
   Widget _newsfeed() {
@@ -231,7 +290,10 @@ class _CameraScreenState extends State<CameraScreen> {
                             blurRadius: 8,
                           ),
                         ],
-                        child: CameraPreview(_cameraController),
+                        child: Transform.flip(
+                          flipX: _isFrontCam(),
+                          child: CameraPreview(_cameraController),
+                        ),
                       ),
                     ),
                   ),
@@ -267,6 +329,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void dispose() async {
     await _cameraController.dispose();
+    captionController.dispose();
     super.dispose();
   }
 }

@@ -1,36 +1,58 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
-/// This interceptor is used to show request and response logs
 class LoggerInterceptor extends Interceptor {
-  Logger logger = Logger(
-      printer: PrettyPrinter(methodCount: 0, colors: true, printEmojis: true));
+  final Logger logger = Logger(
+    printer: PrettyPrinter(methodCount: 0, colors: true, printEmojis: true),
+  );
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    final requestPath = '${options.baseUrl}${options.path}';
+
+    logger.i('➡️ ${options.method} request ==> $requestPath');
+    logger.i('🔸 Headers:\n${options.headers}');
+    logger.i('🔸 Query Parameters:\n${options.queryParameters}');
+    if (options.data != null) {
+      logger.i('📝 Body:\n${_prettyJson(options.data)}');
+    }
+
+    handler.next(options);
+  }
+
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    logger.d('✅ RESPONSE [${response.statusCode}] ${response.requestOptions.uri}');
+    logger.d('📦 Data:\n${_prettyJson(response.data)}');
+    handler.next(response);
+  }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     final options = err.requestOptions;
     final requestPath = '${options.baseUrl}${options.path}';
-    logger.e('${options.method} request ==> $requestPath'); //Error log
-    logger.d('Error type: ${err.error} \n '
-        'Error message: ${err.message}'); //Debug log
-    handler.next(err); //Continue with the Error
+
+    logger.e('❌ ERROR [${err.response?.statusCode}] ==> $requestPath');
+    logger.d('🔸 Error Type: ${err.type}');
+    logger.d('🔸 Error Message: ${err.message}');
+    if (err.response?.data != null) {
+      logger.d('📦 Error Body:\n${_prettyJson(err.response?.data)}');
+    }
+
+    handler.next(err);
   }
 
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final requestPath = '${options.baseUrl}${options.path}';
-    final headers = options.headers;
-    logger.i('${options.method} request ==> $requestPath'); //Info log
-    logger.i('headers ==> $headers'); //Info log
-    handler.next(options); // continue with the Request
-  }
-
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    logger.d('STATUSCODE: ${response.statusCode} \n '
-        'STATUSMESSAGE: ${response.statusMessage} \n'
-        'HEADERS: ${response.headers} \n'
-        'Data: ${response.data}'); // Debug log
-    handler.next(response); // continue with the Response
+  String _prettyJson(dynamic data) {
+    try {
+      if (data is Map || data is List) {
+        return const JsonEncoder.withIndent('  ').convert(data);
+      } else {
+        return data.toString();
+      }
+    } catch (e) {
+      return data.toString();
+    }
   }
 }

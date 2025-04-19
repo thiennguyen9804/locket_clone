@@ -11,8 +11,9 @@ class DioClient {
               headers: {'Content-Type': 'application/json; charset=UTF-8'},
               responseType: ResponseType.json,
               // connectTimeout: const Duration(seconds: 4),
-              sendTimeout: const Duration(seconds: 3),
-              receiveTimeout: const Duration(seconds: 3)),
+              // sendTimeout: const Duration(seconds: 3),
+              // receiveTimeout: const Duration(seconds: 3)),
+          ),
         )..interceptors.addAll([LoggerInterceptor()]);
 
   // GET METHOD
@@ -53,6 +54,7 @@ class DioClient {
         options: options,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
+        queryParameters: queryParameters,
       );
       return response;
     } catch (e) {

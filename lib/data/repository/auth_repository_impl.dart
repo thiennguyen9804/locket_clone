@@ -35,17 +35,14 @@ class AuthRepositoryImpl implements AuthRepository {
     return userEntity;
   }
 
-  @override
-  Future<UserEntity> getUserById(String id) async {
-    throw UnimplementedError("getUserById");
-  }
 
   @override
   Future<UserEntity> loginCurrentUser() async {
     try {
       final userLocal = sl<AuthLocalService>().getLocalCurrentUser();
+      
       final token = sl<AuthLocalService>().getLocalToken();
-
+      print("local token: $token");
       final userApi = await sl<AuthApiService>().getCurrentUser(token);
       if (userLocal != userApi) {
         sl<AuthLocalService>()

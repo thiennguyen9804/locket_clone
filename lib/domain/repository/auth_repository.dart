@@ -6,6 +6,5 @@ import '../entities/user_entity.dart';
 abstract class AuthRepository {
   Future<Either<String, UserEntity>> signIn(SignInReq req);
   Future<UserEntity> getCurrentUser();
-  Future<UserEntity> getUserById(String id);
   Future<UserEntity> loginCurrentUser();
 }

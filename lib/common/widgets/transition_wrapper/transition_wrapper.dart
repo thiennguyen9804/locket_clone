@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,16 +9,45 @@ import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart'
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_state.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.dart';
+import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart';
+import 'package:locket_clone/presentation/route/enter_exit_rout.dart';
 
 import '../../../core/configs/theme/app_theme.dart';
 import '../../../domain/usecases/get_current_user_use_case.dart';
 import '../../../presentation/home/bloc/user_cubit.dart';
 import '../../../set_up_sl.dart';
 
-class TransitionWrapper extends StatelessWidget {
-  TransitionWrapper({super.key});
+class TransitionWrapper extends StatefulWidget {
+  const TransitionWrapper({super.key});
 
-  final TransitionHelper _helperIst = TransitionHelper(); // Singleton
+  @override
+  State<TransitionWrapper> createState() => _TransitionWrapperState();
+}
+
+class _TransitionWrapperState extends State<TransitionWrapper> {
+  ScrollPhysics get currentScrollPhysics =>
+      _locked
+          ? const NeverScrollableScrollPhysics()
+          : const ClampingScrollPhysics();
+
+  bool _locked = false;
+
+  final TransitionHelper _helperIst = TransitionHelper();
+  @override
+  void initState() {
+    super.initState();
+    _helperIst.lock = this.lock;
+    _helperIst.unlock = this.unlock;
+  }
+
+  // Singleton
+  void lock() {
+    setState(() => _locked = true);
+  }
+
+  void unlock() {
+    setState(() => _locked = false);
+  }
 
   Widget _avatar(VoidCallback onPress, String? imageUrl) {
     return AnimPressable(
@@ -30,19 +60,19 @@ class TransitionWrapper extends StatelessWidget {
         width: 38,
         height: 38,
         padding: EdgeInsets.all(5),
-        child: imageUrl != null
-            ? CircleAvatar(
-                backgroundImage: NetworkImage(imageUrl),
-              )
-            : Icon(Icons.account_circle_outlined, color: Colors.white),
+        child:
+            imageUrl != null
+                ? CircleAvatar(backgroundImage: NetworkImage(imageUrl))
+                : Icon(Icons.account_circle_outlined, color: Colors.white),
       ),
     );
   }
 
   Widget _avatarBtn(VoidCallback onPress) {
-    return BlocBuilder<UserCubit, UserState>(builder: (context, state) {
-      return switch (state) {
-        UserLoading() || UserLoadedFail() => Container(
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        return switch (state) {
+          UserLoading() || UserLoadedFail() => Container(
             decoration: BoxDecoration(
               color: AppTheme.mainColor,
               borderRadius: BorderRadius.circular(100),
@@ -50,14 +80,20 @@ class TransitionWrapper extends StatelessWidget {
             width: 38,
             height: 38,
             padding: EdgeInsets.all(5),
-            child: Icon(
-              Icons.account_circle_outlined,
-              color: Colors.white,
-            ),
+            child: Icon(Icons.account_circle_outlined, color: Colors.white),
           ),
-        UserLoadedSuccess() => _avatar(() {}, state.userEntity.avatarUrl),
-      };
-    });
+          UserLoadedSuccess() => _avatar(() {
+            Navigator.push(
+              context,
+              EnterExitRoute(
+                exitPage: widget, // chính là TransitionWrapper
+                enterPage: UserInfoScreen(),
+              ),
+            );
+          }, state.userEntity.avatarUrl),
+        };
+      },
+    );
   }
 
   Widget _friendBtn(VoidCallback onPress) {
@@ -66,18 +102,9 @@ class TransitionWrapper extends StatelessWidget {
       style: ElevatedButton.styleFrom(elevation: 3),
       child: Row(
         children: [
-          Icon(
-            Icons.people,
-            color: Colors.white,
-            size: 20,
-          ),
-          SizedBox(
-            width: 12,
-          ),
-          Text(
-            'Friends',
-            style: TextStyle().copyWith(),
-          ),
+          Icon(Icons.people, color: Colors.white, size: 20),
+          SizedBox(width: 12),
+          Text('Friends', style: TextStyle().copyWith()),
         ],
       ),
     );
@@ -87,10 +114,7 @@ class TransitionWrapper extends StatelessWidget {
     return IconButton(
       onPressed: onPress,
       color: Colors.white,
-      icon: Icon(
-        Icons.chat,
-        size: 20,
-      ),
+      icon: Icon(Icons.chat, size: 20),
       style: IconButton.styleFrom(backgroundColor: AppTheme.mainColor),
     );
   }
@@ -101,12 +125,11 @@ class TransitionWrapper extends StatelessWidget {
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) =>
-                UserCubit()..getCurrentUser(sl<GetCurrentUserUseCase>()),
+            create:
+                (context) =>
+                    UserCubit()..getCurrentUser(sl<GetCurrentUserUseCase>()),
           ),
-          BlocProvider(
-            create: (context) => NewsfeedCubit()..loadPosts(),
-          ),
+          BlocProvider(create: (context) => NewsfeedCubit()..loadPosts()),
         ],
         child: BlocListener<UserCubit, UserState>(
           listener: (context, state) {
@@ -125,8 +148,11 @@ class TransitionWrapper extends StatelessWidget {
                 index: 1,
                 child: SafeArea(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 38.0, right: 38.0, top: 10),
+                    padding: const EdgeInsets.only(
+                      left: 38.0,
+                      right: 38.0,
+                      top: 10,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -147,22 +173,16 @@ class TransitionWrapper extends StatelessWidget {
                         Color.fromRGBO(115, 143, 129, 0.46),
                         Color(0x00ffffff),
                       ],
-                      stops: [
-                        0.0,
-                        0.44,
-                        1.0,
-                      ],
+                      stops: [0.0, 0.44, 1.0],
                       radius: 1,
                     ),
                   ),
                   child: PageView(
-                    physics: const ClampingScrollPhysics(),
+                    // physics: const ClampingScrollPhysics(),
+                    physics: currentScrollPhysics,
                     controller: _helperIst.mainController,
                     scrollDirection: Axis.vertical,
-                    children: [
-                      CameraScreen(),
-                      NewsfeedScreen(),
-                    ],
+                    children: [CameraScreen(), NewsfeedScreen()],
                   ),
                 ),
               ),

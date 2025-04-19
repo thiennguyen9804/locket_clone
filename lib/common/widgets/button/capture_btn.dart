@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/common/bloc/button/upload_img_cubit.dart';
+import 'package:locket_clone/presentation/data/upload_post.dart';
 
 class CaptureBtn extends StatefulWidget {
-  const CaptureBtn({
-    super.key,
-    required this.takePicture,
-    required this.sendImg,
-  });
-  final VoidCallback takePicture;
-  final VoidCallback sendImg;
+  const CaptureBtn({super.key, required this.onSendImage,});
+  final VoidCallback onSendImage;
   @override
   State<CaptureBtn> createState() => _CaptureBtnState();
 }
@@ -38,11 +34,18 @@ class _CaptureBtnState extends State<CaptureBtn> {
           borderRadius: BorderRadius.circular(200),
           color: inColor,
         ),
-        padding: EdgeInsets.symmetric(horizontal: 23, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 23, vertical: 23),
         child: child,
       ),
     );
   }
+
+  void _onTakePicture() {
+    context.read<UploadImgCubit>().onCapture();
+    // widget.takePicture();
+  }
+
+  
 
   Widget capBtn() {
     const captureBtnNotClickName = 'assets/camera_ic.svg';
@@ -50,66 +53,57 @@ class _CaptureBtnState extends State<CaptureBtn> {
       captureBtnNotClickName,
       semanticsLabel: 'Not click',
     );
-    return _btnLayout(
-      outColor: Color(0xffAAC2B3),
-      inColor: Color(0xffECF4F4),
-      child: captureBtnIc,
+    return GestureDetector(
+      onTap: _onTakePicture,
+      child: _btnLayout(
+        outColor: Color(0xffAAC2B3),
+        inColor: Color(0xffECF4F4),
+        child: captureBtnIc,
+      ),
     );
   }
 
-  Widget capBtnClicked() {
-    const captureBtnClickName = 'assets/camera_ic_click.svg';
-
-    final Widget captureBtnOnClickIc = SvgPicture.asset(
-      captureBtnClickName,
-      semanticsLabel: 'On click',
+  Widget sendBtn() {
+    const sendIcPath = 'assets/send_ic.svg';
+    final Widget sendIc = SvgPicture.asset(
+      sendIcPath,
+      semanticsLabel: 'Send icon',
     );
+    return GestureDetector(
+      onTap: widget.onSendImage,
+      child: _btnLayout(
+        outColor: Color(0xffAAC2B3),
+        inColor: Color(0xffECF4F4),
+        child: sendIc,
+      ),
+    );
+  }
 
+
+
+  Widget loadingBtn() {
     return _btnLayout(
       outColor: Color(0xffAAC2B3),
-      inColor: Color(0xff738F81),
-      child: captureBtnOnClickIc,
+      inColor: Color(0xffECF4F4),
+      child: CircularProgressIndicator(color: Color(0xff738F81)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocProvider<UploadImgCubit>(
-      create:
-          (context) => UploadImgCubit(
-            takePicture: widget.takePicture,
-            cancelHandler: widget.sendImg,
-          ),
-      child: GestureDetector(
-        onTap: widget.takePicture,
-        onTapDown: (details) {
-          setState(() {
-            isTap = true;
-          });
-        },
-        onTapUp: (details) {
-          setState(() {
-            isTap = false;
-          });
-        },
-        child: BlocBuilder<UploadImgCubit, UploadImgState>(builder: (context, state) {
-          switch(state) {
-             
-            case CaptureState():
-              return capBtn();
-            case SendImageState():
-              // TODO: Handle this case.
-              throw UnimplementedError();
-            case SendImageLoading():
-              // TODO: Handle this case.
-              throw UnimplementedError();
-            case SendImageSuccess():
-              // TODO: Handle this case.
-              throw UnimplementedError();
-          }
-        }),
-      ),
+    return BlocBuilder<UploadImgCubit, UploadImgState>(
+      builder: (context, state) {
+        switch (state) {
+          case CaptureState():
+            return capBtn();
+          case SendImageState():
+            return sendBtn();
+          case SendImageLoading():
+            return loadingBtn();
+          case SendImageSuccess():
+            return capBtn();
+        }
+      },
     );
   }
 }

@@ -7,8 +7,11 @@ class TransitionHelper {
   static final TransitionHelper _singleton = TransitionHelper._internal();
   final mainController = PageController(); // Controlled
   var newsfeedController = PageController(); // Controller
+  late final VoidCallback lock;
+  late final VoidCallback unlock;
 
   var topOverScroll = 0.0;
+  // bool _locked = false;
 
   factory TransitionHelper() {
     return _singleton;
@@ -45,6 +48,8 @@ class TransitionHelper {
     }
     return false;
   }
+
+  
 
   TransitionHelper._internal();
 }

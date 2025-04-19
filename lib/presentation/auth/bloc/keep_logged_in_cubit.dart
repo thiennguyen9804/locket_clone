@@ -20,7 +20,7 @@ class KeepLoggedInCubit extends Cubit<KeepLoggedInState> {
       emit(KeepLoggedInFail(msg: e.toString()));
     } catch (e) {
       print(e.toString());
-      rethrow;
+      emit(KeepLoggedInFail(msg: e.toString()));
     }
   }
 }
