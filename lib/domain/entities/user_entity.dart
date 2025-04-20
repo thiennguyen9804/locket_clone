@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../data/model/user_dto/user_dto.dart';
 
 class UserEntity {
@@ -16,4 +17,9 @@ class UserEntity {
   });
 
 
+
+  @override
+  String toString() {
+    return 'UserEntity(id: $id, name: $name, avatarUrl: $avatarUrl, email: $email, phoneNumber: $phoneNumber)';
+  }
 }

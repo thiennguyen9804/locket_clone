@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
+import 'package:locket_clone/domain/usecases/get_current_user_use_case.dart';
 import 'package:locket_clone/presentation/data/section_position.dart';
+import 'package:locket_clone/presentation/home/bloc/user_cubit.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/widget/large_circle_avatar.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/widget/section_btn.dart';
+import 'package:locket_clone/set_up_sl.dart';
 
 class UserInfoScreen extends StatelessWidget {
   UserInfoScreen({super.key});
@@ -84,6 +88,22 @@ class UserInfoScreen extends StatelessWidget {
     ),
   ];
 
+  final List<SectionBtn> manageSection = [
+    SectionBtn(
+      svgPath: 'assets/sign_out_ic.svg',
+      btnName: 'Log out',
+      onPressed: () {},
+      pos: SectionPosition.TOP,
+    ),
+
+    SectionBtn(
+      svgPath: 'assets/delete_ic.svg',
+      btnName: 'Delete account',
+      onPressed: () {},
+      pos: SectionPosition.BOT,
+    ),
+  ];
+
   Widget addNewImageBtn(VoidCallback onPressed) {
     return Container(
       width: 38,
@@ -100,79 +120,106 @@ class UserInfoScreen extends StatelessWidget {
   // Icon(Icons.arrow_back_ios_new_rounded),
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Color(0xffAAC2B3),
-                    size: 35,
-                  ),
+    return BlocProvider(
+      create:
+          (context) => UserCubit()..getCurrentUser(sl<GetCurrentUserUseCase>()),
+      child: BlocListener<UserCubit, UserState>(
+        listener: (context, state) {
+          print('UserInfoScreen build $state');
+          if (state is UserLoadedSuccess) {
+            print('UserInfoScreen build ${state.userEntity}');
+          }
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0,
+                  vertical: 8,
                 ),
-                Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    LargeCircleAvatar(),
-                    Positioned(
-                      bottom: 0,
-                      right: 10,
-                      child: addNewImageBtn(() {}),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 18),
+                child: BlocBuilder<UserCubit, UserState>(
+                  builder: (context, state) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Color(0xffAAC2B3),
+                            size: 35,
+                          ),
+                        ),
+                        Stack(
+                          alignment: Alignment.topCenter,
+                          children: [
+                            LargeCircleAvatar(),
+                            Positioned(
+                              bottom: 0,
+                              right: 10,
+                              child: addNewImageBtn(() {}),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 18),
 
-                Text(
-                  'Hayashing',
-                  style: TextStyle(
-                    letterSpacing: 1.07,
-                    color: Color(0xff6B9080),
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    shadows: [
-                      BoxShadow(
-                        blurRadius: 2,
-                        offset: Offset(0, 1),
-                        color: Color.fromARGB(64, 0, 0, 0),
-                      ),
-                    ],
-                  ),
+                        Text(
+                          state is UserLoadedSuccess
+                              ? state.userEntity.name
+                              : '',
+                          style: TextStyle(
+                            letterSpacing: 1.07,
+                            color: Color(0xff6B9080),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              BoxShadow(
+                                blurRadius: 2,
+                                offset: Offset(0, 1),
+                                color: Color.fromARGB(64, 0, 0, 0),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text(
+                            'Edit info',
+                            style: TextStyle(letterSpacing: 1.07),
+                          ),
+                        ),
+                        SizedBox(height: 32),
+                        section(
+                          svgPath: 'assets/theme_section_ic.svg',
+                          sectionName: 'Theme',
+                          widgets: themeSection,
+                        ),
+                        SizedBox(height: 32),
+                        section(
+                          sectionName: 'General',
+                          svgPath: 'assets/general_ic.svg',
+                          widgets: generalSection,
+                        ),
+                        SizedBox(height: 32),
+                        section(
+                          sectionName: 'Community',
+                          svgPath: 'assets/community_ic.svg',
+                          widgets: communitySection,
+                        ),
+                        SizedBox(height: 32),
+                        section(
+                          sectionName: 'Manage',
+                          svgPath: 'assets/manage_ic.svg',
+                          widgets: manageSection,
+                        ),
+                        SizedBox(height: 32),
+                      ],
+                    );
+                  },
                 ),
-                SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Edit info',
-                    style: TextStyle(letterSpacing: 1.07),
-                  ),
-                ),
-                SizedBox(height: 32),
-                section(
-                  svgPath: 'assets/theme_section_ic.svg',
-                  sectionName: 'Theme',
-                  widgets: themeSection,
-                ),
-                SizedBox(height: 32),
-                section(
-                  sectionName: 'General',
-                  svgPath: 'assets/general_ic.svg',
-                  widgets: generalSection,
-                ),
-                SizedBox(height: 32),
-                section(
-                  sectionName: 'Community',
-                  svgPath: 'assets/community_ic.svg',
-                  widgets: communitySection,
-                ),
-                SizedBox(height: 32),
-              ],
+              ),
             ),
           ),
         ),

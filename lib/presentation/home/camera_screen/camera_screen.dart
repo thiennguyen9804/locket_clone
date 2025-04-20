@@ -221,7 +221,7 @@ class _CameraScreenState extends State<CameraScreen> {
     return Column(
       children: [
         Text(
-          'Newsfeed',
+          'Lịch sử',
           style: TextStyle(
             color: AppTheme.mainColor,
             fontWeight: FontWeight.bold,

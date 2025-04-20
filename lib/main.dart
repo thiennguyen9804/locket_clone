@@ -5,7 +5,6 @@ import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrappe
 import 'package:locket_clone/core/configs/theme/app_theme.dart';
 import 'package:locket_clone/presentation/auth/bloc/keep_logged_in_cubit.dart';
 import 'package:locket_clone/presentation/auth/pages/sign_in_screen.dart';
-import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart';
 import 'package:locket_clone/set_up_local_db.dart';
 import 'package:locket_clone/set_up_sl.dart';
 

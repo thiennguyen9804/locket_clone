@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locket_clone/common/widgets/button/share_btn.dart';
@@ -10,9 +9,7 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/widget/interact_b
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/post_widget.dart';
 
 class NewsfeedScreen extends StatefulWidget {
-  const NewsfeedScreen({
-    super.key,
-  });
+  const NewsfeedScreen({super.key});
 
   @override
   State<NewsfeedScreen> createState() => _NewsfeedScreenState();
@@ -43,7 +40,23 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                   builder: (context, state) {
                     if (state is NewsfeedInit) {
                       return Center(
-                        child: Text('NewsfeedInit'),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.newspaper,
+                              size: 60,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              'Hiện chưa có bài viết nào để hiển thị',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
                       );
                     }
                     if (state is NewsfeedLoaded) {
@@ -83,11 +96,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
               padding: EdgeInsets.symmetric(horizontal: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  WidgetBtn(),
-                  interactBar(),
-                  ShareBtn(),
-                ],
+                children: [WidgetBtn(), interactBar(), ShareBtn()],
               ),
             ),
           ),

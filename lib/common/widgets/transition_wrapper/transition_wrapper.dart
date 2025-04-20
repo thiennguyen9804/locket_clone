@@ -36,8 +36,8 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
   @override
   void initState() {
     super.initState();
-    _helperIst.lock = this.lock;
-    _helperIst.unlock = this.unlock;
+    _helperIst.lock = lock;
+    _helperIst.unlock = unlock;
   }
 
   // Singleton
@@ -85,10 +85,7 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
           UserLoadedSuccess() => _avatar(() {
             Navigator.push(
               context,
-              EnterExitRoute(
-                exitPage: widget, // chính là TransitionWrapper
-                enterPage: UserInfoScreen(),
-              ),
+              MaterialPageRoute(builder: (context) => UserInfoScreen()),
             );
           }, state.userEntity.avatarUrl),
         };
@@ -104,7 +101,7 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
         children: [
           Icon(Icons.people, color: Colors.white, size: 20),
           SizedBox(width: 12),
-          Text('Friends', style: TextStyle().copyWith()),
+          Text('1 Bạn bè', style: TextStyle().copyWith()),
         ],
       ),
     );
