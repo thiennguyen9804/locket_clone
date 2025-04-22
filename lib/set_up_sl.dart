@@ -4,6 +4,7 @@ import 'package:locket_clone/core/mapper/newsfeed_mapper/newsfeed_mapper.dart';
 import 'package:locket_clone/core/mapper/post_mapper/post_mapper.dart';
 import 'package:locket_clone/core/mapper/user_mapper/user_mapper.dart';
 import 'package:locket_clone/core/network/dio_client.dart';
+import 'package:locket_clone/data/app_database.dart';
 import 'package:locket_clone/data/repository/post_repository_impl.dart';
 import 'package:locket_clone/data/repository/user_repository_impl.dart' show UserRepositoryImpl;
 import 'package:locket_clone/data/source/auth_local_service.dart';
@@ -28,6 +29,7 @@ void setUpSl() {
   registerService();
   registerUseCase();
   registerMappr();
+  // registerDatabase();
 }
 
 void registerUseCase() {
@@ -59,4 +61,8 @@ void registerMappr() {
   sl.registerSingleton<UserMappr>(UserMappr());
   sl.registerSingleton<PostMappr>(PostMappr());
   sl.registerSingleton<NewsfeedMappr>(NewsfeedMappr());
+}
+
+void registerDatabase() {
+  sl.registerSingleton<AppDatabase>(AppDatabase());
 }

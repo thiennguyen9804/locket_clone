@@ -12,7 +12,7 @@ import 'package:locket_clone/set_up_sl.dart';
 abstract class PostApiService {
   Future<PostDto> getPostById(String postId);
 
-  Future<AllPostsRes> loadPosts(int size, int page);
+  Future<AllPostsRes> loadPosts(int size, DateTime? cursorCreatedAt);
   Future addPost({
     required UserDto user,
     required String token,
@@ -27,11 +27,11 @@ class PostApiServiceImpl implements PostApiService {
   }
 
   @override
-  Future<AllPostsRes> loadPosts(int size, int page) async {
+  Future<AllPostsRes> loadPosts(int size, DateTime? cursorCreatedAt) async {
     try {
       final token = sl<AuthLocalService>().getLocalToken();
       final response = await sl<DioClient>().get(
-        NetworkConstant.getAllPostsUrl(size, page),
+        NetworkConstant.getAllPostsUrl(size, cursorCreatedAt),
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
       final List list = response.data['content'];

@@ -6,7 +6,9 @@ class NetworkConstant {
   static const USER = '${BASE_URL}auth/';
   static const POSTS = '${BASE_URL}posts';
 
-  static String getAllPostsUrl(int size, int page) {
-    return '${POSTS}?size=${size}&page=${page}';
+  static String getAllPostsUrl(int size, DateTime? cursor) {
+    return cursor != null
+        ? '${POSTS}?limit=${size}&cursorCreatedAt=${cursor.toIso8601String()}'
+        : '${POSTS}?limit=${size}}';
   }
 }

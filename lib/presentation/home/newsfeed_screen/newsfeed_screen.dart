@@ -9,8 +9,8 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/widget/interact_b
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/post_widget.dart';
 
 class NewsfeedScreen extends StatefulWidget {
-  const NewsfeedScreen({super.key});
-
+  NewsfeedScreen({super.key, required this.controller});
+  late TextEditingController controller;
   @override
   State<NewsfeedScreen> createState() => _NewsfeedScreenState();
 }
@@ -20,7 +20,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
     return Flexible(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 9),
-        child: InteractBar(),
+        child: InteractBar(controller: widget.controller,),
       ),
     );
   }

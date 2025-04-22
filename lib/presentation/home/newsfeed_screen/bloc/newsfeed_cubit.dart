@@ -9,16 +9,17 @@ import 'package:locket_clone/set_up_sl.dart';
 
 class NewsfeedCubit extends Cubit<NewsfeedState> {
   NewsFeedInfoUi info = NewsFeedInfoUi();
+  DateTime? cursor;
   NewsfeedCubit() : super(NewsfeedInit());
 
-  Future<int> getNumberOfPosts() async {
-    final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
-      size: info.numberOfPostsPerRequest,
-      page: info.pageNumber,
-    );
+  // Future<int> getNumberOfPosts() async {
+  //   final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
+  //     size: info.numberOfPostsPerRequest,
+  //     page: info.pageNumber,
+  //   );
 
-    return results.totalPosts;
-  }
+  //   return results.totalPosts;
+  // }
 
   void preloadPosts() async {}
 
@@ -28,7 +29,7 @@ class NewsfeedCubit extends Cubit<NewsfeedState> {
     }
     final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
       size: info.numberOfPostsPerRequest,
-      page: info.pageNumber,
+      cursorCreatedAt: cursor
     );
 
     print('posts results: $results');

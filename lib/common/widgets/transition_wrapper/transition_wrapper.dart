@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,6 +32,7 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
           : const ClampingScrollPhysics();
 
   bool _locked = false;
+  final commentController = TextEditingController();
 
   final TransitionHelper _helperIst = TransitionHelper();
   @override
@@ -62,7 +64,7 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
         padding: EdgeInsets.all(5),
         child:
             imageUrl != null
-                ? CircleAvatar(backgroundImage: NetworkImage(imageUrl))
+                ? CachedNetworkImage(imageUrl: imageUrl)
                 : Icon(Icons.account_circle_outlined, color: Colors.white),
       ),
     );
@@ -119,6 +121,7 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -179,7 +182,10 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
                     physics: currentScrollPhysics,
                     controller: _helperIst.mainController,
                     scrollDirection: Axis.vertical,
-                    children: [CameraScreen(), NewsfeedScreen()],
+                    children: [
+                      CameraScreen(),
+                      NewsfeedScreen(controller: commentController),
+                    ],
                   ),
                 ),
               ),
