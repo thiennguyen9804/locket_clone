@@ -11,19 +11,22 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
 
 import '../../../data/model/post_dto/post_dto.dart' as _i2;
-import '../../../data/model/user_dto/user_dto.dart' as _i4;
+import '../../../data/model/post_local_data.dart' as _i4;
+import '../../../data/model/user_dto/user_dto.dart' as _i5;
 import '../../../domain/entities/post_entity.dart' as _i3;
-import '../../../domain/entities/user_entity.dart' as _i5;
+import '../../../domain/entities/user_entity.dart' as _i6;
+import 'post_mapper.dart' as _i7;
 
 /// {@template package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
 /// Available mappings:
 /// - `PostDto` → `PostEntity`.
 /// - `PostEntity` → `PostDto`.
+/// - `PostEntity` → `PostLocalData`.
 /// - `UserDto` → `UserEntity`.
 /// - `UserEntity` → `UserDto`.
 /// {@endtemplate}
-class $PostMappr implements _i1.AutoMapprInterface {
-  const $PostMappr();
+class $PostMapper implements _i1.AutoMapprInterface {
+  const $PostMapper();
 
   Type _typeOf<T>() => T;
 
@@ -47,16 +50,22 @@ class $PostMappr implements _i1.AutoMapprInterface {
             targetTypeOf == _typeOf<_i2.PostDto?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i4.UserDto>() ||
-            sourceTypeOf == _typeOf<_i4.UserDto?>()) &&
-        (targetTypeOf == _typeOf<_i5.UserEntity>() ||
-            targetTypeOf == _typeOf<_i5.UserEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i3.PostEntity>() ||
+            sourceTypeOf == _typeOf<_i3.PostEntity?>()) &&
+        (targetTypeOf == _typeOf<_i4.PostLocalData>() ||
+            targetTypeOf == _typeOf<_i4.PostLocalData?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i5.UserEntity>() ||
-            sourceTypeOf == _typeOf<_i5.UserEntity?>()) &&
-        (targetTypeOf == _typeOf<_i4.UserDto>() ||
-            targetTypeOf == _typeOf<_i4.UserDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i5.UserDto>() ||
+            sourceTypeOf == _typeOf<_i5.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i6.UserEntity>() ||
+            targetTypeOf == _typeOf<_i6.UserEntity?>())) {
+      return true;
+    }
+    if ((sourceTypeOf == _typeOf<_i6.UserEntity>() ||
+            sourceTypeOf == _typeOf<_i6.UserEntity?>()) &&
+        (targetTypeOf == _typeOf<_i5.UserDto>() ||
+            targetTypeOf == _typeOf<_i5.UserDto?>())) {
       return true;
     }
     if (recursive) {
@@ -91,20 +100,14 @@ class $PostMappr implements _i1.AutoMapprInterface {
   TARGET? tryConvert<SOURCE, TARGET>(
     SOURCE? model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
-      return _safeConvert(
-        model,
-        onMappingError: onMappingError,
-      );
+      return _safeConvert(model, onMappingError: onMappingError);
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvert(
-          model,
-          onMappingError: onMappingError,
-        );
+        return mappr.tryConvert(model, onMappingError: onMappingError);
       }
     }
 
@@ -136,18 +139,16 @@ class $PostMappr implements _i1.AutoMapprInterface {
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET?>(
-          (item) => _safeConvert(item, onMappingError: onMappingError));
+        (item) => _safeConvert(item, onMappingError: onMappingError),
+      );
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertIterable(
-          model,
-          onMappingError: onMappingError,
-        );
+        return mappr.tryConvertIterable(model, onMappingError: onMappingError);
       }
     }
 
@@ -179,7 +180,7 @@ class $PostMappr implements _i1.AutoMapprInterface {
   List<TARGET?> tryConvertList<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(
@@ -189,10 +190,7 @@ class $PostMappr implements _i1.AutoMapprInterface {
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertList(
-          model,
-          onMappingError: onMappingError,
-        );
+        return mappr.tryConvertList(model, onMappingError: onMappingError);
       }
     }
 
@@ -224,7 +222,7 @@ class $PostMappr implements _i1.AutoMapprInterface {
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(
@@ -234,10 +232,7 @@ class $PostMappr implements _i1.AutoMapprInterface {
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertSet(
-          model,
-          onMappingError: onMappingError,
-        );
+        return mappr.tryConvertSet(model, onMappingError: onMappingError);
       }
     }
 
@@ -270,24 +265,36 @@ class $PostMappr implements _i1.AutoMapprInterface {
       return (_map__i3$PostEntity_To__i2$PostDto((model as _i3.PostEntity?))
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i4.UserDto>() ||
-            sourceTypeOf == _typeOf<_i4.UserDto?>()) &&
-        (targetTypeOf == _typeOf<_i5.UserEntity>() ||
-            targetTypeOf == _typeOf<_i5.UserEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i3.PostEntity>() ||
+            sourceTypeOf == _typeOf<_i3.PostEntity?>()) &&
+        (targetTypeOf == _typeOf<_i4.PostLocalData>() ||
+            targetTypeOf == _typeOf<_i4.PostLocalData?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i4$UserDto_To__i5$UserEntity((model as _i4.UserDto?))
+      return (_map__i3$PostEntity_To__i4$PostLocalData(
+            (model as _i3.PostEntity?),
+          )
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i5.UserEntity>() ||
-            sourceTypeOf == _typeOf<_i5.UserEntity?>()) &&
-        (targetTypeOf == _typeOf<_i4.UserDto>() ||
-            targetTypeOf == _typeOf<_i4.UserDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i5.UserDto>() ||
+            sourceTypeOf == _typeOf<_i5.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i6.UserEntity>() ||
+            targetTypeOf == _typeOf<_i6.UserEntity?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i5$UserEntity_To__i4$UserDto((model as _i5.UserEntity?))
+      return (_map__i5$UserDto_To__i6$UserEntity((model as _i5.UserDto?))
+          as TARGET);
+    }
+    if ((sourceTypeOf == _typeOf<_i6.UserEntity>() ||
+            sourceTypeOf == _typeOf<_i6.UserEntity?>()) &&
+        (targetTypeOf == _typeOf<_i5.UserDto>() ||
+            targetTypeOf == _typeOf<_i5.UserDto?>())) {
+      if (canReturnNull && model == null) {
+        return null;
+      }
+      return (_map__i6$UserEntity_To__i5$UserDto((model as _i6.UserEntity?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
@@ -296,19 +303,13 @@ class $PostMappr implements _i1.AutoMapprInterface {
   TARGET? _safeConvert<SOURCE, TARGET>(
     SOURCE? model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (!useSafeMapping<SOURCE, TARGET>()) {
-      return _convert(
-        model,
-        canReturnNull: true,
-      );
+      return _convert(model, canReturnNull: true);
     }
     try {
-      return _convert(
-        model,
-        canReturnNull: true,
-      );
+      return _convert(model, canReturnNull: true);
     } catch (e, s) {
       onMappingError?.call(e, s, model);
       return null;
@@ -326,13 +327,14 @@ class $PostMappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping PostDto → PostEntity failed because PostDto was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<PostDto, PostEntity> to handle null values during mapping.');
+        r'Mapping PostDto → PostEntity failed because PostDto was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<PostDto, PostEntity> to handle null values during mapping.',
+      );
     }
     return _i3.PostEntity(
       id: model.id,
       imageUrl: model.imageUrl,
-      user: _map__i4$UserDto_To__i5$UserEntity(model.user),
+      user: _map__i5$UserDto_To__i6$UserEntity(model.user),
       caption: model.caption,
       interactionList: model.interactionList,
       createdAt: model.createdAt,
@@ -343,27 +345,49 @@ class $PostMappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping PostEntity → PostDto failed because PostEntity was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<PostEntity, PostDto> to handle null values during mapping.');
+        r'Mapping PostEntity → PostDto failed because PostEntity was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<PostEntity, PostDto> to handle null values during mapping.',
+      );
     }
     return _i2.PostDto(
       id: model.id,
       imageUrl: model.imageUrl,
-      user: _map__i5$UserEntity_To__i4$UserDto(model.user),
+      user: _map__i6$UserEntity_To__i5$UserDto(model.user),
       caption: model.caption,
       interactionList: model.interactionList,
       createdAt: model.createdAt,
     );
   }
 
-  _i5.UserEntity _map__i4$UserDto_To__i5$UserEntity(_i4.UserDto? input) {
+  _i4.PostLocalData _map__i3$PostEntity_To__i4$PostLocalData(
+    _i3.PostEntity? input,
+  ) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserDto → UserEntity failed because UserDto was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, UserEntity> to handle null values during mapping.');
+        r'Mapping PostEntity → PostLocalData failed because PostEntity was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<PostEntity, PostLocalData> to handle null values during mapping.',
+      );
     }
-    return _i5.UserEntity(
+    return _i4.PostLocalData(
+      id: model.id,
+      imageUrl: model.imageUrl,
+      userId: _i7.PostMapper.userDtoToInt(model),
+      caption: model.caption,
+      interactionList: model.interactionList,
+      createdAt: model.createdAt,
+    );
+  }
+
+  _i6.UserEntity _map__i5$UserDto_To__i6$UserEntity(_i5.UserDto? input) {
+    final model = input;
+    if (model == null) {
+      throw Exception(
+        r'Mapping UserDto → UserEntity failed because UserDto was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, UserEntity> to handle null values during mapping.',
+      );
+    }
+    return _i6.UserEntity(
       id: model.id,
       name: model.name,
       avatarUrl: model.avatarUrl,
@@ -372,14 +396,15 @@ class $PostMappr implements _i1.AutoMapprInterface {
     );
   }
 
-  _i4.UserDto _map__i5$UserEntity_To__i4$UserDto(_i5.UserEntity? input) {
+  _i5.UserDto _map__i6$UserEntity_To__i5$UserDto(_i6.UserEntity? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserEntity → UserDto failed because UserEntity was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<UserEntity, UserDto> to handle null values during mapping.');
+        r'Mapping UserEntity → UserDto failed because UserEntity was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<UserEntity, UserDto> to handle null values during mapping.',
+      );
     }
-    return _i4.UserDto(
+    return _i5.UserDto(
       id: model.id,
       name: model.name,
       avatarUrl: model.avatarUrl,

@@ -12,10 +12,12 @@ import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
 
 import '../../../data/model/all_posts_res.dart' as _i2;
 import '../../../data/model/post_dto/post_dto.dart' as _i4;
-import '../../../data/model/user_dto/user_dto.dart' as _i6;
+import '../../../data/model/post_local_data.dart' as _i6;
+import '../../../data/model/user_dto/user_dto.dart' as _i7;
 import '../../../domain/entities/newsfeed_entity.dart' as _i3;
 import '../../../domain/entities/post_entity.dart' as _i5;
-import '../../../domain/entities/user_entity.dart' as _i7;
+import '../../../domain/entities/user_entity.dart' as _i8;
+import '../post_mapper/post_mapper.dart' as _i9;
 
 /// {@template package:locket_clone/core/mapper/newsfeed_mapper/newsfeed_mapper.dart}
 /// Available mappings:
@@ -23,11 +25,12 @@ import '../../../domain/entities/user_entity.dart' as _i7;
 /// - `NewsfeedEntity` → `AllPostsRes`.
 /// - `PostDto` → `PostEntity`.
 /// - `PostEntity` → `PostDto`.
+/// - `PostEntity` → `PostLocalData`.
 /// - `UserDto` → `UserEntity`.
 /// - `UserEntity` → `UserDto`.
 /// {@endtemplate}
-class $NewsfeedMappr implements _i1.AutoMapprInterface {
-  const $NewsfeedMappr();
+class $NewsfeedMapper implements _i1.AutoMapprInterface {
+  const $NewsfeedMapper();
 
   Type _typeOf<T>() => T;
 
@@ -63,16 +66,22 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
             targetTypeOf == _typeOf<_i4.PostDto?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i6.UserDto>() ||
-            sourceTypeOf == _typeOf<_i6.UserDto?>()) &&
-        (targetTypeOf == _typeOf<_i7.UserEntity>() ||
-            targetTypeOf == _typeOf<_i7.UserEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i5.PostEntity>() ||
+            sourceTypeOf == _typeOf<_i5.PostEntity?>()) &&
+        (targetTypeOf == _typeOf<_i6.PostLocalData>() ||
+            targetTypeOf == _typeOf<_i6.PostLocalData?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i7.UserEntity>() ||
-            sourceTypeOf == _typeOf<_i7.UserEntity?>()) &&
-        (targetTypeOf == _typeOf<_i6.UserDto>() ||
-            targetTypeOf == _typeOf<_i6.UserDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i7.UserDto>() ||
+            sourceTypeOf == _typeOf<_i7.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i8.UserEntity>() ||
+            targetTypeOf == _typeOf<_i8.UserEntity?>())) {
+      return true;
+    }
+    if ((sourceTypeOf == _typeOf<_i8.UserEntity>() ||
+            sourceTypeOf == _typeOf<_i8.UserEntity?>()) &&
+        (targetTypeOf == _typeOf<_i7.UserDto>() ||
+            targetTypeOf == _typeOf<_i7.UserDto?>())) {
       return true;
     }
     if (recursive) {
@@ -107,20 +116,14 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
   TARGET? tryConvert<SOURCE, TARGET>(
     SOURCE? model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
-      return _safeConvert(
-        model,
-        onMappingError: onMappingError,
-      );
+      return _safeConvert(model, onMappingError: onMappingError);
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvert(
-          model,
-          onMappingError: onMappingError,
-        );
+        return mappr.tryConvert(model, onMappingError: onMappingError);
       }
     }
 
@@ -152,18 +155,16 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return model.map<TARGET?>(
-          (item) => _safeConvert(item, onMappingError: onMappingError));
+        (item) => _safeConvert(item, onMappingError: onMappingError),
+      );
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertIterable(
-          model,
-          onMappingError: onMappingError,
-        );
+        return mappr.tryConvertIterable(model, onMappingError: onMappingError);
       }
     }
 
@@ -195,7 +196,7 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
   List<TARGET?> tryConvertList<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(
@@ -205,10 +206,7 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertList(
-          model,
-          onMappingError: onMappingError,
-        );
+        return mappr.tryConvertList(model, onMappingError: onMappingError);
       }
     }
 
@@ -240,7 +238,7 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
       return tryConvertIterable<SOURCE, TARGET>(
@@ -250,10 +248,7 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
     }
     for (final mappr in _delegates) {
       if (mappr.canConvert<SOURCE, TARGET>()) {
-        return mappr.tryConvertSet(
-          model,
-          onMappingError: onMappingError,
-        );
+        return mappr.tryConvertSet(model, onMappingError: onMappingError);
       }
     }
 
@@ -274,7 +269,9 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
         return null;
       }
       return (_map__i2$AllPostsRes_To__i3$NewsfeedEntity(
-          (model as _i2.AllPostsRes?)) as TARGET);
+            (model as _i2.AllPostsRes?),
+          )
+          as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i3.NewsfeedEntity>() ||
             sourceTypeOf == _typeOf<_i3.NewsfeedEntity?>()) &&
@@ -284,7 +281,9 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
         return null;
       }
       return (_map__i3$NewsfeedEntity_To__i2$AllPostsRes(
-          (model as _i3.NewsfeedEntity?)) as TARGET);
+            (model as _i3.NewsfeedEntity?),
+          )
+          as TARGET);
     }
     if ((sourceTypeOf == _typeOf<_i4.PostDto>() ||
             sourceTypeOf == _typeOf<_i4.PostDto?>()) &&
@@ -306,24 +305,36 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
       return (_map__i5$PostEntity_To__i4$PostDto((model as _i5.PostEntity?))
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i6.UserDto>() ||
-            sourceTypeOf == _typeOf<_i6.UserDto?>()) &&
-        (targetTypeOf == _typeOf<_i7.UserEntity>() ||
-            targetTypeOf == _typeOf<_i7.UserEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i5.PostEntity>() ||
+            sourceTypeOf == _typeOf<_i5.PostEntity?>()) &&
+        (targetTypeOf == _typeOf<_i6.PostLocalData>() ||
+            targetTypeOf == _typeOf<_i6.PostLocalData?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i6$UserDto_To__i7$UserEntity((model as _i6.UserDto?))
+      return (_map__i5$PostEntity_To__i6$PostLocalData(
+            (model as _i5.PostEntity?),
+          )
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i7.UserEntity>() ||
-            sourceTypeOf == _typeOf<_i7.UserEntity?>()) &&
-        (targetTypeOf == _typeOf<_i6.UserDto>() ||
-            targetTypeOf == _typeOf<_i6.UserDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i7.UserDto>() ||
+            sourceTypeOf == _typeOf<_i7.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i8.UserEntity>() ||
+            targetTypeOf == _typeOf<_i8.UserEntity?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i7$UserEntity_To__i6$UserDto((model as _i7.UserEntity?))
+      return (_map__i7$UserDto_To__i8$UserEntity((model as _i7.UserDto?))
+          as TARGET);
+    }
+    if ((sourceTypeOf == _typeOf<_i8.UserEntity>() ||
+            sourceTypeOf == _typeOf<_i8.UserEntity?>()) &&
+        (targetTypeOf == _typeOf<_i7.UserDto>() ||
+            targetTypeOf == _typeOf<_i7.UserDto?>())) {
+      if (canReturnNull && model == null) {
+        return null;
+      }
+      return (_map__i8$UserEntity_To__i7$UserDto((model as _i8.UserEntity?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
@@ -332,19 +343,13 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
   TARGET? _safeConvert<SOURCE, TARGET>(
     SOURCE? model, {
     void Function(Object error, StackTrace stackTrace, SOURCE? source)?
-        onMappingError,
+    onMappingError,
   }) {
     if (!useSafeMapping<SOURCE, TARGET>()) {
-      return _convert(
-        model,
-        canReturnNull: true,
-      );
+      return _convert(model, canReturnNull: true);
     }
     try {
-      return _convert(
-        model,
-        canReturnNull: true,
-      );
+      return _convert(model, canReturnNull: true);
     } catch (e, s) {
       onMappingError?.call(e, s, model);
       return null;
@@ -359,35 +364,43 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
   }
 
   _i3.NewsfeedEntity _map__i2$AllPostsRes_To__i3$NewsfeedEntity(
-      _i2.AllPostsRes? input) {
+    _i2.AllPostsRes? input,
+  ) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping AllPostsRes → NewsfeedEntity failed because AllPostsRes was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<AllPostsRes, NewsfeedEntity> to handle null values during mapping.');
+        r'Mapping AllPostsRes → NewsfeedEntity failed because AllPostsRes was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<AllPostsRes, NewsfeedEntity> to handle null values during mapping.',
+      );
     }
     return _i3.NewsfeedEntity(
-      posts: model.posts
-          .map<_i5.PostEntity>(
-              (value) => _map__i4$PostDto_To__i5$PostEntity(value))
-          .toList(),
+      posts:
+          model.posts
+              .map<_i5.PostEntity>(
+                (value) => _map__i4$PostDto_To__i5$PostEntity(value),
+              )
+              .toList(),
       totalPosts: model.totalPosts,
     );
   }
 
   _i2.AllPostsRes _map__i3$NewsfeedEntity_To__i2$AllPostsRes(
-      _i3.NewsfeedEntity? input) {
+    _i3.NewsfeedEntity? input,
+  ) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping NewsfeedEntity → AllPostsRes failed because NewsfeedEntity was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<NewsfeedEntity, AllPostsRes> to handle null values during mapping.');
+        r'Mapping NewsfeedEntity → AllPostsRes failed because NewsfeedEntity was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<NewsfeedEntity, AllPostsRes> to handle null values during mapping.',
+      );
     }
     return _i2.AllPostsRes(
-      posts: model.posts
-          .map<_i4.PostDto>(
-              (value) => _map__i5$PostEntity_To__i4$PostDto(value))
-          .toList(),
+      posts:
+          model.posts
+              .map<_i4.PostDto>(
+                (value) => _map__i5$PostEntity_To__i4$PostDto(value),
+              )
+              .toList(),
       totalPosts: model.totalPosts,
     );
   }
@@ -396,13 +409,14 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping PostDto → PostEntity failed because PostDto was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<PostDto, PostEntity> to handle null values during mapping.');
+        r'Mapping PostDto → PostEntity failed because PostDto was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<PostDto, PostEntity> to handle null values during mapping.',
+      );
     }
     return _i5.PostEntity(
       id: model.id,
       imageUrl: model.imageUrl,
-      user: _map__i6$UserDto_To__i7$UserEntity(model.user),
+      user: _map__i7$UserDto_To__i8$UserEntity(model.user),
       caption: model.caption,
       interactionList: model.interactionList,
       createdAt: model.createdAt,
@@ -413,27 +427,49 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping PostEntity → PostDto failed because PostEntity was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<PostEntity, PostDto> to handle null values during mapping.');
+        r'Mapping PostEntity → PostDto failed because PostEntity was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<PostEntity, PostDto> to handle null values during mapping.',
+      );
     }
     return _i4.PostDto(
       id: model.id,
       imageUrl: model.imageUrl,
-      user: _map__i7$UserEntity_To__i6$UserDto(model.user),
+      user: _map__i8$UserEntity_To__i7$UserDto(model.user),
       caption: model.caption,
       interactionList: model.interactionList,
       createdAt: model.createdAt,
     );
   }
 
-  _i7.UserEntity _map__i6$UserDto_To__i7$UserEntity(_i6.UserDto? input) {
+  _i6.PostLocalData _map__i5$PostEntity_To__i6$PostLocalData(
+    _i5.PostEntity? input,
+  ) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserDto → UserEntity failed because UserDto was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, UserEntity> to handle null values during mapping.');
+        r'Mapping PostEntity → PostLocalData failed because PostEntity was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<PostEntity, PostLocalData> to handle null values during mapping.',
+      );
     }
-    return _i7.UserEntity(
+    return _i6.PostLocalData(
+      id: model.id,
+      imageUrl: model.imageUrl,
+      userId: _i9.PostMapper.userDtoToInt(model),
+      caption: model.caption,
+      interactionList: model.interactionList,
+      createdAt: model.createdAt,
+    );
+  }
+
+  _i8.UserEntity _map__i7$UserDto_To__i8$UserEntity(_i7.UserDto? input) {
+    final model = input;
+    if (model == null) {
+      throw Exception(
+        r'Mapping UserDto → UserEntity failed because UserDto was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, UserEntity> to handle null values during mapping.',
+      );
+    }
+    return _i8.UserEntity(
       id: model.id,
       name: model.name,
       avatarUrl: model.avatarUrl,
@@ -442,14 +478,15 @@ class $NewsfeedMappr implements _i1.AutoMapprInterface {
     );
   }
 
-  _i6.UserDto _map__i7$UserEntity_To__i6$UserDto(_i7.UserEntity? input) {
+  _i7.UserDto _map__i8$UserEntity_To__i7$UserDto(_i8.UserEntity? input) {
     final model = input;
     if (model == null) {
       throw Exception(
-          r'Mapping UserEntity → UserDto failed because UserEntity was null, and no default value was provided. '
-          r'Consider setting the whenSourceIsNull parameter on the MapType<UserEntity, UserDto> to handle null values during mapping.');
+        r'Mapping UserEntity → UserDto failed because UserEntity was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<UserEntity, UserDto> to handle null values during mapping.',
+      );
     }
-    return _i6.UserDto(
+    return _i7.UserDto(
       id: model.id,
       name: model.name,
       avatarUrl: model.avatarUrl,

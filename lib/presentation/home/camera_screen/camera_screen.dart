@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:isolate';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -131,13 +130,13 @@ class _CameraScreenState extends State<CameraScreen> {
           listener: (context, state) {
             print(state);
             if (state is CaptureState) {
-              transHelper.unlock();
+              transHelper.unlock?.call;
             }
             if (state is SendImageSuccess) {
               _cancelHandler();
-              transHelper.unlock();
+              transHelper.unlock?.call();
             } else if (state is SendImageLoading || state is SendImageState) {
-              transHelper.lock();
+              transHelper.lock?.call();
             }
           },
           builder: (context, state) {

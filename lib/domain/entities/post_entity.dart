@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:locket_clone/domain/entities/user_entity.dart';
 
 class PostEntity {
@@ -16,4 +17,9 @@ class PostEntity {
     required this.interactionList,
     required this.createdAt,
   });
+
+  @override
+  String toString() {
+    return 'PostEntity(id: $id, imageUrl: $imageUrl, user: $user, caption: $caption, interactionList: $interactionList, createdAt: $createdAt)';
+  }
 }

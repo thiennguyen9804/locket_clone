@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,10 +7,8 @@ import 'package:locket_clone/common/widgets/anim_pressable.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
 import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
-import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_state.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart';
-import 'package:locket_clone/presentation/route/enter_exit_rout.dart';
 
 import '../../../core/configs/theme/app_theme.dart';
 import '../../../domain/usecases/get_current_user_use_case.dart';
@@ -64,7 +61,21 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
         padding: EdgeInsets.all(5),
         child:
             imageUrl != null
-                ? CachedNetworkImage(imageUrl: imageUrl)
+                ? CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  imageBuilder:
+                      (context, imageProvider) => Container(
+                        width: 80.0,
+                        height: 80.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                )
                 : Icon(Icons.account_circle_outlined, color: Colors.white),
       ),
     );

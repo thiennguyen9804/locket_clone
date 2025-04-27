@@ -7,8 +7,8 @@ import '../entities/post_entity.dart';
 
 abstract class PostRepository {
   Future<PostEntity> getPostById(String postId);
-
   Future<NewsfeedEntity> getAllPosts({required int size, DateTime? cursorCreatedAt});
   Future addPost(UploadPost post);
-
+  Future writePostToLocal(PostEntity post);
+  Future resetTable();
 }

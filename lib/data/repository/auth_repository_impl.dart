@@ -21,7 +21,7 @@ class AuthRepositoryImpl implements AuthRepository {
       (data) async {
         final signInRes = data;
         final user = signInRes.user;
-        final userEntity = sl<UserMappr>().convert<UserDto, UserEntity>(user);
+        final userEntity = sl<UserMapper>().convert<UserDto, UserEntity>(user);
         sl<AuthLocalService>().writeToDb(signInRes);
         return Right(userEntity);
       },
@@ -31,7 +31,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<UserEntity> getCurrentUser() async {
     final res = sl<AuthLocalService>().getLocalCurrentUser();
-    final UserEntity userEntity = sl<UserMappr>().convert(res);
+    final UserEntity userEntity = sl<UserMapper>().convert(res);
     return userEntity;
   }
 
@@ -47,9 +47,9 @@ class AuthRepositoryImpl implements AuthRepository {
       if (userLocal != userApi) {
         sl<AuthLocalService>()
             .writeToDb(SignInRes(token: token, user: userApi));
-        return sl<UserMappr>().convert<UserDto, UserEntity>(userApi);
+        return sl<UserMapper>().convert<UserDto, UserEntity>(userApi);
       } else {
-        return sl<UserMappr>().convert<UserDto, UserEntity>(userLocal);
+        return sl<UserMapper>().convert<UserDto, UserEntity>(userLocal);
       }
     } catch (e) {
       rethrow;

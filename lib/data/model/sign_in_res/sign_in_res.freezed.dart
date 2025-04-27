@@ -12,7 +12,8 @@ part of 'sign_in_res.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SignInRes _$SignInResFromJson(Map<String, dynamic> json) {
   return _SignInRes.fromJson(json);
@@ -57,20 +58,22 @@ class _$SignInResCopyWithImpl<$Res, $Val extends SignInRes>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? token = null,
-    Object? user = null,
-  }) {
-    return _then(_value.copyWith(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserDto,
-    ) as $Val);
+  $Res call({Object? token = null, Object? user = null}) {
+    return _then(
+      _value.copyWith(
+            token:
+                null == token
+                    ? _value.token
+                    : token // ignore: cast_nullable_to_non_nullable
+                        as String,
+            user:
+                null == user
+                    ? _value.user
+                    : user // ignore: cast_nullable_to_non_nullable
+                        as UserDto,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of SignInRes
@@ -88,8 +91,9 @@ class _$SignInResCopyWithImpl<$Res, $Val extends SignInRes>
 abstract class _$$SignInResImplCopyWith<$Res>
     implements $SignInResCopyWith<$Res> {
   factory _$$SignInResImplCopyWith(
-          _$SignInResImpl value, $Res Function(_$SignInResImpl) then) =
-      __$$SignInResImplCopyWithImpl<$Res>;
+    _$SignInResImpl value,
+    $Res Function(_$SignInResImpl) then,
+  ) = __$$SignInResImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String token, UserDto user});
@@ -103,27 +107,29 @@ class __$$SignInResImplCopyWithImpl<$Res>
     extends _$SignInResCopyWithImpl<$Res, _$SignInResImpl>
     implements _$$SignInResImplCopyWith<$Res> {
   __$$SignInResImplCopyWithImpl(
-      _$SignInResImpl _value, $Res Function(_$SignInResImpl) _then)
-      : super(_value, _then);
+    _$SignInResImpl _value,
+    $Res Function(_$SignInResImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignInRes
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? token = null,
-    Object? user = null,
-  }) {
-    return _then(_$SignInResImpl(
-      token: null == token
-          ? _value.token
-          : token // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserDto,
-    ));
+  $Res call({Object? token = null, Object? user = null}) {
+    return _then(
+      _$SignInResImpl(
+        token:
+            null == token
+                ? _value.token
+                : token // ignore: cast_nullable_to_non_nullable
+                    as String,
+        user:
+            null == user
+                ? _value.user
+                : user // ignore: cast_nullable_to_non_nullable
+                    as UserDto,
+      ),
+    );
   }
 }
 
@@ -168,16 +174,15 @@ class _$SignInResImpl implements _SignInRes {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignInResImplToJson(
-      this,
-    );
+    return _$$SignInResImplToJson(this);
   }
 }
 
 abstract class _SignInRes implements SignInRes {
-  const factory _SignInRes(
-      {required final String token,
-      required final UserDto user}) = _$SignInResImpl;
+  const factory _SignInRes({
+    required final String token,
+    required final UserDto user,
+  }) = _$SignInResImpl;
 
   factory _SignInRes.fromJson(Map<String, dynamic> json) =
       _$SignInResImpl.fromJson;

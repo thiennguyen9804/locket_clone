@@ -13,7 +13,4 @@ _$SignInResImpl _$$SignInResImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$SignInResImplToJson(_$SignInResImpl instance) =>
-    <String, dynamic>{
-      'token': instance.token,
-      'user': instance.user,
-    };
+    <String, dynamic>{'token': instance.token, 'user': instance.user};

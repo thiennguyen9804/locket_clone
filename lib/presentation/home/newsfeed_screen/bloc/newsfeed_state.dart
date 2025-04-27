@@ -1,4 +1,4 @@
-import 'package:locket_clone/presentation/data/news_feed_info.dart';
+import 'package:locket_clone/presentation/data/news_feed_info_ui.dart';
 import 'package:meta/meta.dart';
 
 @immutable

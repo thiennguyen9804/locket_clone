@@ -12,7 +12,8 @@ part of 'post_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 PostDto _$PostDtoFromJson(Map<String, dynamic> json) {
   return _PostDto.fromJson(json);
@@ -41,13 +42,14 @@ abstract class $PostDtoCopyWith<$Res> {
   factory $PostDtoCopyWith(PostDto value, $Res Function(PostDto) then) =
       _$PostDtoCopyWithImpl<$Res, PostDto>;
   @useResult
-  $Res call(
-      {int id,
-      String imageUrl,
-      UserDto user,
-      String caption,
-      dynamic interactionList,
-      DateTime createdAt});
+  $Res call({
+    int id,
+    String imageUrl,
+    UserDto user,
+    String caption,
+    dynamic interactionList,
+    DateTime createdAt,
+  });
 
   $UserDtoCopyWith<$Res> get user;
 }
@@ -74,32 +76,41 @@ class _$PostDtoCopyWithImpl<$Res, $Val extends PostDto>
     Object? interactionList = freezed,
     Object? createdAt = null,
   }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserDto,
-      caption: null == caption
-          ? _value.caption
-          : caption // ignore: cast_nullable_to_non_nullable
-              as String,
-      interactionList: freezed == interactionList
-          ? _value.interactionList
-          : interactionList // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            id:
+                null == id
+                    ? _value.id
+                    : id // ignore: cast_nullable_to_non_nullable
+                        as int,
+            imageUrl:
+                null == imageUrl
+                    ? _value.imageUrl
+                    : imageUrl // ignore: cast_nullable_to_non_nullable
+                        as String,
+            user:
+                null == user
+                    ? _value.user
+                    : user // ignore: cast_nullable_to_non_nullable
+                        as UserDto,
+            caption:
+                null == caption
+                    ? _value.caption
+                    : caption // ignore: cast_nullable_to_non_nullable
+                        as String,
+            interactionList:
+                freezed == interactionList
+                    ? _value.interactionList
+                    : interactionList // ignore: cast_nullable_to_non_nullable
+                        as dynamic,
+            createdAt:
+                null == createdAt
+                    ? _value.createdAt
+                    : createdAt // ignore: cast_nullable_to_non_nullable
+                        as DateTime,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of PostDto
@@ -116,17 +127,19 @@ class _$PostDtoCopyWithImpl<$Res, $Val extends PostDto>
 /// @nodoc
 abstract class _$$PostDtoImplCopyWith<$Res> implements $PostDtoCopyWith<$Res> {
   factory _$$PostDtoImplCopyWith(
-          _$PostDtoImpl value, $Res Function(_$PostDtoImpl) then) =
-      __$$PostDtoImplCopyWithImpl<$Res>;
+    _$PostDtoImpl value,
+    $Res Function(_$PostDtoImpl) then,
+  ) = __$$PostDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int id,
-      String imageUrl,
-      UserDto user,
-      String caption,
-      dynamic interactionList,
-      DateTime createdAt});
+  $Res call({
+    int id,
+    String imageUrl,
+    UserDto user,
+    String caption,
+    dynamic interactionList,
+    DateTime createdAt,
+  });
 
   @override
   $UserDtoCopyWith<$Res> get user;
@@ -137,8 +150,9 @@ class __$$PostDtoImplCopyWithImpl<$Res>
     extends _$PostDtoCopyWithImpl<$Res, _$PostDtoImpl>
     implements _$$PostDtoImplCopyWith<$Res> {
   __$$PostDtoImplCopyWithImpl(
-      _$PostDtoImpl _value, $Res Function(_$PostDtoImpl) _then)
-      : super(_value, _then);
+    _$PostDtoImpl _value,
+    $Res Function(_$PostDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of PostDto
   /// with the given fields replaced by the non-null parameter values.
@@ -152,45 +166,54 @@ class __$$PostDtoImplCopyWithImpl<$Res>
     Object? interactionList = freezed,
     Object? createdAt = null,
   }) {
-    return _then(_$PostDtoImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      user: null == user
-          ? _value.user
-          : user // ignore: cast_nullable_to_non_nullable
-              as UserDto,
-      caption: null == caption
-          ? _value.caption
-          : caption // ignore: cast_nullable_to_non_nullable
-              as String,
-      interactionList: freezed == interactionList
-          ? _value.interactionList
-          : interactionList // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
+    return _then(
+      _$PostDtoImpl(
+        id:
+            null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                    as int,
+        imageUrl:
+            null == imageUrl
+                ? _value.imageUrl
+                : imageUrl // ignore: cast_nullable_to_non_nullable
+                    as String,
+        user:
+            null == user
+                ? _value.user
+                : user // ignore: cast_nullable_to_non_nullable
+                    as UserDto,
+        caption:
+            null == caption
+                ? _value.caption
+                : caption // ignore: cast_nullable_to_non_nullable
+                    as String,
+        interactionList:
+            freezed == interactionList
+                ? _value.interactionList
+                : interactionList // ignore: cast_nullable_to_non_nullable
+                    as dynamic,
+        createdAt:
+            null == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                    as DateTime,
+      ),
+    );
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$PostDtoImpl implements _PostDto {
-  const _$PostDtoImpl(
-      {required this.id,
-      required this.imageUrl,
-      required this.user,
-      required this.caption,
-      required this.interactionList,
-      required this.createdAt});
+  const _$PostDtoImpl({
+    required this.id,
+    required this.imageUrl,
+    required this.user,
+    required this.caption,
+    required this.interactionList,
+    required this.createdAt,
+  });
 
   factory _$PostDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostDtoImplFromJson(json);
@@ -223,16 +246,25 @@ class _$PostDtoImpl implements _PostDto {
                 other.imageUrl == imageUrl) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.caption, caption) || other.caption == caption) &&
-            const DeepCollectionEquality()
-                .equals(other.interactionList, interactionList) &&
+            const DeepCollectionEquality().equals(
+              other.interactionList,
+              interactionList,
+            ) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, imageUrl, user, caption,
-      const DeepCollectionEquality().hash(interactionList), createdAt);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    imageUrl,
+    user,
+    caption,
+    const DeepCollectionEquality().hash(interactionList),
+    createdAt,
+  );
 
   /// Create a copy of PostDto
   /// with the given fields replaced by the non-null parameter values.
@@ -244,20 +276,19 @@ class _$PostDtoImpl implements _PostDto {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$PostDtoImplToJson(
-      this,
-    );
+    return _$$PostDtoImplToJson(this);
   }
 }
 
 abstract class _PostDto implements PostDto {
-  const factory _PostDto(
-      {required final int id,
-      required final String imageUrl,
-      required final UserDto user,
-      required final String caption,
-      required final dynamic interactionList,
-      required final DateTime createdAt}) = _$PostDtoImpl;
+  const factory _PostDto({
+    required final int id,
+    required final String imageUrl,
+    required final UserDto user,
+    required final String caption,
+    required final dynamic interactionList,
+    required final DateTime createdAt,
+  }) = _$PostDtoImpl;
 
   factory _PostDto.fromJson(Map<String, dynamic> json) = _$PostDtoImpl.fromJson;
 

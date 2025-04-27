@@ -5,9 +5,8 @@ import '../../../data/model/user_dto/user_dto.dart';
 import '../../../domain/entities/user_entity.dart';
 
 @AutoMappr([
-  MapType<UserDto, UserEntity>(),
-  MapType<UserEntity, UserDto>(), // Cho phép ánh xạ 2 chiều
+  MapType<UserDto, UserEntity>(reverse: true),
 ])
-class UserMappr extends $UserMappr {
-  const UserMappr();
+class UserMapper extends $UserMapper {
+  const UserMapper();
 }

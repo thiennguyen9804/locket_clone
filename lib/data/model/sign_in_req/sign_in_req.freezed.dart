@@ -12,7 +12,8 @@ part of 'sign_in_req.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 SignInReq _$SignInReqFromJson(Map<String, dynamic> json) {
   return _SignInReq.fromJson(json);
@@ -55,20 +56,22 @@ class _$SignInReqCopyWithImpl<$Res, $Val extends SignInReq>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? loginInfo = null,
-    Object? password = null,
-  }) {
-    return _then(_value.copyWith(
-      loginInfo: null == loginInfo
-          ? _value.loginInfo
-          : loginInfo // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  $Res call({Object? loginInfo = null, Object? password = null}) {
+    return _then(
+      _value.copyWith(
+            loginInfo:
+                null == loginInfo
+                    ? _value.loginInfo
+                    : loginInfo // ignore: cast_nullable_to_non_nullable
+                        as String,
+            password:
+                null == password
+                    ? _value.password
+                    : password // ignore: cast_nullable_to_non_nullable
+                        as String,
+          )
+          as $Val,
+    );
   }
 }
 
@@ -76,8 +79,9 @@ class _$SignInReqCopyWithImpl<$Res, $Val extends SignInReq>
 abstract class _$$SignInReqImplCopyWith<$Res>
     implements $SignInReqCopyWith<$Res> {
   factory _$$SignInReqImplCopyWith(
-          _$SignInReqImpl value, $Res Function(_$SignInReqImpl) then) =
-      __$$SignInReqImplCopyWithImpl<$Res>;
+    _$SignInReqImpl value,
+    $Res Function(_$SignInReqImpl) then,
+  ) = __$$SignInReqImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String loginInfo, String password});
@@ -88,27 +92,29 @@ class __$$SignInReqImplCopyWithImpl<$Res>
     extends _$SignInReqCopyWithImpl<$Res, _$SignInReqImpl>
     implements _$$SignInReqImplCopyWith<$Res> {
   __$$SignInReqImplCopyWithImpl(
-      _$SignInReqImpl _value, $Res Function(_$SignInReqImpl) _then)
-      : super(_value, _then);
+    _$SignInReqImpl _value,
+    $Res Function(_$SignInReqImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignInReq
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? loginInfo = null,
-    Object? password = null,
-  }) {
-    return _then(_$SignInReqImpl(
-      loginInfo: null == loginInfo
-          ? _value.loginInfo
-          : loginInfo // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
+  $Res call({Object? loginInfo = null, Object? password = null}) {
+    return _then(
+      _$SignInReqImpl(
+        loginInfo:
+            null == loginInfo
+                ? _value.loginInfo
+                : loginInfo // ignore: cast_nullable_to_non_nullable
+                    as String,
+        password:
+            null == password
+                ? _value.password
+                : password // ignore: cast_nullable_to_non_nullable
+                    as String,
+      ),
+    );
   }
 }
 
@@ -155,16 +161,15 @@ class _$SignInReqImpl implements _SignInReq {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SignInReqImplToJson(
-      this,
-    );
+    return _$$SignInReqImplToJson(this);
   }
 }
 
 abstract class _SignInReq implements SignInReq {
-  const factory _SignInReq(
-      {required final String loginInfo,
-      required final String password}) = _$SignInReqImpl;
+  const factory _SignInReq({
+    required final String loginInfo,
+    required final String password,
+  }) = _$SignInReqImpl;
 
   factory _SignInReq.fromJson(Map<String, dynamic> json) =
       _$SignInReqImpl.fromJson;
