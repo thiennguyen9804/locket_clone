@@ -11,16 +11,21 @@ abstract class UserLocalService {
 class UserLocalServiceImpl implements UserLocalService {
   final Database db;
   final table = 'users';
+  Set<int> written = {};
 
   UserLocalServiceImpl(this.db);
 
   @override
   Future writeUserToLocal(UserDto user) async {
+    // if(written.contains(user.id)) {
+    //   return;
+    // }
     await db.insert(
       table,
       user.toJson(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
+      conflictAlgorithm: ConflictAlgorithm.ignore,
     );
+    written.add(user.id);
   }
   
   @override

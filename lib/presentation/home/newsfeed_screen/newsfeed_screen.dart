@@ -81,12 +81,18 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                           children: [
                             Icon(
                               Icons.newspaper,
-                              size: 60,
+                              size: 80,
                               color: Colors.white,
                             ),
                             Text(
-                              'Hiện chưa có bài viết nào để hiển thị',
-                              style: TextStyle(color: Colors.white),
+                              'Hiện chưa có bài viết\n nào để hiển thị',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
+                                
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ],
                         ),

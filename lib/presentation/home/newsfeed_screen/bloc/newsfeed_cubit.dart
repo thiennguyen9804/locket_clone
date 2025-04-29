@@ -8,27 +8,30 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_sta
 import 'package:locket_clone/set_up_sl.dart';
 
 class NewsfeedCubit extends Cubit<NewsfeedState> {
-  NewsFeedInfoUi info = NewsFeedInfoUi();
-  DateTime? cursor;
+  NewsFeedInfoUi _info = NewsFeedInfoUi();
+  DateTime? _cursor;
+  void resetNewsFeedInRam() {
+    _info = NewsFeedInfoUi();
+  }
+
   NewsfeedCubit() : super(NewsfeedInit());
   void loadPosts() async {
     final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
-      size: info.numberOfPostsPerRequest,
-      cursorCreatedAt: cursor,
+      size: _info.numberOfPostsPerRequest,
+      cursorCreatedAt: _cursor,
     );
 
     if (results.posts.isEmpty) {
-      emit(EmptyNewsfeed());
       return;
     }
-    cursor = results.posts.last.createdAt;
-    print('newsfeed info $info');
+    _cursor = results.posts.last.createdAt;
+    print('newsfeed info $_info');
     emit(
       NewsfeedLoaded(
         newsfeedInfo:
-            info
-              ..isLastPage = results.posts.length < info.numberOfPostsPerRequest
-              ..pageNumber = info.pageNumber + 1
+            _info
+              ..isLastPage = results.posts.isEmpty
+              ..pageNumber = _info.pageNumber + 1
               ..posts.addAll(results.posts),
       ),
     );

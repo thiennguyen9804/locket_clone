@@ -9,6 +9,7 @@ import 'package:locket_clone/data/app_database.dart';
 import 'package:locket_clone/data/repository/post_repository_impl.dart';
 import 'package:locket_clone/data/repository/user_repository_impl.dart' show UserRepositoryImpl;
 import 'package:locket_clone/data/source/auth_local_service.dart';
+import 'package:locket_clone/data/source/image_local_service.dart';
 import 'package:locket_clone/data/source/post_api_service.dart';
 import 'package:locket_clone/data/source/post_local_service.dart';
 import 'package:locket_clone/data/source/user_api_service.dart';
@@ -63,6 +64,7 @@ void registerService() {
     final db = await AppDatabase().database;
     return UserLocalServiceImpl(db);
   });
+  sl.registerSingleton<ImageLocalService>(ImageLocalServiceImpl());
 }
 
 void registerDio() {

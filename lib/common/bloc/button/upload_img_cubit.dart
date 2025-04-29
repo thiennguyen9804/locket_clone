@@ -20,8 +20,8 @@ class UploadImgCubit extends Cubit<UploadImgState> {
   final VoidCallback onSendImageSuccess;
 
   Future sendImageHandler(UploadPost post) async {
+    await Future.delayed(const Duration(seconds: 2));
     await sl<PostRepository>().addPost(post);
-    // await Future.delayed(const Duration(seconds: 2));
   }
 
   void onCapture() {

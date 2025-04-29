@@ -1,6 +1,10 @@
+import 'dart:io';
 import 'dart:isolate';
 
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:locket_clone/core/id_generator.dart';
 import 'package:locket_clone/core/mapper/newsfeed_local_mapper.dart/newsfeed_local_mapper.dart';
 import 'package:locket_clone/core/mapper/newsfeed_mapper/newsfeed_mapper.dart';
 import 'package:locket_clone/core/mapper/post_local_mapper/post_local_mapper.dart';
@@ -12,6 +16,7 @@ import 'package:locket_clone/data/model/post_dto/post_dto.dart';
 import 'package:locket_clone/data/model/post_local_data.dart';
 import 'package:locket_clone/data/model/user_dto/user_dto.dart';
 import 'package:locket_clone/data/source/auth_local_service.dart';
+import 'package:locket_clone/data/source/image_local_service.dart';
 import 'package:locket_clone/data/source/post_api_service.dart';
 import 'package:locket_clone/data/source/post_local_service.dart';
 import 'package:locket_clone/data/source/user_api_service.dart';
@@ -21,15 +26,30 @@ import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:locket_clone/domain/repository/user_repository.dart';
 import 'package:locket_clone/presentation/data/upload_post.dart';
+import 'package:image/image.dart' as img;
 
 import '../../domain/repository/post_repository.dart';
 import '../../set_up_sl.dart';
 
 class PostRepositoryImpl implements PostRepository {
+  final tempIdGen = IdGenerator();
   @override
   Future<PostEntity> getPostById(String postId) async {
     final dto = await sl<PostApiService>().getPostById(postId);
     final res = sl<PostMapper>().convert<PostDto, PostEntity>(dto);
+    return res;
+  }
+
+  Future<PostEntity> fromLocal(PostLocalData item) async {
+    final user = await sl<UserRepository>().getLocalUserById(item.userId);
+    final res = PostEntity(
+      id: item.id,
+      imageUrl: item.imageUrl,
+      user: user,
+      caption: item.caption,
+      interactionList: null,
+      createdAt: item.createdAt,
+    );
     return res;
   }
 
@@ -53,7 +73,7 @@ class PostRepositoryImpl implements PostRepository {
       final res = sl<NewsfeedMapper>().convert<AllPostsRes, NewsfeedEntity>(
         newsfeed,
       );
-
+      sl<PostLocalService>().writeTotalPosts(res.totalPosts);
       return res;
     } else {
       print('totalPostsCurrent ${localData.totalPostsCurrent}');
@@ -62,18 +82,7 @@ class PostRepositoryImpl implements PostRepository {
 
         final posts = await Future.wait(
           localData.posts.map((item) async {
-            final user = await sl<UserRepository>().getLocalUserById(
-              item.userId,
-            );
-            final res = PostEntity(
-              id: item.id,
-              imageUrl: item.imageUrl,
-              user: user,
-              caption: item.caption,
-              interactionList: null,
-              createdAt: item.createdAt,
-            );
-            return res;
+            return await fromLocal(item);
           }),
         );
         return NewsfeedEntity(posts: posts, totalPosts: localData.totalPosts);
@@ -89,18 +98,7 @@ class PostRepositoryImpl implements PostRepository {
 
         final posts = await Future.wait(
           localData.posts.map((item) async {
-            final user = await sl<UserRepository>().getLocalUserById(
-              item.userId,
-            );
-            final res = PostEntity(
-              id: item.id,
-              imageUrl: item.imageUrl,
-              user: user,
-              caption: item.caption,
-              interactionList: null,
-              createdAt: item.createdAt,
-            );
-            return res;
+            return await fromLocal(item);
           }),
         );
 
@@ -112,11 +110,37 @@ class PostRepositoryImpl implements PostRepository {
 
   @override
   Future addPost(UploadPost post) async {
-    @override
-    final user = sl<AuthLocalService>().getLocalCurrentUser();
+    final userDto = sl<AuthLocalService>().getLocalCurrentUser();
     final token = sl<AuthLocalService>().getLocalToken();
     print("UserRepositoryImpl addPost() $token");
-    await sl<PostApiService>().addPost(user: user, token: token, post: post);
+    await sl<UserLocalService>().writeUserToLocal(userDto);
+    await sl<ImageLocalService>().writeImageToLocal(post.flip, post.imagePath);
+    // if (post.flip) {
+    //   final imageFile = File(post.imagePath);
+
+    //   final bytes = await imageFile.readAsBytes();
+    //   img.Image? image = img.decodeImage(bytes);
+
+    //   image = img.flipHorizontal(image!);
+    //   await imageFile.writeAsBytes(img.encodeJpg(image));
+    // }
+    final postLocal = PostLocalData(
+      id: tempIdGen.gen(),
+      imageUrl: post.imagePath,
+      userId: userDto.id,
+      caption: post.caption,
+      interactionList: null,
+      createdAt: DateTime.now(),
+    );
+    await sl<PostLocalService>().writePostToLocal(postLocal);
+    try {
+      sl<PostApiService>().addPost(user: userDto, token: token, post: post);
+      print('Add post thành công!');
+    } on DioException catch (e) {
+      await sl<PostLocalService>().deleteLocalPostById(postLocal.id);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

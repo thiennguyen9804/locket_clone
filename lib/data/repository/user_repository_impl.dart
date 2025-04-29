@@ -10,11 +10,10 @@ import 'package:locket_clone/presentation/data/upload_post.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
 class UserRepositoryImpl implements UserRepository {
-  @override
-  Future writeUserToLocal(UserEntity user) {
-    // TODO: implement writeUserToLocal
-    throw UnimplementedError();
-  }
+  // @override
+  // Future writeUserToLocal(UserEntity user) {
+  //   throw UnimplementedError();
+  // }
   
   @override
   Future resetTable() async {

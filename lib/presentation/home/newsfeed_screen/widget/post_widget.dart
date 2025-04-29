@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
@@ -9,6 +12,16 @@ import '../../../../core/configs/theme/app_theme.dart';
 class PostWidget extends StatelessWidget {
   final PostEntity postEntity;
   const PostWidget({super.key, required this.postEntity});
+
+  Widget image(String path) {
+    if (path.startsWith('http') || path.startsWith('https')) {
+      // Remote path
+      return CachedNetworkImage(imageUrl: path, fit: BoxFit.cover);
+    } else {
+      // Local path
+      return Image.file(File(path), fit: BoxFit.cover);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +68,7 @@ class PostWidget extends StatelessWidget {
                               blurRadius: 8,
                             ),
                           ],
-                          child: Image.network(postEntity.imageUrl),
+                          child: image(postEntity.imageUrl)
                         ),
                       ),
                     ),
@@ -88,9 +101,7 @@ class PostWidget extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
-          height: 37,
-        ),
+        SizedBox(height: 37),
         _userInfo(),
       ],
     );
@@ -108,18 +119,17 @@ class PostWidget extends StatelessWidget {
           width: 33,
           height: 33,
           padding: EdgeInsets.all(5),
-          child: postEntity.user.avatarUrl != null
-              ? CircleAvatar(
-                  backgroundImage: NetworkImage(postEntity.user.avatarUrl!),
-                )
-              : Icon(
-                  Icons.account_circle_outlined,
-                  color: const Color.fromARGB(255, 27, 26, 26),
-                ),
+          child:
+              postEntity.user.avatarUrl != null
+                  ? CircleAvatar(
+                    backgroundImage: NetworkImage(postEntity.user.avatarUrl!),
+                  )
+                  : Icon(
+                    Icons.account_circle_outlined,
+                    color: const Color.fromARGB(255, 27, 26, 26),
+                  ),
         ),
-        SizedBox(
-          width: 11,
-        ),
+        SizedBox(width: 11),
         Text(
           postEntity.user.name,
           style: TextStyle(
@@ -129,9 +139,7 @@ class PostWidget extends StatelessWidget {
             letterSpacing: 0.06 + 1,
           ),
         ),
-        SizedBox(
-          width: 8,
-        ),
+        SizedBox(width: 8),
         Text(
           timeago.format(postEntity.createdAt),
           style: TextStyle(

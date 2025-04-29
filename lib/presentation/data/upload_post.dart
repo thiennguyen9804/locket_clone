@@ -4,6 +4,7 @@ import 'dart:convert';
 class UploadPost {
   final String imagePath;
   final String caption;
+  bool flip = false;
 
   UploadPost({
     required this.imagePath,

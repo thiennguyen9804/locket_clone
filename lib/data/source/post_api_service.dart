@@ -66,7 +66,7 @@ class PostApiServiceImpl implements PostApiService {
     });
     await sl<DioClient>().post(
       NetworkConstant.POSTS,
-      queryParameters: {'caption': post.caption},
+      queryParameters: {'caption': post.caption, 'flip': post.flip},
       data: formData,
       options: Options(
         headers: {

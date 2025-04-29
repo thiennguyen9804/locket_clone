@@ -16,6 +16,7 @@ import 'package:locket_clone/core/configs/theme/app_theme.dart';
 import 'package:locket_clone/domain/repository/post_repository.dart';
 import 'package:locket_clone/presentation/data/upload_post.dart';
 import 'package:locket_clone/presentation/home/camera_screen/widget/taken_image.dart';
+import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/set_up_sl.dart';
 import 'package:image/image.dart' as img;
 
@@ -34,6 +35,8 @@ class _CameraScreenState extends State<CameraScreen> {
   bool isCamScr = true;
   XFile? pictureFile;
   Isolate? imgFlipIso;
+  int? _currentPage;
+
   // String caption;
   TextEditingController captionController = TextEditingController();
   final transHelper = TransitionHelper();
@@ -46,22 +49,23 @@ class _CameraScreenState extends State<CameraScreen> {
       isCamScr = false;
     });
     final file = await _cameraController.takePicture();
+    final isFront = _isFrontCam();
+    // Isolate.run(() async {
+    //   if (isFront) {
+    //     final imageFile = File(file.path);
 
-    Isolate.run(() async {
-      if (_isFrontCam()) {
-        final imageFile = File(file.path);
+    //     final bytes = await imageFile.readAsBytes();
+    //     img.Image? image = img.decodeImage(bytes);
 
-        final bytes = await imageFile.readAsBytes();
-        img.Image? image = img.decodeImage(bytes);
-
-        image = img.flipHorizontal(image!);
-        await imageFile.writeAsBytes(img.encodeJpg(image));
-      }
-      return null;
-    });
+    //     image = img.flipHorizontal(image!);
+    //     await imageFile.writeAsBytes(img.encodeJpg(image));
+    //   }
+    //   return null;
+    // });
 
     setState(() {
       pictureFile = file;
+      print('pictureFile after capture: ${pictureFile?.path}');
     });
   }
 
@@ -75,10 +79,7 @@ class _CameraScreenState extends State<CameraScreen> {
     final file = File(pictureFile!.path);
     if (await file.exists()) {
       await file.delete();
-      print("File đã bị xóa!");
-    } else {
-      print("File không tồn tại!");
-    }
+    } else {}
 
     imgFlipIso?.kill(priority: Isolate.immediate);
     pictureFile = null;
@@ -99,6 +100,13 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     _initCamera();
+    transHelper.mainController.addListener(() {
+      final page = transHelper.mainController.page?.round() ?? 0;
+      if (page != _currentPage) {
+        _currentPage = page;
+        context.read<NewsfeedCubit>().resetNewsFeedInRam();
+      }
+    });
   }
 
   Future<void> _initCamera() async {
@@ -128,15 +136,14 @@ class _CameraScreenState extends State<CameraScreen> {
             ),
         child: BlocConsumer<UploadImgCubit, UploadImgState>(
           listener: (context, state) {
-            print(state);
             if (state is CaptureState) {
-              transHelper.unlock?.call;
+              transHelper.unlock.call;
             }
             if (state is SendImageSuccess) {
               _cancelHandler();
-              transHelper.unlock?.call();
+              transHelper.unlock.call();
             } else if (state is SendImageLoading || state is SendImageState) {
-              transHelper.lock?.call();
+              transHelper.lock.call();
             }
           },
           builder: (context, state) {
@@ -197,11 +204,12 @@ class _CameraScreenState extends State<CameraScreen> {
       builder: (context) {
         return CaptureBtn(
           onSendImage: () {
+            print('captureBtn pictureFile!.path = {} ${pictureFile!.path}');
             context.read<UploadImgCubit>().onSendImage(
               UploadPost(
                 imagePath: pictureFile!.path,
                 caption: captionController.text,
-              ),
+              )..flip = _isFrontCam(),
             );
           },
         );
