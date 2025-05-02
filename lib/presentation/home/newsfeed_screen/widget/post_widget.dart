@@ -19,6 +19,7 @@ class PostWidget extends StatelessWidget {
       return CachedNetworkImage(imageUrl: path, fit: BoxFit.cover);
     } else {
       // Local path
+      print('Local image path: $path');
       return Image.file(File(path), fit: BoxFit.cover);
     }
   }

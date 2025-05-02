@@ -49,19 +49,6 @@ class _CameraScreenState extends State<CameraScreen> {
       isCamScr = false;
     });
     final file = await _cameraController.takePicture();
-    final isFront = _isFrontCam();
-    // Isolate.run(() async {
-    //   if (isFront) {
-    //     final imageFile = File(file.path);
-
-    //     final bytes = await imageFile.readAsBytes();
-    //     img.Image? image = img.decodeImage(bytes);
-
-    //     image = img.flipHorizontal(image!);
-    //     await imageFile.writeAsBytes(img.encodeJpg(image));
-    //   }
-    //   return null;
-    // });
 
     setState(() {
       pictureFile = file;
@@ -137,13 +124,13 @@ class _CameraScreenState extends State<CameraScreen> {
         child: BlocConsumer<UploadImgCubit, UploadImgState>(
           listener: (context, state) {
             if (state is CaptureState) {
-              transHelper.unlock.call;
+              transHelper.unlock?.call();
             }
             if (state is SendImageSuccess) {
               _cancelHandler();
-              transHelper.unlock.call();
+              transHelper.unlock?.call();
             } else if (state is SendImageLoading || state is SendImageState) {
-              transHelper.lock.call();
+              transHelper.lock?.call();
             }
           },
           builder: (context, state) {

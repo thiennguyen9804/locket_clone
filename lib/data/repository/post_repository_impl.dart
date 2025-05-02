@@ -114,27 +114,30 @@ class PostRepositoryImpl implements PostRepository {
     final token = sl<AuthLocalService>().getLocalToken();
     print("UserRepositoryImpl addPost() $token");
     await sl<UserLocalService>().writeUserToLocal(userDto);
-    await sl<ImageLocalService>().writeImageToLocal(post.flip, post.imagePath);
+    final imgPath = await sl<ImageLocalService>().writeImageToLocal(post.flip, post.imagePath);
+    print('PostRepositoryImpl addPost imgPath = {} $imgPath');
     // if (post.flip) {
     //   final imageFile = File(post.imagePath);
 
-    //   final bytes = await imageFile.readAsBytes();
+    //   final bytes = await imageFile.readAsBytes();,
     //   img.Image? image = img.decodeImage(bytes);
 
     //   image = img.flipHorizontal(image!);
     //   await imageFile.writeAsBytes(img.encodeJpg(image));
     // }
+
     final postLocal = PostLocalData(
       id: tempIdGen.gen(),
-      imageUrl: post.imagePath,
+      imageUrl: imgPath,
       userId: userDto.id,
       caption: post.caption,
       interactionList: null,
       createdAt: DateTime.now(),
     );
     await sl<PostLocalService>().writePostToLocal(postLocal);
+    final newPost = post.copyWith(imagePath: imgPath);
     try {
-      sl<PostApiService>().addPost(user: userDto, token: token, post: post);
+      sl<PostApiService>().addPost(user: userDto, token: token, post: newPost);
       print('Add post thành công!');
     } on DioException catch (e) {
       await sl<PostLocalService>().deleteLocalPostById(postLocal.id);

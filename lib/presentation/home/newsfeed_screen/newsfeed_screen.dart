@@ -64,88 +64,90 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).viewPadding.top;
-    return Stack(
-      children: [
-        Builder(
-          builder: (context) {
-            return Expanded(
-              child: NotificationListener(
-                onNotification: _helperIst.notificationHandler,
-                child: BlocBuilder<NewsfeedCubit, NewsfeedState>(
-                  builder: (context, state) {
-                    if (state is NewsfeedInit) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.newspaper,
-                              size: 80,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              'Hiện chưa có bài viết\n nào để hiển thị',
-                              style: TextStyle(
+    return BlocProvider(
+      create: (context) => NewsfeedCubit()..loadPosts(),
+      child: Stack(
+        children: [
+          Builder(
+            builder: (context) {
+              return Expanded(
+                child: NotificationListener(
+                  onNotification: _helperIst.notificationHandler,
+                  child: BlocBuilder<NewsfeedCubit, NewsfeedState>(
+                    builder: (context, state) {
+                      if (state is NewsfeedInit) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.newspaper,
+                                size: 80,
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                                
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                    if (state is NewsfeedLoaded) {
-                      var info = state.newsfeedInfo;
-                      return PageView.builder(
-                        physics: ClampingScrollPhysics(),
-                        controller: _helperIst.newsfeedController,
-                        scrollDirection: Axis.vertical,
-                        itemCount:
-                            info.posts.length + (info.isLastPage ? 0 : 1),
-                        // info.posts.length,
-                        itemBuilder: (context, index) {
-                          if (index ==
-                              info.posts.length - info.nextPageTrigger) {
-                            if (mounted) {
-                              print('call for next post list');
-                              context.read<NewsfeedCubit>().loadPosts();
+                              Text(
+                                'Hiện chưa có bài viết\n nào để hiển thị',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      if (state is NewsfeedLoaded) {
+                        var info = state.newsfeedInfo;
+                        return PageView.builder(
+                          physics: ClampingScrollPhysics(),
+                          controller: _helperIst.newsfeedController,
+                          scrollDirection: Axis.vertical,
+                          itemCount:
+                              info.posts.length + (info.isLastPage ? 0 : 1),
+                          // info.posts.length,
+                          itemBuilder: (context, index) {
+                            if (index ==
+                                info.posts.length - info.nextPageTrigger) {
+                              if (mounted) {
+                                print('call for next post list');
+                                context.read<NewsfeedCubit>().loadPosts();
+                              }
                             }
-                          }
-                          // print('NewsfeedScreen build pageview $index');
-                          return Padding(
-                            padding: EdgeInsets.only(top: height + 100),
-                            child: PostWidget(postEntity: info.posts[index]),
-                          );
-                        },
-                      );
-                    }
-                    return Container();
-                  },
+                            // print('NewsfeedScreen build pageview $index');
+                            return Padding(
+                              padding: EdgeInsets.only(top: height + 100),
+                              child: PostWidget(postEntity: info.posts[index]),
+                            );
+                          },
+                        );
+                      }
+                      return Container();
+                    },
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
-        Positioned(
-          left: 0,
-          right: 0,
-          bottom: 40,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [WidgetBtn(), interactBar(), ShareBtn()],
+              );
+            },
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 40,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [WidgetBtn(), interactBar(), ShareBtn()],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
