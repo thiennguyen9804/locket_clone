@@ -1,0 +1,1 @@
+/home/hayashing/locket_clone_app/locket_clone/build/app/intermediates/cxx/RelWithDebInfo/r321p612/obj/x86

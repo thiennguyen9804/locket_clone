@@ -87,13 +87,13 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     _initCamera();
-    transHelper.mainController.addListener(() {
-      final page = transHelper.mainController.page?.round() ?? 0;
-      if (page != _currentPage) {
-        _currentPage = page;
-        context.read<NewsfeedCubit>().resetNewsFeedInRam();
-      }
-    });
+    // transHelper.mainController.addListener(() {
+    //   final page = transHelper.mainController.page?.round() ?? 0;
+    //   if (page != _currentPage) {
+    //     _currentPage = page;
+    //     context.read<NewsfeedCubit>().resetNewsFeedInRam();
+    //   }
+    // });
   }
 
   Future<void> _initCamera() async {
@@ -115,12 +115,19 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocProvider<UploadImgCubit>(
-        create:
-            (context) => UploadImgCubit(
-              takePicture: _takePicture,
-              onSendImageSuccess: onSendImageSuccess,
-            ),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<UploadImgCubit>(
+            create:
+                (context) => UploadImgCubit(
+                  takePicture: _takePicture,
+                  onSendImageSuccess: onSendImageSuccess,
+                ),
+          ),
+          BlocProvider(
+            create: (context) => NewsfeedCubit()..resetNewsFeedInRam(),
+          ),
+        ],
         child: BlocConsumer<UploadImgCubit, UploadImgState>(
           listener: (context, state) {
             if (state is CaptureState) {

@@ -140,6 +140,7 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
                 (context) =>
                     UserCubit()..getCurrentUser(sl<GetCurrentUserUseCase>()),
           ),
+          BlocProvider(create: (context) => NewsfeedCubit())
         ],
         child: BlocListener<UserCubit, UserState>(
           listener: (context, state) {

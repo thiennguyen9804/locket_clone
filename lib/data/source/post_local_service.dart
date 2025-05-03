@@ -36,7 +36,8 @@ class PostLocalServiceImpl implements PostLocalService {
     if (cursorCreatedAt == null) {
       data = await db.query(table, orderBy: 'createdAt DESC', limit: size);
     } else {
-      print('cursor: ${cursorCreatedAt.millisecondsSinceEpoch}');
+      print('cursor: ${cursorCreatedAt}');
+      print('cursor in epoch: ${cursorCreatedAt.millisecondsSinceEpoch}');
       data = await db.query(
         table,
         where: 'createdAt < ?',

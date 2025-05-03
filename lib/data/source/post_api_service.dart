@@ -17,6 +17,7 @@ abstract class PostApiService {
     required UserDto user,
     required String token,
     required UploadPost post,
+    required DateTime createdAt,
   });
 }
 
@@ -56,6 +57,7 @@ class PostApiServiceImpl implements PostApiService {
     required UserDto user,
     required String token,
     required UploadPost post,
+    required DateTime createdAt,
   }) async {
     final file = await MultipartFile.fromFile(post.imagePath);
 
@@ -66,7 +68,7 @@ class PostApiServiceImpl implements PostApiService {
     });
     await sl<DioClient>().post(
       NetworkConstant.POSTS,
-      queryParameters: {'caption': post.caption, 'flip': post.flip},
+      queryParameters: {'caption': post.caption, 'flip': post.flip, 'createdAt': createdAt.toUtc()},
       data: formData,
       options: Options(
         headers: {

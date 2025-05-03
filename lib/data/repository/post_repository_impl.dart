@@ -132,12 +132,12 @@ class PostRepositoryImpl implements PostRepository {
       userId: userDto.id,
       caption: post.caption,
       interactionList: null,
-      createdAt: DateTime.now(),
+      createdAt: DateTime.now().toUtc(),
     );
     await sl<PostLocalService>().writePostToLocal(postLocal);
     final newPost = post.copyWith(imagePath: imgPath);
     try {
-      sl<PostApiService>().addPost(user: userDto, token: token, post: newPost);
+      sl<PostApiService>().addPost(user: userDto, token: token, post: newPost, createdAt: postLocal.createdAt);
       print('Add post thành công!');
     } on DioException catch (e) {
       await sl<PostLocalService>().deleteLocalPostById(postLocal.id);
