@@ -142,7 +142,7 @@ class PostWidget extends StatelessWidget {
         ),
         SizedBox(width: 8),
         Text(
-          timeago.format(postEntity.createdAt),
+          timeago.format(postEntity.createdAt.toLocal()),
           style: TextStyle(
             color: Color(0xffA1A1A1),
             fontSize: 18,

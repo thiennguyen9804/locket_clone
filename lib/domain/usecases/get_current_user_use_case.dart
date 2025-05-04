@@ -11,15 +11,9 @@ class GetCurrentUserUseCase implements UseCase<UserEntity, dynamic> {
   @override
   Future<UserEntity> call({param}) async {
     if(user == null) {
-      if (kDebugMode) {
-        print('GetCurrentUserUseCase call get user from local db: $user');
-      }
       user = await sl<AuthRepository>().getCurrentUser();
       return user!;
     } else {
-      if (kDebugMode) {
-        print('GetCurrentUserUseCase call get user variable, more faster: $user');
-      }
       return user!;
     }
   }

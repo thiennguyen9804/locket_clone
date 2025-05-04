@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
+import 'package:locket_clone/common/bloc/button/upload_img_cubit.dart';
 
 class TakenImage extends StatelessWidget {
   final File imageFile;
@@ -85,20 +87,25 @@ class TakenImage extends StatelessWidget {
                   child: ConstrainedBox(
                     constraints: BoxConstraints(minWidth: 30),
                     child: IntrinsicWidth(
-                      child: TextField(
-                        controller: controller,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(0xff5F5F5F),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          isCollapsed: true,
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        cursorColor: Color(0xff5F5F5F),
+                      child: BlocBuilder<UploadImgCubit, UploadImgState>(
+                        builder: (context, state) {
+                          return TextField(
+                            enabled: state is! SendImageLoading,
+                            controller: controller,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xff5F5F5F),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              isCollapsed: true,
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            cursorColor: Color(0xff5F5F5F),
+                          );
+                        },
                       ),
                     ),
                   ),

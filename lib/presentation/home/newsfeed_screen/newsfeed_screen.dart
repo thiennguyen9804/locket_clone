@@ -43,6 +43,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   }
 
   void _handleVisiblePageChanged(int index) {
+    print('_handleVisiblePageChanged is called');
     final state = context.read<NewsfeedCubit>().state;
     if (state is NewsfeedLoaded) {
       if (index < state.newsfeedInfo.posts.length) {
@@ -140,7 +141,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [WidgetBtn(), interactBar(), ShareBtn()],
                 ),
               ),

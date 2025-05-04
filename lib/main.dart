@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         child: BlocListener<KeepLoggedInCubit, KeepLoggedInState>(
           listener: (context, snapshot) {
             if (snapshot is KeepLoggedInFail) {
-              print("cannot logged in current user ${snapshot.msg}");
+              // print("cannot logged in current user ${snapshot.msg}");
             }
           },
           child: BlocBuilder<KeepLoggedInCubit, KeepLoggedInState>(

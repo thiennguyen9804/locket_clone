@@ -27,6 +27,7 @@ import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:locket_clone/domain/repository/user_repository.dart';
 import 'package:locket_clone/presentation/data/upload_post.dart';
 import 'package:image/image.dart' as img;
+import 'package:locket_clone/set_up_fcm.dart';
 
 import '../../domain/repository/post_repository.dart';
 import '../../set_up_sl.dart';
@@ -116,33 +117,28 @@ class PostRepositoryImpl implements PostRepository {
     await sl<UserLocalService>().writeUserToLocal(userDto);
     final imgPath = await sl<ImageLocalService>().writeImageToLocal(post.flip, post.imagePath);
     print('PostRepositoryImpl addPost imgPath = {} $imgPath');
-    // if (post.flip) {
-    //   final imageFile = File(post.imagePath);
 
-    //   final bytes = await imageFile.readAsBytes();,
-    //   img.Image? image = img.decodeImage(bytes);
 
-    //   image = img.flipHorizontal(image!);
-    //   await imageFile.writeAsBytes(img.encodeJpg(image));
-    // }
-
-    final postLocal = PostLocalData(
-      id: tempIdGen.gen(),
-      imageUrl: imgPath,
-      userId: userDto.id,
-      caption: post.caption,
-      interactionList: null,
-      createdAt: DateTime.now().toUtc(),
-    );
-    await sl<PostLocalService>().writePostToLocal(postLocal);
+    // final postLocal = PostLocalData(
+    //   id: tempIdGen.gen(),
+    //   imageUrl: imgPath,
+    //   userId: userDto.id,
+    //   caption: post.caption,
+    //   interactionList: null,
+    //   createdAt: DateTime.now().toUtc(),
+    // );
+    // await sl<PostLocalService>().writePostToLocal(postLocal);
     final newPost = post.copyWith(imagePath: imgPath);
     try {
-      sl<PostApiService>().addPost(user: userDto, token: token, post: newPost, createdAt: postLocal.createdAt);
+      await sl<PostApiService>().addPost(user: userDto, token: token, post: newPost,);
       print('Add post thành công!');
+      await sl<ImageLocalService>().deleteImageLocal(imgPath);
     } on DioException catch (e) {
-      await sl<PostLocalService>().deleteLocalPostById(postLocal.id);
+      // await sl<PostLocalService>().deleteLocalPostById(postLocal.id);
     } catch (e) {
       rethrow;
+    } finally {
+      await resetTables();
     }
   }
 

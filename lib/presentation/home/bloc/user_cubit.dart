@@ -15,7 +15,6 @@ class UserCubit extends Cubit<UserState> {
   void getCurrentUser(UseCase usecase) async {
     emit(UserLoading());
     final res = await sl<GetCurrentUserUseCase>().call();
-    await Future.delayed(Duration(seconds: 3));
     emit(UserLoadedSuccess(userEntity: res));
   }
 }

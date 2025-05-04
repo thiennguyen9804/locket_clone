@@ -52,7 +52,7 @@ class _CameraScreenState extends State<CameraScreen> {
 
     setState(() {
       pictureFile = file;
-      print('pictureFile after capture: ${pictureFile?.path}');
+      // print('pictureFile after capture: ${pictureFile?.path}');
     });
   }
 
@@ -87,13 +87,13 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     _initCamera();
-    // transHelper.mainController.addListener(() {
-    //   final page = transHelper.mainController.page?.round() ?? 0;
-    //   if (page != _currentPage) {
-    //     _currentPage = page;
-    //     context.read<NewsfeedCubit>().resetNewsFeedInRam();
-    //   }
-    // });
+    transHelper.mainController.addListener(() {
+      final page = transHelper.mainController.page?.round() ?? 0;
+      if (page != _currentPage) {
+        _currentPage = page;
+        context.read<NewsfeedCubit>().resetNewsFeedInRam();
+      }
+    });
   }
 
   Future<void> _initCamera() async {

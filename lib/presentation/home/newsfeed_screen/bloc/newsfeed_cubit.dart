@@ -11,7 +11,9 @@ class NewsfeedCubit extends Cubit<NewsfeedState> {
   NewsFeedInfoUi _info = NewsFeedInfoUi();
   DateTime? _cursor;
   void resetNewsFeedInRam() {
+    print('reset newsfeed in ram');
     _info = NewsFeedInfoUi();
+    emit(NewsfeedLoaded(newsfeedInfo: _info));
     _cursor = null;
   }
 

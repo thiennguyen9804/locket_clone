@@ -12,12 +12,17 @@ class ShareBtn extends StatefulWidget {
 class _ShareBtnState extends State<ShareBtn> {
   @override
   Widget build(BuildContext context) {
-    const path = 'assets/share_ic.svg';
-    final Widget widgetIc = SvgPicture.asset(
-      path,
-      semanticsLabel: 'Widget',
-      width: 28,
-      height: 28,
+    // const path = 'assets/share_ic.svg';
+    // final Widget widgetIc = SvgPicture.asset(
+    //   path,
+    //   semanticsLabel: 'Widget',
+    //   width: 28,
+    //   height: 28,
+    // );
+    final Widget widgetIc = Icon(
+      Icons.more_vert_outlined,
+      color: Color(0xffAAC2B3),
+      size: 28,
     );
 
     return AnimPressable(icon: widgetIc, onTap: () {});

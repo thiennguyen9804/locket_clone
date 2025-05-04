@@ -44,7 +44,7 @@ class PostLocalData {
       'userId': userId,
       'caption': caption,
       'interactionList': interactionList,
-      'createdAt': createdAt.millisecondsSinceEpoch,
+      'createdAt': createdAt.toUtc().millisecondsSinceEpoch,
     };
   }
 
@@ -55,7 +55,7 @@ class PostLocalData {
       userId: map['userId'] as int,
       caption: map['caption'] as String,
       interactionList: map['interactionList'] as dynamic,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(int.parse(map['createdAt'])),
+      createdAt: DateTime.fromMillisecondsSinceEpoch(int.parse(map['createdAt']), isUtc: true),
     );
   }
 
