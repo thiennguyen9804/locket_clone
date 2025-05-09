@@ -99,7 +99,7 @@ class _InteractBarState extends State<InteractBar> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              commentBar(context),
+              Expanded(child: commentBar(context)),
               SizedBox(width: 16),
               Expanded(child: emojiBar()),
             ],

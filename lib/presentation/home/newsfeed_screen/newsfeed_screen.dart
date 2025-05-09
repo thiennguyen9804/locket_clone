@@ -10,6 +10,9 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/widget/interact_b
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/post_widget.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
+const _outColor = Color(0xffAAC2B3);
+const _inColor = Color(0xffECF4F4);
+
 class NewsfeedScreen extends StatefulWidget {
   NewsfeedScreen({super.key, required this.controller});
   late TextEditingController controller;
@@ -21,25 +24,44 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   int? _currentPage;
   final Set<int> _writtenPostIds = {};
 
-  Widget interactBar() {
-    return Flexible(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 9),
-        child: InteractBar(controller: widget.controller),
+  Widget backToCamBtn({Color outColor = _outColor, Color inColor = _inColor}) {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(200),
+        color: outColor,
       ),
+      padding: EdgeInsets.all(5),
+      child: Container(
+        width: 83,
+        height: 83,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(200),
+          color: inColor,
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 23, vertical: 23),
+      ),
+    );
+  }
+
+  Widget interactBar() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 0),
+      child: InteractBar(controller: widget.controller),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    _helperIst.newsfeedController.addListener(() {
-      final page = _helperIst.newsfeedController.page?.round();
-      if (page != null && page != _currentPage) {
-        _currentPage = page;
-        _handleVisiblePageChanged(page);
-      }
-    });
+    // _helperIst.newsfeedController.addListener(() {
+    //   final page = _helperIst.newsfeedController.page?.round();
+    //   if (page != null && page != _currentPage) {
+    //     _currentPage = page;
+    //     _handleVisiblePageChanged(page);
+    //   }
+    // });
   }
 
   void _handleVisiblePageChanged(int index) {
@@ -135,14 +157,34 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
           Positioned(
             left: 0,
             right: 0,
-            bottom: 40,
+            bottom: 35,
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [WidgetBtn(), interactBar(), ShareBtn()],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BlocBuilder<NewsfeedCubit, NewsfeedState>(
+                      builder: (context, state) {
+                        switch(state) {
+                          case NewsfeedLoaded():
+                            if(state.newsfeedInfo.posts.isNotEmpty) {
+                              return interactBar();
+                            }
+                            return Container();
+                          default:
+                            return Container();
+                        }
+                      },
+                    ),
+                    SizedBox(height: 7),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [WidgetBtn(), backToCamBtn(), ShareBtn()],
+                    ),
+                  ],
                 ),
               ),
             ),
