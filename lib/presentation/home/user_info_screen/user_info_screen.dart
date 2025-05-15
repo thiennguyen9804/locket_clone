@@ -145,16 +145,25 @@ class UserInfoScreen extends StatelessWidget {
                       children: [
                         Align(
                           alignment: Alignment.topLeft,
-                          child: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Color(0xffAAC2B3),
-                            size: 35,
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: Color(0xffAAC2B3),
+                              size: 35,
+                            ),
                           ),
                         ),
                         Stack(
                           alignment: Alignment.topCenter,
                           children: [
-                            LargeCircleAvatar(),
+                            LargeCircleAvatar(
+                              state is UserLoadedSuccess
+                                  ? state.userEntity.avatarUrl ?? ""
+                                  : "",
+                            ),
                             Positioned(
                               bottom: 0,
                               right: 10,

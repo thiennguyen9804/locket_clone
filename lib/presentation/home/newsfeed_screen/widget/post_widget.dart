@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
+import 'package:locket_clone/core/locale/my_custom_messages.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -11,7 +12,10 @@ import '../../../../core/configs/theme/app_theme.dart';
 
 class PostWidget extends StatelessWidget {
   final PostEntity postEntity;
-  const PostWidget({super.key, required this.postEntity});
+  PostWidget({super.key, required this.postEntity}) {
+    timeago.setLocaleMessages('vi', MyVietnameseMessages());
+  }
+
 
   Widget image(String path) {
     if (path.startsWith('http') || path.startsWith('https')) {
@@ -142,7 +146,7 @@ class PostWidget extends StatelessWidget {
         ),
         SizedBox(width: 8),
         Text(
-          timeago.format(postEntity.createdAt.toLocal()),
+          timeago.format(postEntity.createdAt.toLocal(), locale: 'vi'),
           style: TextStyle(
             color: Color(0xffA1A1A1),
             fontSize: 18,

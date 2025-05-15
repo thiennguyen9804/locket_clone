@@ -6,6 +6,7 @@ import 'package:indexed/indexed.dart';
 import 'package:locket_clone/common/widgets/anim_pressable.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
 import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
+import 'package:locket_clone/presentation/home/friend_screen/friend_screen.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart';
@@ -108,7 +109,7 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
 
   Widget _friendBtn(VoidCallback onPress) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: openFriendScreen,
       style: ElevatedButton.styleFrom(elevation: 3),
       child: Row(
         children: [
@@ -206,24 +207,18 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
       ),
     );
   }
-}
 
-class ContentScreen extends StatelessWidget {
-  final String title;
-  final Color color;
-
-  const ContentScreen({super.key, required this.title, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: color,
-      child: Center(
-        child: Text(
-          "Màn hình $title",
-          style: const TextStyle(fontSize: 30, color: Colors.white),
-        ),
-      ),
+  void openFriendScreen() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xffAAC2B3),
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: FriendScreen(),
+        );
+      },
     );
   }
 }

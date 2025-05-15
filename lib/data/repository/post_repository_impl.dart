@@ -65,7 +65,6 @@ class PostRepositoryImpl implements PostRepository {
     );
 
     if (localData == null) {
-      print('PostRepositoryImpl case: no suitable local data');
 
       AllPostsRes newsfeed = await sl<PostApiService>().loadPosts(
         size,
@@ -77,9 +76,7 @@ class PostRepositoryImpl implements PostRepository {
       sl<PostLocalService>().writeTotalPosts(res.totalPosts);
       return res;
     } else {
-      print('totalPostsCurrent ${localData.totalPostsCurrent}');
       if (localData.totalPostsCurrent == size) {
-        print('PostRepositoryImpl case: local data is enough');
 
         final posts = await Future.wait(
           localData.posts.map((item) async {
@@ -88,7 +85,6 @@ class PostRepositoryImpl implements PostRepository {
         );
         return NewsfeedEntity(posts: posts, totalPosts: localData.totalPosts);
       } else {
-        print('PostRepositoryImpl case: totalPostCurrent < size request');
         int remains = size - localData.totalPostsCurrent;
         AllPostsRes allPostsRes = await sl<PostApiService>().loadPosts(
           remains,
@@ -113,25 +109,22 @@ class PostRepositoryImpl implements PostRepository {
   Future addPost(UploadPost post) async {
     final userDto = sl<AuthLocalService>().getLocalCurrentUser();
     final token = sl<AuthLocalService>().getLocalToken();
-    print("UserRepositoryImpl addPost() $token");
     await sl<UserLocalService>().writeUserToLocal(userDto);
     final imgPath = await sl<ImageLocalService>().writeImageToLocal(post.flip, post.imagePath);
-    print('PostRepositoryImpl addPost imgPath = {} $imgPath');
 
 
-    // final postLocal = PostLocalData(
-    //   id: tempIdGen.gen(),
-    //   imageUrl: imgPath,
-    //   userId: userDto.id,
-    //   caption: post.caption,
-    //   interactionList: null,
-    //   createdAt: DateTime.now().toUtc(),
-    // );
+    final postLocal = PostLocalData(
+      id: tempIdGen.gen(),
+      imageUrl: imgPath,
+      userId: userDto.id,
+      caption: post.caption,
+      interactionList: null,
+      createdAt: DateTime.now().toUtc(),
+    );
     // await sl<PostLocalService>().writePostToLocal(postLocal);
     final newPost = post.copyWith(imagePath: imgPath);
     try {
       await sl<PostApiService>().addPost(user: userDto, token: token, post: newPost,);
-      print('Add post thành công!');
       await sl<ImageLocalService>().deleteImageLocal(imgPath);
     } on DioException catch (e) {
       // await sl<PostLocalService>().deleteLocalPostById(postLocal.id);
