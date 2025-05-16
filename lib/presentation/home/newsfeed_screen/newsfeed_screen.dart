@@ -1,10 +1,13 @@
+import 'package:enhanced_paginated_view/enhanced_paginated_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locket_clone/common/widgets/button/share_btn.dart';
 import 'package:locket_clone/common/widgets/button/widget_btn.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
+import 'package:locket_clone/domain/entities/newsfeed_entity.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/domain/repository/post_repository.dart';
+import 'package:locket_clone/presentation/data/news_feed_info_ui.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_state.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/interact_bar.dart';
@@ -92,6 +95,36 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   }
 
   final _helperIst = TransitionHelper();
+  List<PostEntity> initList = [];
+  bool isLoading = false;
+  final maxItems = 30;
+  bool isMaxReached = false;
+
+  Future<void> loadMore(int page) async {
+    // here we simulate that the list reached the end
+    // and we set the isMaxReached to true to stop
+    // the loading widget from showing
+    DateTime? _cursor;
+    final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
+      size: 1,
+      cursorCreatedAt: _cursor,
+    );
+
+    debugPrint(results.posts.length.toString());
+    if(results.posts.isEmpty) {
+      setState(() {
+        isMaxReached = true;
+      });
+    }
+    _cursor = results.posts.last.createdAt;
+
+    setState(() => isLoading = true);
+    setState(() {
+      initList.addAll(results.posts);
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).viewPadding.top;
@@ -129,30 +162,56 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                         ),
                       );
                     }
-                    if (state is NewsfeedLoaded) {
-                      var info = state.newsfeedInfo;
-                      return PageView.builder(
-                        physics: ClampingScrollPhysics(),
-                        controller: _helperIst.newsfeedController,
-                        scrollDirection: Axis.vertical,
-                        onPageChanged: _onPostAppeared,
-                        itemCount:
-                            info.posts.length + (info.isLastPage ? 0 : 1),
-                        // info.posts.length,
-                        itemBuilder: (context, index) {
-                          if (index ==
-                              info.posts.length - info.nextPageTrigger) {
-                            if (mounted) {
-                              context.read<NewsfeedCubit>().loadPosts();
-                            }
-                          }
-                          return Padding(
-                            padding: EdgeInsets.only(top: height + 100),
-                            child: PostWidget(postEntity: info.posts[index]),
-                          );
-                        },
-                      );
-                    }
+                    // if (state is NewsfeedLoaded) {
+                    //   var info = state.newsfeedInfo;
+                    //   return PageView.builder(
+                    //     physics: ClampingScrollPhysics(),
+                    //     controller: _helperIst.newsfeedController,
+                    //     scrollDirection: Axis.vertical,
+                    //     onPageChanged: _onPostAppeared,
+                    //     itemCount:
+                    //         info.posts.length + (info.isLastPage ? 0 : 1),
+                    //     // info.posts.length,
+                    //     itemBuilder: (context, index) {
+                    //       if (index ==
+                    //           info.posts.length - info.nextPageTrigger) {
+                    //         if (mounted) {
+                    //           context.read<NewsfeedCubit>().loadPosts();
+                    //         }
+                    //       }
+                    //       return Padding(
+                    //         padding: EdgeInsets.only(top: height + 100),
+                    //         child: PostWidget(postEntity: info.posts[index]),
+                    //       );
+                    //     },
+                    //   );
+                    // }
+                    EnhancedPaginatedView<PostEntity>(
+                      builder: (postList, _, _, _) {
+                        return ListView.builder(
+                          itemCount: postList.length,
+                          physics: ClampingScrollPhysics(),
+                          controller: _helperIst.newsfeedController,
+                          scrollDirection: Axis.vertical,
+                          // onPageChanged: _onPostAppeared,
+
+                          // info.posts.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(top: height + 100),
+                              child: PostWidget(postEntity: postList[index]),
+                            );
+                          },
+                        );
+                      },
+                      itemsPerPage: 1,
+                      onLoadMore: loadMore,
+                      hasReachedMax: isMaxReached,
+                      delegate: EnhancedDelegate(
+                        listOfData: initList,
+                        status: EnhancedStatus.loaded,
+                      ),
+                    );
                     return Container();
                   },
                 ),

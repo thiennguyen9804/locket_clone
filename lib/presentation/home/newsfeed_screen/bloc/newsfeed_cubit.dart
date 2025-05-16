@@ -19,25 +19,29 @@ class NewsfeedCubit extends Cubit<NewsfeedState> {
 
   NewsfeedCubit() : super(NewsfeedInit());
 
-  void loadPosts() async {
-    final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
-      size: _info.numberOfPostsPerRequest,
-      cursorCreatedAt: _cursor,
-    );
+  // void loadPosts() async {
+    
+  //   final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
+  //     size: _info.numberOfPostsPerRequest,
+  //     cursorCreatedAt: _cursor,
+  //   );
 
-    if (results.posts.isEmpty) {
-      return;
-    }
-    _cursor = results.posts.last.createdAt;
-    print('newsfeed info $_info');
-    emit(
-      NewsfeedLoaded(
-        newsfeedInfo:
-            _info
-              ..isLastPage = results.posts.isEmpty
-              ..pageNumber = _info.pageNumber + 1
-              ..posts.addAll(results.posts),
-      ),
-    );
-  }
+  //   if (results.posts.isEmpty) {
+  //     return;
+  //   }
+  //   _cursor = results.posts.last.createdAt;
+  //   print('newsfeed info $_info');
+  //   emit(
+  //     NewsfeedLoaded(
+  //       newsfeedInfo:
+  //           _info
+  //             ..isLastPage = results.posts.isEmpty
+  //             ..pageNumber = _info.pageNumber + 1
+  //             ..posts.addAll(results.posts),
+  //     ),
+  //   );
+  // }
+
+
+  
 }
