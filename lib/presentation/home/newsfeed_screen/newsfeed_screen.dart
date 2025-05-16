@@ -16,7 +16,6 @@ import 'package:logging/logging.dart';
 const _outColor = Color(0xffAAC2B3);
 const _inColor = Color(0xffECF4F4);
 
-
 class NewsfeedScreen extends StatefulWidget {
   NewsfeedScreen({super.key, required this.controller});
   late TextEditingController controller;
@@ -27,10 +26,8 @@ class NewsfeedScreen extends StatefulWidget {
 class _NewsfeedScreenState extends State<NewsfeedScreen> {
   int? _currentPage;
   PostEntity? currentPost;
-  final Set<int> _writtenPostIds = {};
+  bool _initialized = false;
   final log = Logger('NewsfeedScreen');
-
-
 
   Widget backToCamBtn({Color outColor = _outColor, Color inColor = _inColor}) {
     return Container(
@@ -54,7 +51,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   }
 
   Widget interactBar() {
-    print('currentPost: $currentPost');
+    debugPrint('currentPost: $currentPost');
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InteractBar(controller: widget.controller),
@@ -64,16 +61,25 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   @override
   void initState() {
     super.initState();
-    _helperIst.newsfeedController.addListener(() {
-      final page = _helperIst.newsfeedController.page?.round();
-      if (page != null && page != _currentPage) {
-        // _currentPage = page;
-        _handleVisiblePageChanged(page);
-      }
-    });
+    // _helperIst.newsfeedController.addListener(() {
+    //   final page = _helperIst.newsfeedController.page?.round() ?? 0;
+    // });
   }
 
-  void _handleVisiblePageChanged(int index) {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (!_initialized) {
+      _initialized = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _onPostAppeared(0);
+      });
+    }
+  }
+
+  void _onPostAppeared(int index) {
+    debugPrint('Sub page $index appeared!');
     final state = context.read<NewsfeedCubit>().state;
     if (state is NewsfeedLoaded) {
       if (index < state.newsfeedInfo.posts.length) {
@@ -129,9 +135,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                         physics: ClampingScrollPhysics(),
                         controller: _helperIst.newsfeedController,
                         scrollDirection: Axis.vertical,
-                        onPageChanged: (value) {
-                          print('onPagedChanged: $value');
-                        },
+                        onPageChanged: _onPostAppeared,
                         itemCount:
                             info.posts.length + (info.isLastPage ? 0 : 1),
                         // info.posts.length,
@@ -139,11 +143,9 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                           if (index ==
                               info.posts.length - info.nextPageTrigger) {
                             if (mounted) {
-                              print('call for next post list');
                               context.read<NewsfeedCubit>().loadPosts();
                             }
                           }
-                          // print('NewsfeedScreen build pageview $index');
                           return Padding(
                             padding: EdgeInsets.only(top: height + 100),
                             child: PostWidget(postEntity: info.posts[index]),
@@ -171,9 +173,9 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                   children: [
                     BlocBuilder<NewsfeedCubit, NewsfeedState>(
                       builder: (context, state) {
-                        switch(state) {
+                        switch (state) {
                           case NewsfeedLoaded():
-                            if(state.newsfeedInfo.posts.isNotEmpty) {
+                            if (state.newsfeedInfo.posts.isNotEmpty) {
                               return interactBar();
                             }
                             return Container();

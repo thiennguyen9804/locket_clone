@@ -16,7 +16,6 @@ class PostWidget extends StatelessWidget {
     timeago.setLocaleMessages('vi', MyVietnameseMessages());
   }
 
-
   Widget image(String path) {
     if (path.startsWith('http') || path.startsWith('https')) {
       // Remote path
@@ -73,7 +72,7 @@ class PostWidget extends StatelessWidget {
                               blurRadius: 8,
                             ),
                           ],
-                          child: image(postEntity.imageUrl)
+                          child: image(postEntity.imageUrl),
                         ),
                       ),
                     ),
@@ -81,29 +80,30 @@ class PostWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 30,
-              left: 0,
-              right: 0,
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  decoration: BoxDecoration(
-                    color: Color(0xffF2F2F2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    postEntity.caption,
-                    style: TextStyle().copyWith(
-                      color: Color(0xff5F5F5F),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
+            if (postEntity.caption.isNotEmpty)
+              Positioned(
+                bottom: 30,
+                left: 0,
+                right: 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Color(0xffF2F2F2),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      postEntity.caption,
+                      style: TextStyle().copyWith(
+                        color: Color(0xff5F5F5F),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
           ],
         ),
         SizedBox(height: 37),

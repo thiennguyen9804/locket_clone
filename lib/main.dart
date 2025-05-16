@@ -6,11 +6,21 @@ import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrappe
 import 'package:locket_clone/core/configs/theme/app_theme.dart';
 import 'package:locket_clone/presentation/auth/bloc/keep_logged_in_cubit.dart';
 import 'package:locket_clone/presentation/auth/pages/sign_in_screen.dart';
+import 'package:locket_clone/presentation/test_screen.dart';
 import 'package:locket_clone/set_up_fcm.dart';
 import 'package:locket_clone/set_up_local_db.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
 void main() async {
+  runMain();
+  // runTest();
+}
+
+void runTest() async {
+  runApp(TestApp());
+}
+
+void runMain() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -27,7 +37,7 @@ void main() async {
   // await resetTables();
   runApp(const MyApp());
 }
- 
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -59,6 +69,21 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class TestApp extends StatelessWidget {
+  const TestApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Locket clone',
+      theme: AppTheme.appTheme,
+      debugShowCheckedModeBanner: false,
+      home: const TestScreen()
     );
   }
 }

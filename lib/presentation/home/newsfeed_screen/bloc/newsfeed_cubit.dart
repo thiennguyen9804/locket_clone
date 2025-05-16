@@ -20,8 +20,6 @@ class NewsfeedCubit extends Cubit<NewsfeedState> {
   NewsfeedCubit() : super(NewsfeedInit());
 
   void loadPosts() async {
-    
-    _cursor == null ? print('NewsfeedCubit loadPosts cursor is null') : print('NewsfeedCubit loadPosts cursor = {} $_cursor');
     final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
       size: _info.numberOfPostsPerRequest,
       cursorCreatedAt: _cursor,

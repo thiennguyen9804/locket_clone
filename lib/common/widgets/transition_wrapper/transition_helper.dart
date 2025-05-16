@@ -57,12 +57,11 @@ class TransitionHelper {
   }
 
   TransitionHelper._internal() {
-    mainController.addListener(() {
-      final page = mainController.page?.round() ?? 0;
-      if (page != currentPage) {
-        currentPage = page;
-        debugPrint('Current page: $currentPage');
-      }
-    });
+    // mainController.addListener(() {
+    //   final page = mainController.page?.round() ?? 0;
+    //   if (page != currentPage) {
+    //     currentPage = page;
+    //   }
+    // });
   }
 }
