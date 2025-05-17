@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/comment_input.dart';
 
-class InteractBar extends StatefulWidget {
-  InteractBar({super.key, required this.controller});
+class OtherInteractBar extends StatefulWidget {
+  OtherInteractBar({super.key, required this.controller});
   late TextEditingController controller;
   @override
-  State<InteractBar> createState() => _InteractBarState();
+  State<OtherInteractBar> createState() => _OtherInteractBarState();
 }
 
-class _InteractBarState extends State<InteractBar> {
+class _OtherInteractBarState extends State<OtherInteractBar> {
   var isCommentBarOpen = false;
   final Widget loveIc = SvgPicture.asset(
     'assets/love_ic.svg',

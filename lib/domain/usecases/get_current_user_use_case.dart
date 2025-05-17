@@ -7,14 +7,14 @@ import '../../set_up_sl.dart';
 import '../repository/auth_repository.dart';
 
 class GetCurrentUserUseCase implements UseCase<UserEntity, dynamic> {
-  UserEntity? user;
+  UserEntity? _user;
   @override
   Future<UserEntity> call({param}) async {
-    if(user == null) {
-      user = await sl<AuthRepository>().getCurrentUser();
-      return user!;
+    if(_user == null) {
+      _user = await sl<AuthRepository>().getCurrentUser();
+      return _user!;
     } else {
-      return user!;
+      return _user!;
     }
   }
 }

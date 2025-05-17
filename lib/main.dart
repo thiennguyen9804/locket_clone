@@ -34,7 +34,6 @@ void runMain() async {
   await setUpLocalDb();
   await setUpSl();
   await setUpFcm();
-  // await resetTables();
   runApp(const MyApp());
 }
 
