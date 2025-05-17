@@ -4,14 +4,11 @@ class NewsFeedInfoUi {
   // int pageNumber = 0;
   final numberOfPostsPerRequest = 1;
   List<PostEntity> posts = [];
-  bool isLastPage = false;
+  // bool isLastPage = false;
   // final int nextPageTrigger = 1;
   // late int totalPosts;
   bool endReached = false;
-  bool isLoading = false;
+  // bool isLoading = false;
 
-  @override
-  String toString() {
-    return 'NewsFeedInfo{pageNumber: $pageNumber, numberOfPostsPerRequest: $numberOfPostsPerRequest, posts: $posts, isLastPage: $isLastPage, nextPageTrigger: $nextPageTrigger}';
-  }
+  
 }

@@ -7,17 +7,17 @@ import 'package:locket_clone/presentation/data/news_feed_info_ui.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_state.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
-class NewsfeedCubit extends Cubit<NewsfeedState> {
+class NewsfeedCubit extends Cubit<NewsFeedInfoUi> {
   NewsFeedInfoUi _info = NewsFeedInfoUi();
   DateTime? _cursor;
-  void resetNewsFeedInRam() {
-    print('reset newsfeed in ram');
-    _info = NewsFeedInfoUi();
-    emit(NewsfeedLoaded(newsfeedInfo: _info));
-    _cursor = null;
-  }
+  // void resetNewsFeedInRam() {
+  //   print('reset newsfeed in ram');
+  //   _info = NewsFeedInfoUi();
+  //   emit(NewsfeedLoaded(newsfeedInfo: _info));
+  //   _cursor = null;
+  // }
 
-  NewsfeedCubit() : super(NewsfeedInit());
+  NewsfeedCubit() : super(NewsFeedInfoUi());
 
   // void loadPosts() async {
     
@@ -42,6 +42,20 @@ class NewsfeedCubit extends Cubit<NewsfeedState> {
   //   );
   // }
 
+  void loadPosts() async {
+    final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
+      size: _info.numberOfPostsPerRequest,
+      cursorCreatedAt: _cursor,
+    );
+    if(results.posts.isNotEmpty) {
+      _cursor = results.posts.last.createdAt;
+    }
+    emit(_info
+      ..endReached = results.posts.isEmpty
+      ..posts.addAll(results.posts)
+    );
+  }
 
-  
+
+
 }

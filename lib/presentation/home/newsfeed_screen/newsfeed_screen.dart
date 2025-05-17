@@ -1,4 +1,3 @@
-import 'package:enhanced_paginated_view/enhanced_paginated_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locket_clone/common/widgets/button/share_btn.dart';
@@ -30,6 +29,8 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   int? _currentPage;
   PostEntity? currentPost;
   bool _initialized = false;
+  final _helperIst = TransitionHelper();
+
   final log = Logger('NewsfeedScreen');
 
   Widget backToCamBtn({Color outColor = _outColor, Color inColor = _inColor}) {
@@ -73,57 +74,27 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (!_initialized) {
-      _initialized = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _onPostAppeared(0);
-      });
-    }
+    // if (!_initialized) {
+    //   _initialized = true;
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     _onPostAppeared(0);
+    //   });
+    // }
   }
 
-  void _onPostAppeared(int index) {
-    debugPrint('Sub page $index appeared!');
-    final state = context.read<NewsfeedCubit>().state;
-    if (state is NewsfeedLoaded) {
-      if (index < state.newsfeedInfo.posts.length) {
-        final post = state.newsfeedInfo.posts[index];
-        setState(() {
-          currentPost = post;
-        });
-      }
-    }
-  }
+  // void _onPostAppeared(int index) {
+  //   debugPrint('Sub page $index appeared!');
+  //   final state = context.read<NewsfeedCubit>().state;
+  //   if (state is NewsfeedLoaded) {
+  //     if (index < state.newsfeedInfo.posts.length) {
+  //       final post = state.newsfeedInfo.posts[index];
+  //       setState(() {
+  //         currentPost = post;
+  //       });
+  //     }
+  //   }
+  // }
 
-  final _helperIst = TransitionHelper();
-  List<PostEntity> initList = [];
-  bool isLoading = false;
-  final maxItems = 30;
-  bool isMaxReached = false;
-
-  Future<void> loadMore(int page) async {
-    // here we simulate that the list reached the end
-    // and we set the isMaxReached to true to stop
-    // the loading widget from showing
-    DateTime? _cursor;
-    final NewsfeedEntity results = await sl<PostRepository>().getAllPosts(
-      size: 1,
-      cursorCreatedAt: _cursor,
-    );
-
-    debugPrint(results.posts.length.toString());
-    if(results.posts.isEmpty) {
-      setState(() {
-        isMaxReached = true;
-      });
-    }
-    _cursor = results.posts.last.createdAt;
-
-    setState(() => isLoading = true);
-    setState(() {
-      initList.addAll(results.posts);
-      isLoading = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,9 +107,9 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
             builder: (context) {
               return NotificationListener(
                 onNotification: _helperIst.notificationHandler,
-                child: BlocBuilder<NewsfeedCubit, NewsfeedState>(
+                child: BlocBuilder<NewsfeedCubit, NewsFeedInfoUi>(
                   builder: (context, state) {
-                    if (state is NewsfeedInit) {
+                    if (state.posts.isEmpty) {
                       return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -164,54 +135,56 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                     }
                     // if (state is NewsfeedLoaded) {
                     //   var info = state.newsfeedInfo;
-                    //   return PageView.builder(
-                    //     physics: ClampingScrollPhysics(),
-                    //     controller: _helperIst.newsfeedController,
-                    //     scrollDirection: Axis.vertical,
-                    //     onPageChanged: _onPostAppeared,
-                    //     itemCount:
-                    //         info.posts.length + (info.isLastPage ? 0 : 1),
-                    //     // info.posts.length,
-                    //     itemBuilder: (context, index) {
-                    //       if (index ==
-                    //           info.posts.length - info.nextPageTrigger) {
-                    //         if (mounted) {
-                    //           context.read<NewsfeedCubit>().loadPosts();
-                    //         }
-                    //       }
-                    //       return Padding(
-                    //         padding: EdgeInsets.only(top: height + 100),
-                    //         child: PostWidget(postEntity: info.posts[index]),
-                    //       );
-                    //     },
-                    //   );
+                      return PageView.builder(
+                        physics: ClampingScrollPhysics(),
+                        controller: _helperIst.newsfeedController,
+                        scrollDirection: Axis.vertical,
+                        itemCount: state.posts.length + (state.endReached ? 0 : 1),
+                        // info.posts.length,
+                        itemBuilder: (context, index) {
+                          // if (index ==
+                          //     info.posts.length - info.nextPageTrigger) {
+                          //   if (mounted) {
+                          //     context.read<NewsfeedCubit>().loadPosts();
+                          //   }
+                          // }
+                          var itemCount = state.posts.length;
+                          if(index >= itemCount - 1 && !state.endReached) {
+                            context.read<NewsfeedCubit>().loadPosts();
+                          }
+                          return Padding(
+                            padding: EdgeInsets.only(top: height + 100),
+                            child: PostWidget(postEntity: state.posts[index]),
+                          );
+                        },
+                      );
                     // }
-                    EnhancedPaginatedView<PostEntity>(
-                      builder: (postList, _, _, _) {
-                        return ListView.builder(
-                          itemCount: postList.length,
-                          physics: ClampingScrollPhysics(),
-                          controller: _helperIst.newsfeedController,
-                          scrollDirection: Axis.vertical,
-                          // onPageChanged: _onPostAppeared,
+                  //   EnhancedPaginatedView<PostEntity>(
+                  //     builder: (postList, _, _, _) {
+                  //       return ListView.builder(
+                  //         itemCount: postList.length,
+                  //         physics: ClampingScrollPhysics(),
+                  //         controller: _helperIst.newsfeedController,
+                  //         scrollDirection: Axis.vertical,
+                  //         // onPageChanged: _onPostAppeared,
 
-                          // info.posts.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: height + 100),
-                              child: PostWidget(postEntity: postList[index]),
-                            );
-                          },
-                        );
-                      },
-                      itemsPerPage: 1,
-                      onLoadMore: loadMore,
-                      hasReachedMax: isMaxReached,
-                      delegate: EnhancedDelegate(
-                        listOfData: initList,
-                        status: EnhancedStatus.loaded,
-                      ),
-                    );
+                  //         // info.posts.length,
+                  //         itemBuilder: (context, index) {
+                  //           return Padding(
+                  //             padding: EdgeInsets.only(top: height + 100),
+                  //             child: PostWidget(postEntity: postList[index]),
+                  //           );
+                  //         },
+                  //       );
+                  //     },
+                  //     itemsPerPage: 1,
+                  //     onLoadMore: loadMore,
+                  //     hasReachedMax: isMaxReached,
+                  //     delegate: EnhancedDelegate(
+                  //       listOfData: initList,
+                  //       status: EnhancedStatus.loaded,
+                  //     ),
+                  //   );
                     return Container();
                   },
                 ),
@@ -230,17 +203,19 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    BlocBuilder<NewsfeedCubit, NewsfeedState>(
+                    BlocBuilder<NewsfeedCubit, NewsFeedInfoUi>(
                       builder: (context, state) {
-                        switch (state) {
-                          case NewsfeedLoaded():
-                            if (state.newsfeedInfo.posts.isNotEmpty) {
-                              return interactBar();
-                            }
-                            return Container();
-                          default:
-                            return Container();
-                        }
+                        // switch (state) {
+                        //   case NewsfeedLoaded():
+                        //     if (state.newsfeedInfo.posts.isNotEmpty) {
+                        //       return interactBar();
+                        //     }
+                        //     return Container();
+                        //   default:
+                        //     return Container();
+                        // }
+
+                        return interactBar();
                       },
                     ),
                     SizedBox(height: 10),

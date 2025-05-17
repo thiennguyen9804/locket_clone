@@ -91,7 +91,7 @@ class _CameraScreenState extends State<CameraScreen> {
       final page = transHelper.mainController.page?.round() ?? 0;
       if (page != _currentPage) {
         _currentPage = page;
-        context.read<NewsfeedCubit>().resetNewsFeedInRam();
+        // context.read<NewsfeedCubit>().resetNewsFeedInRam();
       }
     });
   }
@@ -125,7 +125,7 @@ class _CameraScreenState extends State<CameraScreen> {
                 ),
           ),
           BlocProvider(
-            create: (context) => NewsfeedCubit()..resetNewsFeedInRam(),
+            create: (context) => NewsfeedCubit()
           ),
         ],
         child: BlocConsumer<UploadImgCubit, UploadImgState>(
