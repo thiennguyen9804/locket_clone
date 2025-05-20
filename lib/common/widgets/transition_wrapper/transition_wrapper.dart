@@ -9,6 +9,7 @@ import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart'
 import 'package:locket_clone/presentation/home/friend_screen/friend_screen.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.dart';
+import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart';
 
 import '../../../core/configs/theme/app_theme.dart';
@@ -107,6 +108,10 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
     );
   }
 
+  void commentHandler() {
+    debugPrint('comment: ${commentController.text}');
+  }
+
   Widget _friendBtn(VoidCallback onPress) {
     return ElevatedButton(
       onPressed: openFriendScreen,
@@ -189,15 +194,23 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
                       radius: 1,
                     ),
                   ),
-                  child: PageView(
-                    // physics: const ClampingScrollPhysics(),
-                    physics: currentScrollPhysics,
-                    controller: _helperIst.mainController,
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      CameraScreen(),
-                      NewsfeedScreen(controller: commentController),
-                    ],
+                  child: NewsfeedScreenRoot(
+                    commentController: commentController,
+                          commentHandler: commentHandler,
+                    child: PageView(
+                      // physics: const ClampingScrollPhysics(),
+                      physics: currentScrollPhysics,
+                      controller: _helperIst.mainController,
+                      scrollDirection: Axis.vertical,
+                      children: [
+                        CameraScreen(),
+                        Builder(
+                          builder: (innerContext) {
+                            return NewsfeedScreen();
+                          }
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

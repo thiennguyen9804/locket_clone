@@ -21,8 +21,7 @@ const _outColor = Color(0xffAAC2B3);
 const _inColor = Color(0xffECF4F4);
 
 class NewsfeedScreen extends StatefulWidget {
-  NewsfeedScreen({super.key, required this.controller});
-  late TextEditingController controller;
+  NewsfeedScreen({super.key});
   @override
   State<NewsfeedScreen> createState() => _NewsfeedScreenState();
 }
@@ -56,10 +55,6 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
     );
   }
 
-  Widget interactBar() {
-    debugPrint('currentPost: $currentPost');
-    return OtherInteractBar(controller: widget.controller);
-  }
 
   @override
   void initState() {
@@ -141,11 +136,12 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                         if (index >= itemCount - 1 && !state.endReached) {
                           context.read<NewsfeedCubit>().loadPosts();
                         }
-                        if(itemCount == 0) {
-
+                        if (itemCount == 0) {
                           context.read<InteractBarCubit>().setNoInteractBar();
                         } else {
-                          context.read<InteractBarCubit>().setInteractBar(state.posts[index]);
+                          context.read<InteractBarCubit>().setInteractBar(
+                            state.posts[index],
+                          );
                         }
                         return Padding(
                           padding: EdgeInsets.only(top: height + 100),
@@ -172,18 +168,31 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                   children: [
                     BlocBuilder<InteractBarCubit, InteractBarState>(
                       builder: (context, state) {
-                        switch (state) {
-                          case InteractBarLoading():
-                            return CircularProgressIndicator();
-                          case MyInteractBarState():
-                            return MyInteractBar();
-                          case OthersInteractBarState():
-                            return OtherInteractBar(
-                              controller: widget.controller,
-                            );
-                          case NoInteractBar():
-                            return Container();
-                        }
+                        final width = MediaQuery.of(context).size.width;
+
+                        return AnimatedContainer(
+                          width:
+                              state is MyInteractBarState ? width * 0.6 : width,
+                          duration: const Duration(milliseconds: 400),
+                          child: switch (state) {
+                            InteractBarLoading() => CircularProgressIndicator(),
+                            MyInteractBarState() => MyInteractBar(),
+                            OthersInteractBarState() => OtherInteractBar(),
+                            NoInteractBar() => Container(),
+                          },
+                        );
+                        // switch (state) {
+                        //   case InteractBarLoading():
+                        //     return CircularProgressIndicator();
+                        //   case MyInteractBarState():
+                        //     return MyInteractBar();
+                        //   case OthersInteractBarState():
+                        //     return OtherInteractBar(
+                        //       controller: widget.controller,
+                        //     );
+                        //   case NoInteractBar():
+                        //     return Container();
+                        // }
                       },
                     ),
                     SizedBox(height: 10),

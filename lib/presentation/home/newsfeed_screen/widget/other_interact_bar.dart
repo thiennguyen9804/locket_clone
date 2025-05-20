@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/comment_input.dart';
 
 class OtherInteractBar extends StatefulWidget {
-  OtherInteractBar({super.key, required this.controller});
-  late TextEditingController controller;
+  OtherInteractBar({super.key});
   @override
   State<OtherInteractBar> createState() => _OtherInteractBarState();
 }
@@ -38,10 +38,30 @@ class _OtherInteractBarState extends State<OtherInteractBar> {
   void _showCommentInput(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true, // Cho phép mở bàn phím
-      backgroundColor: Colors.transparent, // Nền trong suốt
-      builder: (context) {
-        return CommentInput(controller: widget.controller,);
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (modalContext) {
+        return Builder(
+          builder: (innerContext) {
+            final root = NewsfeedScreenRoot.maybeOf(innerContext);
+            if (root == null) {
+              return const Center(
+                child: Text(
+                  '⚠️ NewsfeedScreenRoot not found.',
+                  style: TextStyle(color: Colors.white),
+                ),
+              );
+            }
+
+            final controller = root.commentController;
+            final commentHandler = root.commentHandler;
+
+            return CommentInput(
+              commentController: controller,
+              commentHandler: commentHandler,
+            );
+          },
+        );
       },
     );
   }
@@ -64,12 +84,7 @@ class _OtherInteractBarState extends State<OtherInteractBar> {
   Widget emojiBar() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        loveIc,
-        sadIc,
-        fireIc,
-        moreIc,
-      ],
+      children: [loveIc, sadIc, fireIc, moreIc],
     );
   }
 
@@ -82,16 +97,13 @@ class _OtherInteractBarState extends State<OtherInteractBar> {
         decoration: BoxDecoration(
           color: Color(0xffAAC2B3),
           borderRadius: BorderRadius.circular(50),
-          border: Border.all(
-            color: Color(0x8c738F81),
-            width: 1,
-          ),
+          border: Border.all(color: Color(0x8c738F81), width: 1),
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 2),
               blurRadius: 4,
               color: Color(0x92738F81),
-            )
+            ),
           ],
         ),
         child: Padding(

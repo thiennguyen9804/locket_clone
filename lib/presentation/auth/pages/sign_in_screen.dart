@@ -120,6 +120,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return BlocProvider<ButtonCubit>(
       create: (context) => ButtonCubit(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: BlocListener<ButtonCubit, ButtonState>(
           listener: (blocContext, state) {
             if (state is ButtonSuccessState) {

@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 
 class CommentInput extends StatelessWidget {
-  CommentInput({super.key, required this.controller});
-  late TextEditingController controller;
+  final TextEditingController commentController;
+  final VoidCallback commentHandler;
+  const CommentInput({super.key, required this.commentController, required this.commentHandler});
+
+  Widget sendIcon() {
+    return Placeholder();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,11 +31,13 @@ class CommentInput extends StatelessWidget {
             hintText: 'Nhập tin nhắn...',
             hintStyle: TextStyle(color: Colors.white70),
             border: InputBorder.none,
+            suffix: sendIcon()
           ),
-          controller: controller,
-          onSubmitted: (text) {
-            Navigator.pop(context);
-            print('Bạn vừa gửi: $text');
+          
+          controller: commentController,
+          onSubmitted: (_) {
+            // Navigator.pop(context);
+            commentHandler();
           },
         ),
       ),
