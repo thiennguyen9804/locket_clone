@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/comment_input.dart';
+import 'package:locket_clone/presentation/home/singleton/comment_helper.dart';
 
 class OtherInteractBar extends StatefulWidget {
   OtherInteractBar({super.key});
+  final commentHelper = CommentHelper();
   @override
   State<OtherInteractBar> createState() => _OtherInteractBarState();
 }
@@ -36,26 +38,16 @@ class _OtherInteractBarState extends State<OtherInteractBar> {
   );
 
   void _showCommentInput(BuildContext context) {
+    final controller = NewsfeedScreenRoot.of(context).commentController;
+    final commentHandler = NewsfeedScreenRoot.of(context).commentHandler;
+     
     showModalBottomSheet(
       context: context,
-      isScrollControlled: true,
+      // isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (modalContext) {
         return Builder(
           builder: (innerContext) {
-            final root = NewsfeedScreenRoot.maybeOf(innerContext);
-            if (root == null) {
-              return const Center(
-                child: Text(
-                  '⚠️ NewsfeedScreenRoot not found.',
-                  style: TextStyle(color: Colors.white),
-                ),
-              );
-            }
-
-            final controller = root.commentController;
-            final commentHandler = root.commentHandler;
-
             return CommentInput(
               commentController: controller,
               commentHandler: commentHandler,

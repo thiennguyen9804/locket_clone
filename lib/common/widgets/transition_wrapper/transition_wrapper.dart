@@ -194,23 +194,19 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
                       radius: 1,
                     ),
                   ),
-                  child: NewsfeedScreenRoot(
-                    commentController: commentController,
-                          commentHandler: commentHandler,
-                    child: PageView(
-                      // physics: const ClampingScrollPhysics(),
-                      physics: currentScrollPhysics,
-                      controller: _helperIst.mainController,
-                      scrollDirection: Axis.vertical,
-                      children: [
-                        CameraScreen(),
-                        Builder(
-                          builder: (innerContext) {
-                            return NewsfeedScreen();
-                          }
+                  child: PageView(
+                    // physics: const ClampingScrollPhysics(),
+                    physics: currentScrollPhysics,
+                    controller: _helperIst.mainController,
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      CameraScreen(),
+                      NewsfeedScreenRoot(
+                        commentController: commentController,
+                        commentHandler: commentHandler,
+                        child: NewsfeedScreen()
                         ),
-                      ],
-                    ),
+                    ],
                   ),
                 ),
               ),

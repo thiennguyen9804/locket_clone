@@ -169,7 +169,6 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                     BlocBuilder<InteractBarCubit, InteractBarState>(
                       builder: (context, state) {
                         final width = MediaQuery.of(context).size.width;
-
                         return AnimatedContainer(
                           width:
                               state is MyInteractBarState ? width * 0.6 : width,

@@ -4,17 +4,21 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_r
 class CommentInput extends StatelessWidget {
   final TextEditingController commentController;
   final VoidCallback commentHandler;
-  const CommentInput({super.key, required this.commentController, required this.commentHandler});
+  const CommentInput({
+    super.key,
+    required this.commentController,
+    required this.commentHandler,
+  });
 
   Widget sendIcon() {
-    return Placeholder();
+    return Container();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 5,
       ),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 12),
@@ -31,14 +35,10 @@ class CommentInput extends StatelessWidget {
             hintText: 'Nhập tin nhắn...',
             hintStyle: TextStyle(color: Colors.white70),
             border: InputBorder.none,
-            suffix: sendIcon()
+            // suffix: sendIcon(),
           ),
-          
+
           controller: commentController,
-          onSubmitted: (_) {
-            // Navigator.pop(context);
-            commentHandler();
-          },
         ),
       ),
     );
