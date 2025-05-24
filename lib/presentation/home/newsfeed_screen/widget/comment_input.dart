@@ -29,7 +29,13 @@ class _CommentInputState extends State<CommentInput> {
           color: Color(0xff738F81).withAlpha(_canSend ? 255 : 153),
         ),
       ),
-      onPressed: widget.commentHandler,
+      onPressed:
+          _canSend
+              ? () {
+                widget.commentHandler();
+                Navigator.pop(context);
+              }
+              : null,
     );
   }
 

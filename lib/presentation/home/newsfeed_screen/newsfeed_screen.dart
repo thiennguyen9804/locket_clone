@@ -55,7 +55,6 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
     );
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -70,20 +69,20 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
     // _onPostAppeared(0);
   }
 
-  void _onPostAppeared(int index) {
-    final state = context.read<NewsfeedCubit>().state;
-    if (index < state.posts.length + (state.endReached ? 0 : 1)) {
-      final post = state.posts[index];
-      debugPrint('Current post: $post!');
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          setState(() {
-            currentPost = post;
-          });
-        }
-      });
-    }
-  }
+  // void _onPostAppeared(int index) {
+  //   final state = context.read<NewsfeedCubit>().state;
+  //   if (index < state.posts.length + (state.endReached ? 0 : 1)) {
+  //     final post = state.posts[index];
+  //     debugPrint('Current post: $post!');
+  //     WidgetsBinding.instance.addPostFrameCallback((_) {
+  //       if (mounted) {
+  //         setState(() {
+  //           currentPost = post;
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -180,18 +179,6 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                             NoInteractBar() => Container(),
                           },
                         );
-                        // switch (state) {
-                        //   case InteractBarLoading():
-                        //     return CircularProgressIndicator();
-                        //   case MyInteractBarState():
-                        //     return MyInteractBar();
-                        //   case OthersInteractBarState():
-                        //     return OtherInteractBar(
-                        //       controller: widget.controller,
-                        //     );
-                        //   case NoInteractBar():
-                        //     return Container();
-                        // }
                       },
                     ),
                     SizedBox(height: 10),

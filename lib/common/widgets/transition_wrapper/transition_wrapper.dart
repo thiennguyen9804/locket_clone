@@ -24,13 +24,24 @@ class TransitionWrapper extends StatefulWidget {
   State<TransitionWrapper> createState() => _TransitionWrapperState();
 }
 
-class _TransitionWrapperState extends State<TransitionWrapper> {
+class _TransitionWrapperState extends State<TransitionWrapper>
+    with SingleTickerProviderStateMixin {
   ScrollPhysics get currentScrollPhysics =>
       _locked
           ? const NeverScrollableScrollPhysics()
           : const ClampingScrollPhysics();
 
   bool _locked = false;
+  late final AnimationController _controller = AnimationController(
+    duration: const Duration(seconds: 2),
+    vsync: this,
+  );
+
+  late final _animation = Tween<Offset>(
+    begin: Offset(0, 1),
+    end: Offset(0, -1),
+  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
   final commentController = TextEditingController();
 
   final TransitionHelper _helperIst = TransitionHelper();
@@ -137,6 +148,7 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: MultiBlocProvider(
@@ -204,17 +216,34 @@ class _TransitionWrapperState extends State<TransitionWrapper> {
                       NewsfeedScreenRoot(
                         commentController: commentController,
                         commentHandler: commentHandler,
-                        child: NewsfeedScreen()
-                        ),
+                        child: NewsfeedScreen(),
+                      ),
                     ],
                   ),
                 ),
               ),
+              // Indexed(
+              //   child: SlideTransition(
+              //     position: _animation,
+              //     child: Icon(
+              //       Icons.favorite,
+              //       color: Colors.pinkAccent,
+              //       size: 36,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    commentController.dispose();
+    super.dispose();
   }
 
   void openFriendScreen() {

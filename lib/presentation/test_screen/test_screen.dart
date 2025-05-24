@@ -5,6 +5,9 @@ class TestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      color: Colors.white,
+      // child: AnimatedPositioned(child: child, duration: duration),
+    );
   }
 }
