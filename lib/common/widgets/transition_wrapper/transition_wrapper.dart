@@ -33,13 +33,13 @@ class _TransitionWrapperState extends State<TransitionWrapper>
 
   bool _locked = false;
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 2),
+    duration: const Duration(seconds: 3),
     vsync: this,
   );
 
   late final _animation = Tween<Offset>(
-    begin: Offset(0, 1),
-    end: Offset(0, -1),
+    begin: Offset(0, 3),
+    end: Offset(0, -2),
   ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
   final commentController = TextEditingController();
@@ -50,6 +50,7 @@ class _TransitionWrapperState extends State<TransitionWrapper>
     super.initState();
     _helperIst.lock = lock;
     _helperIst.unlock = unlock;
+    _controller.forward();
   }
 
   // Singleton
@@ -222,16 +223,6 @@ class _TransitionWrapperState extends State<TransitionWrapper>
                   ),
                 ),
               ),
-              // Indexed(
-              //   child: SlideTransition(
-              //     position: _animation,
-              //     child: Icon(
-              //       Icons.favorite,
-              //       color: Colors.pinkAccent,
-              //       size: 36,
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

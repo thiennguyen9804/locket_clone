@@ -87,13 +87,13 @@ class _CameraScreenState extends State<CameraScreen> {
   void initState() {
     super.initState();
     _initCamera();
-    transHelper.mainController.addListener(() {
-      final page = transHelper.mainController.page?.round() ?? 0;
-      if (page != _currentPage) {
-        _currentPage = page;
-        // context.read<NewsfeedCubit>().resetNewsFeedInRam();
-      }
-    });
+    // transHelper.mainController.addListener(() {
+    //   final page = transHelper.mainController.page?.round() ?? 0;
+    //   if (page != _currentPage) {
+    //     _currentPage = page;
+    //     // context.read<NewsfeedCubit>().resetNewsFeedInRam();
+    //   }
+    // });
   }
 
   Future<void> _initCamera() async {
@@ -124,9 +124,7 @@ class _CameraScreenState extends State<CameraScreen> {
                   onSendImageSuccess: onSendImageSuccess,
                 ),
           ),
-          BlocProvider(
-            create: (context) => NewsfeedCubit()
-          ),
+          BlocProvider(create: (context) => NewsfeedCubit()),
         ],
         child: BlocConsumer<UploadImgCubit, UploadImgState>(
           listener: (context, state) {
@@ -198,13 +196,12 @@ class _CameraScreenState extends State<CameraScreen> {
       builder: (context) {
         return CaptureBtn(
           onSendImage: () {
-            print('captureBtn pictureFile!.path = {} ${pictureFile!.path}');
-            context.read<UploadImgCubit>().onSendImage(
-              UploadPost(
-                imagePath: pictureFile!.path,
-                caption: captionController.text,
-              )..flip = _isFrontCam(),
-            );
+            final post = UploadPost(
+              imagePath: pictureFile!.path,
+              caption: captionController.text,
+            )..flip = _isFrontCam();
+            // debugPrint('camera lens: ${_isFrontCam()}');
+            context.read<UploadImgCubit>().onSendImage(post);
           },
         );
       },

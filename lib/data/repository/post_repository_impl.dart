@@ -65,7 +65,6 @@ class PostRepositoryImpl implements PostRepository {
     );
 
     if (localData == null) {
-
       AllPostsRes newsfeed = await sl<PostApiService>().loadPosts(
         size,
         cursorCreatedAt,
@@ -77,7 +76,6 @@ class PostRepositoryImpl implements PostRepository {
       return res;
     } else {
       if (localData.totalPostsCurrent == size) {
-
         final posts = await Future.wait(
           localData.posts.map((item) async {
             return await fromLocal(item);
@@ -109,9 +107,9 @@ class PostRepositoryImpl implements PostRepository {
   Future addPost(UploadPost post) async {
     final userDto = sl<AuthLocalService>().getLocalCurrentUser();
     final token = sl<AuthLocalService>().getLocalToken();
-    await sl<UserLocalService>().writeUserToLocal(userDto);
-    final imgPath = await sl<ImageLocalService>().writeImageToLocal(post.flip, post.imagePath);
-
+    // await sl<UserLocalService>().writeUserToLocal(userDto);
+    // final imgPath = await sl<ImageLocalService>().writeImageToLocal(post.flip, post.imagePath);
+    final imgPath = post.imagePath;
 
     final postLocal = PostLocalData(
       id: tempIdGen.gen(),
@@ -122,10 +120,14 @@ class PostRepositoryImpl implements PostRepository {
       createdAt: DateTime.now().toUtc(),
     );
     // await sl<PostLocalService>().writePostToLocal(postLocal);
-    final newPost = post.copyWith(imagePath: imgPath);
+    final newPost = post.copyWith(imagePath: imgPath)..flip = post.flip;
     try {
-      await sl<PostApiService>().addPost(user: userDto, token: token, post: newPost,);
-      await sl<ImageLocalService>().deleteImageLocal(imgPath);
+      await sl<PostApiService>().addPost(
+        user: userDto,
+        token: token,
+        post: newPost,
+      );
+      // await sl<ImageLocalService>().deleteImageLocal(imgPath);
     } on DioException catch (e) {
       // await sl<PostLocalService>().deleteLocalPostById(postLocal.id);
     } catch (e) {
