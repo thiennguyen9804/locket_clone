@@ -5,11 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
 import 'package:locket_clone/common/bloc/button/upload_img_cubit.dart';
 
-class TakenImage extends StatelessWidget {
+class LegacyTakenImage extends StatelessWidget {
   final File imageFile;
   final bool xFlip;
   final TextEditingController controller;
-  const TakenImage({
+  const LegacyTakenImage({
     super.key,
     required this.imageFile,
     required this.xFlip,

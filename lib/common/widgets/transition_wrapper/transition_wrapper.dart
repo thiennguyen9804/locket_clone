@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indexed/indexed.dart';
 import 'package:locket_clone/common/widgets/anim_pressable.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
-import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
+import 'package:locket_clone/presentation/home/camera_screen/legacy_camera_screen.dart';
 import 'package:locket_clone/presentation/home/friend_screen/friend_screen.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.dart';
@@ -213,7 +213,7 @@ class _TransitionWrapperState extends State<TransitionWrapper>
                     controller: _helperIst.mainController,
                     scrollDirection: Axis.vertical,
                     children: [
-                      CameraScreen(),
+                      LegacyCameraScreen(),
                       NewsfeedScreenRoot(
                         commentController: commentController,
                         commentHandler: commentHandler,

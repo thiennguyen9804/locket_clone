@@ -25,7 +25,7 @@ import 'package:locket_clone/domain/entities/newsfeed_entity.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:locket_clone/domain/repository/user_repository.dart';
-import 'package:locket_clone/presentation/data/upload_post.dart';
+import 'package:locket_clone/presentation/data/captured_image_data.dart';
 import 'package:image/image.dart' as img;
 import 'package:locket_clone/set_up_fcm.dart';
 
@@ -104,7 +104,7 @@ class PostRepositoryImpl implements PostRepository {
   }
 
   @override
-  Future addPost(UploadPost post) async {
+  Future addPost(CapturedImageData post) async {
     final userDto = sl<AuthLocalService>().getLocalCurrentUser();
     final token = sl<AuthLocalService>().getLocalToken();
     // await sl<UserLocalService>().writeUserToLocal(userDto);
@@ -120,7 +120,7 @@ class PostRepositoryImpl implements PostRepository {
       createdAt: DateTime.now().toUtc(),
     );
     // await sl<PostLocalService>().writePostToLocal(postLocal);
-    final newPost = post.copyWith(imagePath: imgPath)..flip = post.flip;
+    final newPost = post.copyWith(imagePath: imgPath, xFlip: post.xFlip);
     try {
       await sl<PostApiService>().addPost(
         user: userDto,

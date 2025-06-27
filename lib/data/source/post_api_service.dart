@@ -6,7 +6,7 @@ import 'package:locket_clone/data/model/all_posts_res.dart';
 import 'package:locket_clone/data/model/post_dto/post_dto.dart';
 import 'package:locket_clone/data/model/user_dto/user_dto.dart';
 import 'package:locket_clone/data/source/auth_local_service.dart';
-import 'package:locket_clone/presentation/data/upload_post.dart';
+import 'package:locket_clone/presentation/data/captured_image_data.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
 abstract class PostApiService {
@@ -16,7 +16,7 @@ abstract class PostApiService {
   Future addPost({
     required UserDto user,
     required String token,
-    required UploadPost post,
+    required CapturedImageData post,
     // required DateTime createdAt,
   });
 }
@@ -56,7 +56,7 @@ class PostApiServiceImpl implements PostApiService {
   Future addPost({
     required UserDto user,
     required String token,
-    required UploadPost post,
+    required CapturedImageData post,
     // required DateTime createdAt,
   }) async {
     final file = await MultipartFile.fromFile(post.imagePath);
@@ -70,7 +70,7 @@ class PostApiServiceImpl implements PostApiService {
       NetworkConstant.POSTS,
       queryParameters: {
         'caption': post.caption,
-        'flip': post.flip,
+        'flip': post.xFlip,
         // 'createdAt': createdAt.toUtc(),
       },
       data: formData,

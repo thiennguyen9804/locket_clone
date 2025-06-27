@@ -5,7 +5,7 @@ import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrappe
 import 'package:locket_clone/data/model/sign_in_req/sign_in_req.dart';
 import 'package:locket_clone/domain/usecases/sign_in_use_case.dart';
 import 'package:locket_clone/presentation/auth/pages/sign_up_screen.dart';
-import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
+import 'package:locket_clone/presentation/home/camera_screen/legacy_camera_screen.dart';
 
 import '../../../common/bloc/button/button_cubit.dart';
 import '../../../common/utils/custom_navigate.dart';
@@ -21,24 +21,20 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final _textStyle = TextStyle(letterSpacing: 1.3, color: textColor, fontSize: 12,);
+  final _textStyle = TextStyle(
+    letterSpacing: 1.3,
+    color: textColor,
+    fontSize: 12,
+  );
   final _formKey = GlobalKey<FormState>(); // Quản lý form
   final _textFieldDecoration = InputDecoration(
     border: const OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0xff828282),
-      ),
-      borderRadius: BorderRadius.all(
-        Radius.circular(50),
-      ),
+      borderSide: BorderSide(color: Color(0xff828282)),
+      borderRadius: BorderRadius.all(Radius.circular(50)),
     ),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: textColor,
-      ),
-      borderRadius: const BorderRadius.all(
-        Radius.circular(50),
-      ),
+      borderSide: BorderSide(color: textColor),
+      borderRadius: const BorderRadius.all(Radius.circular(50)),
     ),
     contentPadding: EdgeInsets.only(left: 28),
     hintText: 'Email',
@@ -59,7 +55,9 @@ class _SignInScreenState extends State<SignInScreen> {
       controller: _loginCon,
       cursorColor: Color(0xff828282),
       style: _textStyle,
-      decoration: _textFieldDecoration.copyWith(hintText: 'Number Phone/Email Address'),
+      decoration: _textFieldDecoration.copyWith(
+        hintText: 'Number Phone/Email Address',
+      ),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your email or phone number';
@@ -95,7 +93,6 @@ class _SignInScreenState extends State<SignInScreen> {
           },
         ),
       ),
-
     );
   }
 
@@ -107,10 +104,7 @@ class _SignInScreenState extends State<SignInScreen> {
           onChanged: (value) {},
           activeColor: Color(0xff738F81),
         ),
-        Text(
-          'Remember me',
-          style: TextStyle(color: Color(0xff738F81)),
-        ),
+        Text('Remember me', style: TextStyle(color: Color(0xff738F81))),
       ],
     );
   }
@@ -132,18 +126,14 @@ class _SignInScreenState extends State<SignInScreen> {
               );
             }
             if (state is ButtonFailureState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage),
-                ),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
             }
           },
           child: Container(
             padding: const EdgeInsets.only(bottom: 31),
-            decoration: BoxDecoration(
-              color: Color(0xffD0E2DE),
-            ),
+            decoration: BoxDecoration(color: Color(0xffD0E2DE)),
             child: Column(
               children: [
                 Spacer(),
@@ -167,13 +157,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: Column(
                         children: [
                           _loginField(),
-                          SizedBox(
-                            height: 23,
-                          ),
+                          SizedBox(height: 23),
                           _passwordField(),
-                          SizedBox(
-                            height: 12,
-                          ),
+                          SizedBox(height: 12),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -190,9 +176,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 18,
-                ),
+                SizedBox(height: 18),
                 Padding(
                   padding: const EdgeInsets.only(right: 25),
                   child: Row(
@@ -202,9 +186,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       OutlinedButton(
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.white,
-                          side: BorderSide(
-                            color: Colors.white,
-                          ),
+                          side: BorderSide(color: Colors.white),
                         ),
                         onPressed: () {},
                         child: Text('Cancel'),
@@ -228,7 +210,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           }
                           return ElevatedButton(
                             onPressed: () {
-                              if(_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 context.read<ButtonCubit>().execute(
                                   usecase: SignInUseCase(),
                                   params: SignInReq(
@@ -263,7 +245,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -273,7 +255,4 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-
-
-
 }
