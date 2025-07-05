@@ -176,7 +176,7 @@ class _LegacyCameraScreenState extends State<LegacyCameraScreen> {
           Spacer(),
           Opacity(
             opacity: isCameraScreenActive ? 1 : 0,
-            child: ChangeCamBtn(
+            child: ChangeCamButton(
               onTap: isCameraScreenActive ? _changeCam : () {},
             ),
           ),

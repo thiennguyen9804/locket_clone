@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indexed/indexed.dart';
 import 'package:locket_clone/common/widgets/anim_pressable.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
+import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
 import 'package:locket_clone/presentation/home/camera_screen/legacy_camera_screen.dart';
 import 'package:locket_clone/presentation/home/friend_screen/friend_screen.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
@@ -32,15 +33,6 @@ class _TransitionWrapperState extends State<TransitionWrapper>
           : const ClampingScrollPhysics();
 
   bool _locked = false;
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 3),
-    vsync: this,
-  );
-
-  late final _animation = Tween<Offset>(
-    begin: Offset(0, 3),
-    end: Offset(0, -2),
-  ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
   final commentController = TextEditingController();
 
@@ -50,7 +42,6 @@ class _TransitionWrapperState extends State<TransitionWrapper>
     super.initState();
     _helperIst.lock = lock;
     _helperIst.unlock = unlock;
-    _controller.forward();
   }
 
   // Singleton
@@ -213,7 +204,8 @@ class _TransitionWrapperState extends State<TransitionWrapper>
                     controller: _helperIst.mainController,
                     scrollDirection: Axis.vertical,
                     children: [
-                      LegacyCameraScreen(),
+                      CameraScreen(),
+                      // LegacyCameraScreen(),
                       NewsfeedScreenRoot(
                         commentController: commentController,
                         commentHandler: commentHandler,

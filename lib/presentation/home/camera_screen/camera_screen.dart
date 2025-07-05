@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/common/screen/base_layout_screen.dart';
 import 'package:locket_clone/common/widgets/button/capture_btn.dart';
+import 'package:locket_clone/common/widgets/button/change_cam_btn.dart';
 import 'package:locket_clone/common/widgets/button/circular_icon_button.dart';
 import 'package:locket_clone/core/extension/context_extensions.dart';
 import 'package:locket_clone/presentation/home/camera_screen/image_preview_screen.dart';
@@ -51,6 +52,9 @@ class _CameraScreenState extends BaseLayoutScreenState {
       cameraDescription,
       ResolutionPreset.max,
     );
+
+    _initializeControllerFuture = _cameraController.initialize();
+    setState(() {});
   }
 
   @override
@@ -65,9 +69,13 @@ class _CameraScreenState extends BaseLayoutScreenState {
       future: _initializeControllerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          setState(() {
-            super.frameHeight =
-                context.screenWidth * _cameraController.value.aspectRatio;
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() {
+                super.frameHeight =
+                    context.screenWidth * _cameraController.value.aspectRatio;
+              });
+            }
           });
           return CameraPreview(_cameraController);
         }
@@ -80,9 +88,15 @@ class _CameraScreenState extends BaseLayoutScreenState {
   }
 
   @override
-  Widget leftButton() {
-    // TODO: implement leftButton
-    throw UnimplementedError();
+  Widget rightButton() {
+    const changeCamName = 'assets/change_camera_ic.svg';
+    final Widget changeCamIc = SvgPicture.asset(
+      changeCamName,
+      semanticsLabel: 'Flash on',
+      width: 38,
+      height: 38,
+    );
+    return changeCamIc;
   }
 
   @override
@@ -95,14 +109,33 @@ class _CameraScreenState extends BaseLayoutScreenState {
   }
 
   @override
-  Widget? rightButton() {
-    // TODO: implement rightButton
-    throw UnimplementedError();
+  Widget leftButton() {
+    const flashOffName = 'assets/flash_off_ic.svg';
+    const flashOnName = 'assets/flash_on_ic.svg';
+    final Widget flashOffIc = SvgPicture.asset(
+      flashOffName,
+      semanticsLabel: 'Flash off',
+    );
+
+    final Widget flashOnIc = SvgPicture.asset(
+      flashOnName,
+      semanticsLabel: 'Flash on',
+      width: 38,
+      height: 38,
+    );
+    final icon =
+        _cameraController.value.flashMode == FlashMode.torch
+            ? flashOnIc
+            : flashOffIc;
+
+    return icon;
   }
 
   @override
-  void onLeftButtonTap() {
-    // TODO: implement onLeftButtonTap
+  void onRightButtonTap() {
+    _selectedCameraIndex++;
+    _selectedCameraIndex %= _cameras.length;
+    _cameraController.setDescription(_cameras[_selectedCameraIndex]);
   }
 
   @override
@@ -114,9 +147,7 @@ class _CameraScreenState extends BaseLayoutScreenState {
     capturedImageDataBuilder.setImagePath(file.path).setXFlip(xFlip);
     _cameraController.takePicture().then((file) {
       final xFlip = _isUsingFrontCamera();
-
       capturedImageDataBuilder.setImagePath(file.path).setXFlip(xFlip);
-
       if (mounted) {
         navigator.push(
           MaterialPageRoute(
@@ -125,5 +156,13 @@ class _CameraScreenState extends BaseLayoutScreenState {
         );
       }
     });
+  }
+
+  @override
+  void onLeftButtonTap() async {
+    final current = _cameraController.value.flashMode;
+    final next = current == FlashMode.off ? FlashMode.torch : FlashMode.off;
+    await _cameraController.setFlashMode(next);
+    setState(() {});
   }
 }

@@ -16,18 +16,23 @@ abstract class BaseLayoutScreenState extends State<BaseLayoutScreen> {
   @nonVirtual
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: context.screenHeight,
-      child: Column(
-        children: [
-          LocketFramedBox(
-            height: frameHeight ?? context.screenWidth,
-            width: context.screenWidth,
-            child: buildFramedContent(context),
-          ),
-          const Spacer(),
-          buildControlBar(),
-        ],
+    return Padding(
+      padding: EdgeInsets.only(top: 100),
+      child: SizedBox(
+        height: context.screenHeight,
+        child: Column(
+          children: [
+            LocketFramedBox(
+              height: frameHeight ?? context.screenWidth,
+              width: context.screenWidth,
+              child: buildFramedContent(context),
+            ),
+            const Spacer(),
+            buildControlBar(),
+
+            SizedBox(height: 80),
+          ],
+        ),
       ),
     );
   }
