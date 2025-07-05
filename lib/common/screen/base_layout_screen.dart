@@ -78,7 +78,9 @@ abstract class BaseLayoutScreenState extends State<BaseLayoutScreen> {
   Widget mainButton();
 
   @protected
-  Widget? rightButton();
+  Widget? rightButton() {
+    return null;
+  }
 
   /// Optional overrides for tap logic
   @protected

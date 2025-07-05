@@ -140,7 +140,6 @@ class _TransitionWrapperState extends State<TransitionWrapper>
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: MultiBlocProvider(

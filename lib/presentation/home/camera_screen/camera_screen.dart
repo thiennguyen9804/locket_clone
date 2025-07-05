@@ -69,14 +69,8 @@ class _CameraScreenState extends BaseLayoutScreenState {
       future: _initializeControllerFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              setState(() {
-                super.frameHeight =
-                    context.screenWidth * _cameraController.value.aspectRatio;
-              });
-            }
-          });
+          super.frameHeight =
+              context.screenWidth * _cameraController.value.aspectRatio;
           return CameraPreview(_cameraController);
         }
 
@@ -132,30 +126,26 @@ class _CameraScreenState extends BaseLayoutScreenState {
   }
 
   @override
-  void onRightButtonTap() {
-    _selectedCameraIndex++;
-    _selectedCameraIndex %= _cameras.length;
-    _cameraController.setDescription(_cameras[_selectedCameraIndex]);
+  void onRightButtonTap() async {
+    _selectedCameraIndex = (_selectedCameraIndex + 1) % _cameras.length;
+    await _cameraController.dispose();
+    await _initializeCamera(_cameras[_selectedCameraIndex]);
   }
 
   @override
   void onMainButtonTap() async {
+    debugPrint('📸 takePicture called');
     final navigator = Navigator.of(context);
     final file = await _cameraController.takePicture();
     final xFlip = _isUsingFrontCamera();
     final capturedImageDataBuilder = CapturedImageDataBuilder();
     capturedImageDataBuilder.setImagePath(file.path).setXFlip(xFlip);
-    _cameraController.takePicture().then((file) {
-      final xFlip = _isUsingFrontCamera();
-      capturedImageDataBuilder.setImagePath(file.path).setXFlip(xFlip);
-      if (mounted) {
-        navigator.push(
-          MaterialPageRoute(
-            builder: (context) => ImagePreviewScreen(capturedImageDataBuilder),
-          ),
-        );
-      }
-    });
+
+    navigator.push(
+      MaterialPageRoute(
+        builder: (context) => ImagePreviewScreenRoot(capturedImageDataBuilder),
+      ),
+    );
   }
 
   @override
@@ -164,5 +154,11 @@ class _CameraScreenState extends BaseLayoutScreenState {
     final next = current == FlashMode.off ? FlashMode.torch : FlashMode.off;
     await _cameraController.setFlashMode(next);
     setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _cameraController.dispose();
+    super.dispose();
   }
 }
