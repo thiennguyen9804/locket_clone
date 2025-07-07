@@ -1,3 +1,4 @@
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/widgets.dart';
 
 class NewsfeedScreenRoot extends InheritedWidget {
@@ -6,10 +7,13 @@ class NewsfeedScreenRoot extends InheritedWidget {
     required this.child,
     required this.commentController,
     required this.commentHandler,
+    required this.emojiSelectedHandler,
   }) : super(child: child);
   final Widget child;
   final TextEditingController commentController;
   final VoidCallback commentHandler;
+
+  final Function(Emoji) emojiSelectedHandler;
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {

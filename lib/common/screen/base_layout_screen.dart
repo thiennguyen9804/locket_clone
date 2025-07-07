@@ -17,7 +17,7 @@ abstract class BaseLayoutScreenState extends State<BaseLayoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: 100),
+      padding: EdgeInsets.only(top: 132),
       child: SizedBox(
         height: context.screenHeight,
         child: Column(

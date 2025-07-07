@@ -14,4 +14,5 @@ abstract class PostRepository {
   Future addPost(CapturedImageData post);
   Future writePostToLocal(PostEntity post);
   Future resetTable();
+  Future react({required int postId, required String emoji});
 }

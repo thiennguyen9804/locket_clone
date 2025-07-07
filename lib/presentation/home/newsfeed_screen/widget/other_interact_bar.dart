@@ -1,3 +1,5 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
@@ -40,7 +42,7 @@ class _OtherInteractBarState extends State<OtherInteractBar> {
   void _showCommentInput(BuildContext context) {
     final controller = NewsfeedScreenRoot.of(context).commentController;
     final commentHandler = NewsfeedScreenRoot.of(context).commentHandler;
-     
+
     showModalBottomSheet(
       context: context,
       // isScrollControlled: true,
@@ -73,10 +75,47 @@ class _OtherInteractBarState extends State<OtherInteractBar> {
     );
   }
 
+  void _showEmojiPickerBottomSheet() {
+    final emojiSelectedHandler =
+        NewsfeedScreenRoot.of(context).emojiSelectedHandler;
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return DraggableScrollableSheet(
+          expand: false,
+          initialChildSize: 0.4,
+          minChildSize: 0.2,
+          maxChildSize: 0.6,
+          builder:
+              (_, controller) => Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                ),
+                child: EmojiPicker(
+                  onEmojiSelected: (_, emoji) {
+                    emojiSelectedHandler(emoji);
+                    context.router.pop();
+                  },
+                  config: Config(
+                    emojiViewConfig: EmojiViewConfig(emojiSizeMax: 32),
+                  ),
+                ),
+              ),
+        );
+      },
+    );
+  }
+
   Widget emojiBar() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [loveIc, sadIc, fireIc, moreIc],
+    return GestureDetector(
+      onTap: _showEmojiPickerBottomSheet,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [loveIc, sadIc, fireIc, moreIc],
+      ),
     );
   }
 

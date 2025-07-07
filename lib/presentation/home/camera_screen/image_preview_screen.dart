@@ -7,6 +7,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/common/screen/base_layout_screen.dart';
 import 'package:locket_clone/presentation/data/captured_image_data.dart';
 
+import '../../../common/widgets/button/circular_icon_button.dart';
+
 @RoutePage()
 class ImagePreviewScreen extends BaseLayoutScreen {
   final CapturedImageDataBuilder capturedImageDataBuilder;
@@ -17,6 +19,8 @@ class ImagePreviewScreen extends BaseLayoutScreen {
 }
 
 class _ImagePreviewScreenState extends BaseLayoutScreenState {
+  static const Color _outerCircleColor = Color(0xffAAC2B3);
+  static const Color _innerCircleColor = Color(0xffECF4F4);
   final controller = TextEditingController();
   @override
   Widget buildFramedContent(BuildContext context) {
@@ -92,7 +96,11 @@ class _ImagePreviewScreenState extends BaseLayoutScreenState {
 
     final icon = sendBtnIc;
 
-    return icon;
+    return CircularIconButton(
+      outerColor: _outerCircleColor,
+      innerColor: _innerCircleColor,
+      child: SvgPicture.asset(path, semanticsLabel: ''),
+    );
   }
 
   @override

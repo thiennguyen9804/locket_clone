@@ -149,4 +149,9 @@ class PostRepositoryImpl implements PostRepository {
   Future resetTable() async {
     await sl<PostLocalService>().resetTable();
   }
+
+  @override
+  Future react({required int postId, required String emoji}) async {
+    await sl<PostApiService>().react(postId: postId, emoji: emoji);
+  }
 }

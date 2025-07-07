@@ -3,17 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locket_clone/common/widgets/button/share_btn.dart';
 import 'package:locket_clone/common/widgets/button/widget_btn.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
-import 'package:locket_clone/domain/entities/newsfeed_entity.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
-import 'package:locket_clone/domain/repository/post_repository.dart';
 import 'package:locket_clone/presentation/data/news_feed_info_ui.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/interact_bar_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
-import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_state.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/my_interact_bar.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/other_interact_bar.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/post_widget.dart';
-import 'package:locket_clone/set_up_sl.dart';
 
 import 'package:logging/logging.dart';
 
@@ -27,9 +23,7 @@ class NewsfeedScreen extends StatefulWidget {
 }
 
 class _NewsfeedScreenState extends State<NewsfeedScreen> {
-  int? _currentPage;
   PostEntity? currentPost;
-  bool _initialized = false;
   final _helperIst = TransitionHelper();
 
   final log = Logger('NewsfeedScreen');

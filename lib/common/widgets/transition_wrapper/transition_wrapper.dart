@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:emoji_picker_flutter/src/emoji.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indexed/indexed.dart';
 import 'package:locket_clone/common/widgets/anim_pressable.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
+import 'package:locket_clone/domain/repository/post_repository.dart';
 import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
 import 'package:locket_clone/presentation/home/camera_screen/legacy_camera_screen.dart';
 import 'package:locket_clone/presentation/home/friend_screen/friend_screen.dart';
@@ -209,11 +211,12 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
                     controller: _helperIst.mainController,
                     scrollDirection: Axis.vertical,
                     children: [
-                      AutoRouter(),
+                      AutoRouter(), // Home Root goes here
                       // LegacyCameraScreen(),
                       NewsfeedScreenRoot(
                         commentController: commentController,
                         commentHandler: commentHandler,
+                        emojiSelectedHandler: emojiSelectedHandler,
                         child: NewsfeedScreen(),
                       ),
                     ],
@@ -246,5 +249,9 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
         );
       },
     );
+  }
+
+  emojiSelectedHandler(Emoji emoji) {
+    // sl<PostRepository>().react(postId: postId, emoji: emoji)
   }
 }

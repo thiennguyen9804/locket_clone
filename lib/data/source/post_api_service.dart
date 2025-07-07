@@ -19,6 +19,8 @@ abstract class PostApiService {
     required CapturedImageData post,
     // required DateTime createdAt,
   });
+
+  Future react({required int postId, required String emoji});
 }
 
 class PostApiServiceImpl implements PostApiService {
@@ -80,6 +82,16 @@ class PostApiServiceImpl implements PostApiService {
           'Content-Type': 'multipart/form-data',
         },
       ),
+    );
+  }
+
+  @override
+  Future react({required int postId, required String emoji}) async {
+    final token = sl<AuthLocalService>().getLocalToken();
+    await sl<DioClient>().post(
+      NetworkConstant.getInteractUrl(postId),
+      queryParameters: {'emoji': emoji},
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
     );
   }
 }

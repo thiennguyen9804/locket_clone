@@ -8,6 +8,6 @@ class HomeRoot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoRouter();
+    return AutoRouter(); // Cameara Screen + Image Preview Screen
   }
 }
