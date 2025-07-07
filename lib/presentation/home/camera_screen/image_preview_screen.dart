@@ -17,14 +17,56 @@ class ImagePreviewScreen extends BaseLayoutScreen {
 }
 
 class _ImagePreviewScreenState extends BaseLayoutScreenState {
+  final controller = TextEditingController();
   @override
   Widget buildFramedContent(BuildContext context) {
     final CapturedImageDataBuilder(:imagePath, :xFlip) =
         (widget as ImagePreviewScreen).capturedImageDataBuilder;
     final file = File(imagePath);
-    return Transform.flip(
-      flipX: xFlip,
-      child: Image.file(file, fit: BoxFit.cover),
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Transform.flip(
+          flipX: xFlip,
+          child: Image.file(file, fit: BoxFit.cover),
+        ),
+        Positioned(
+          bottom: 30,
+          left: 0,
+          right: 0,
+          child: Align(alignment: Alignment.center, child: _captionField()),
+        ),
+      ],
+    );
+  }
+
+  Widget _captionField() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      decoration: BoxDecoration(
+        color: Color(0xffF2F2F2),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 30),
+        child: IntrinsicWidth(
+          child: TextField(
+            controller: controller,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Color(0xff5F5F5F),
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              isCollapsed: true,
+              contentPadding: EdgeInsets.zero,
+            ),
+            cursorColor: Color(0xff5F5F5F),
+          ),
+        ),
+      ),
     );
   }
 
