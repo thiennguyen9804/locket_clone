@@ -1,6 +1,7 @@
 class NetworkConstant {
-  static const _IP = '192.168.1.134';
-  static const BASE_URL = 'http://${_IP}:8181/';
+  static const _IP = '10.0.193.101';
+  static const _PORT = '8181';
+  static const BASE_URL = 'http://$_IP:$_PORT/';
   static const SIGN_UP = '${BASE_URL}auth/sign-up';
   static const SIGN_IN = '${BASE_URL}auth/sign-in';
   static const USER = '${BASE_URL}auth/';

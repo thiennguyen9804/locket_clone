@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,24 +9,28 @@ import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper
 import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
 import 'package:locket_clone/presentation/home/camera_screen/legacy_camera_screen.dart';
 import 'package:locket_clone/presentation/home/friend_screen/friend_screen.dart';
+import 'package:locket_clone/presentation/home/home_root.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart';
+import 'package:locket_clone/presentation/router/app_router.gr.dart';
 
 import '../../../core/configs/theme/app_theme.dart';
 import '../../../domain/usecases/get_current_user_use_case.dart';
 import '../../../presentation/home/bloc/user_cubit.dart';
 import '../../../set_up_sl.dart';
 
-class TransitionWrapper extends StatefulWidget {
-  const TransitionWrapper({super.key});
+@RoutePage()
+class TransitionWrapperScreen extends StatefulWidget {
+  const TransitionWrapperScreen({super.key});
 
   @override
-  State<TransitionWrapper> createState() => _TransitionWrapperState();
+  State<TransitionWrapperScreen> createState() =>
+      _TransitionWrapperScreenState();
 }
 
-class _TransitionWrapperState extends State<TransitionWrapper>
+class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
     with SingleTickerProviderStateMixin {
   ScrollPhysics get currentScrollPhysics =>
       _locked
@@ -140,6 +145,7 @@ class _TransitionWrapperState extends State<TransitionWrapper>
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: MultiBlocProvider(
@@ -203,7 +209,7 @@ class _TransitionWrapperState extends State<TransitionWrapper>
                     controller: _helperIst.mainController,
                     scrollDirection: Axis.vertical,
                     children: [
-                      CameraScreen(),
+                      AutoRouter(),
                       // LegacyCameraScreen(),
                       NewsfeedScreenRoot(
                         commentController: commentController,

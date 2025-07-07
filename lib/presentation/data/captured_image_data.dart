@@ -47,9 +47,9 @@ class CapturedImageData {
 }
 
 class CapturedImageDataBuilder {
-  String? imagePath;
-  String? _caption;
-  bool? _xFlip;
+  late String imagePath;
+  late String _caption;
+  late bool xFlip;
 
   CapturedImageDataBuilder setImagePath(String imagePath) {
     this.imagePath = imagePath;
@@ -62,19 +62,15 @@ class CapturedImageDataBuilder {
   }
 
   CapturedImageDataBuilder setXFlip(bool xFlip) {
-    _xFlip = xFlip;
+    this.xFlip = xFlip;
     return this;
   }
 
   CapturedImageData build() {
-    if (imagePath == null || _caption == null || _xFlip == null) {
-      throw StateError('Missing required fields');
-    }
-
     return CapturedImageData(
-      imagePath: imagePath!,
-      caption: _caption!,
-      xFlip: _xFlip!,
+      imagePath: imagePath,
+      caption: _caption,
+      xFlip: xFlip,
     );
   }
 }

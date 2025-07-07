@@ -1,26 +1,17 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/common/screen/base_layout_screen.dart';
-import 'package:locket_clone/common/widgets/button/send_btn.dart';
 import 'package:locket_clone/presentation/data/captured_image_data.dart';
 
-class ImagePreviewScreenRoot extends StatelessWidget {
-  const ImagePreviewScreenRoot(this.capturedImageDataBuilder, {super.key});
-
-  final CapturedImageDataBuilder capturedImageDataBuilder;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(body: _ImagePreviewScreen(capturedImageDataBuilder));
-  }
-}
-
-class _ImagePreviewScreen extends BaseLayoutScreen {
+@RoutePage()
+class ImagePreviewScreen extends BaseLayoutScreen {
   final CapturedImageDataBuilder capturedImageDataBuilder;
 
-  const _ImagePreviewScreen(this.capturedImageDataBuilder, {super.key});
+  const ImagePreviewScreen(this.capturedImageDataBuilder, {super.key});
   @override
   State<BaseLayoutScreen> createState() => _ImagePreviewScreenState();
 }
@@ -28,10 +19,13 @@ class _ImagePreviewScreen extends BaseLayoutScreen {
 class _ImagePreviewScreenState extends BaseLayoutScreenState {
   @override
   Widget buildFramedContent(BuildContext context) {
-    final file = File(
-      (widget as _ImagePreviewScreen).capturedImageDataBuilder.imagePath!,
+    final CapturedImageDataBuilder(:imagePath, :xFlip) =
+        (widget as ImagePreviewScreen).capturedImageDataBuilder;
+    final file = File(imagePath);
+    return Transform.flip(
+      flipX: xFlip,
+      child: Image.file(file, fit: BoxFit.cover),
     );
-    return Image.file(file, fit: BoxFit.contain);
   }
 
   @override
@@ -60,7 +54,9 @@ class _ImagePreviewScreenState extends BaseLayoutScreenState {
   }
 
   @override
-  void onLeftButtonTap() {}
+  void onLeftButtonTap() {
+    context.router.pop();
+  }
 
   @override
   void onMainButtonTap() {

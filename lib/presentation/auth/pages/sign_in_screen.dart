@@ -121,7 +121,7 @@ class _SignInScreenState extends State<SignInScreen> {
               Navigator.push(
                 blocContext,
                 MaterialPageRoute(
-                  builder: (blocContext) => TransitionWrapper(),
+                  builder: (blocContext) => TransitionWrapperScreen(),
                 ),
               );
             }
