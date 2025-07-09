@@ -47,18 +47,18 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
   @override
   void initState() {
     super.initState();
-    _helperIst.lock = lock;
-    _helperIst.unlock = unlock;
+    // _helperIst.lock = lock;
+    // _helperIst.unlock = unlock;
   }
 
   // Singleton
-  void lock() {
-    setState(() => _locked = true);
-  }
-
-  void unlock() {
-    setState(() => _locked = false);
-  }
+  // void lock() {
+  //   setState(() => _locked = true);
+  // }
+  //
+  // void unlock() {
+  //   setState(() => _locked = false);
+  // }
 
   Widget _avatar(VoidCallback onPress, String? imageUrl) {
     return AnimPressable(
@@ -150,82 +150,91 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create:
-                (context) =>
-                    UserCubit()..getCurrentUser(sl<GetCurrentUserUseCase>()),
-          ),
-          BlocProvider(create: (context) => NewsfeedCubit()..loadPosts()),
-        ],
-        child: BlocListener<UserCubit, UserState>(
-          listener: (context, state) {
-            switch (state) {
-              case UserLoading():
-                {}
-              case UserLoadedSuccess():
-                {}
-              case UserLoadedFail():
-                Fluttertoast.showToast(msg: state.errorMsg);
-            }
-          },
-          child: Indexer(
-            children: [
-              Indexed(
-                index: 1,
-                child: SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 38.0,
-                      right: 38.0,
-                      top: 10,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _avatarBtn(() {}),
-                        _friendBtn(() {}),
-                        _chatBtn(() {}),
-                      ],
-                    ),
-                  ),
-                ),
+      body: ValueListenableBuilder(
+        valueListenable: _helperIst.lockedNotifier,
+        builder: (context, locked, child) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create:
+                    (context) =>
+                        UserCubit()
+                          ..getCurrentUser(sl<GetCurrentUserUseCase>()),
               ),
-              Indexed(
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      colors: [
-                        Color(0xff738F81),
-                        Color.fromRGBO(115, 143, 129, 0.46),
-                        Color(0x00ffffff),
-                      ],
-                      stops: [0.0, 0.44, 1.0],
-                      radius: 1,
-                    ),
-                  ),
-                  child: PageView(
-                    // physics: const ClampingScrollPhysics(),
-                    physics: currentScrollPhysics,
-                    controller: _helperIst.mainController,
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      AutoRouter(), // Home Root goes here
-                      // LegacyCameraScreen(),
-                      NewsfeedScreenRoot(
-                        commentController: commentController,
-                        commentHandler: commentHandler,
-                        emojiSelectedHandler: emojiSelectedHandler,
-                        child: NewsfeedScreen(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              BlocProvider(create: (context) => NewsfeedCubit()..loadPosts()),
             ],
-          ),
-        ),
+            child: BlocListener<UserCubit, UserState>(
+              listener: (context, state) {
+                switch (state) {
+                  case UserLoading():
+                    {}
+                  case UserLoadedSuccess():
+                    {}
+                  case UserLoadedFail():
+                    Fluttertoast.showToast(msg: state.errorMsg);
+                }
+              },
+              child: Indexer(
+                children: [
+                  Indexed(
+                    index: 1,
+                    child: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 38.0,
+                          right: 38.0,
+                          top: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _avatarBtn(() {}),
+                            _friendBtn(() {}),
+                            _chatBtn(() {}),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Indexed(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(
+                          colors: [
+                            Color(0xff738F81),
+                            Color.fromRGBO(115, 143, 129, 0.46),
+                            Color(0x00ffffff),
+                          ],
+                          stops: [0.0, 0.44, 1.0],
+                          radius: 1,
+                        ),
+                      ),
+                      child: PageView(
+                        physics:
+                            locked
+                                ? const NeverScrollableScrollPhysics()
+                                : const ClampingScrollPhysics(),
+                        // physics: const ClampingScrollPhysics(),
+                        controller: _helperIst.mainController,
+                        scrollDirection: Axis.vertical,
+                        children: [
+                          AutoRouter(), // Home Root goes here
+                          // LegacyCameraScreen(),
+                          NewsfeedScreenRoot(
+                            commentController: commentController,
+                            commentHandler: commentHandler,
+                            emojiSelectedHandler: emojiSelectedHandler,
+                            child: NewsfeedScreen(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }

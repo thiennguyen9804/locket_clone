@@ -7,6 +7,7 @@ import 'package:locket_clone/common/screen/base_layout_screen.dart';
 import 'package:locket_clone/common/widgets/button/capture_btn.dart';
 import 'package:locket_clone/common/widgets/button/change_cam_btn.dart';
 import 'package:locket_clone/common/widgets/button/circular_icon_button.dart';
+import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
 import 'package:locket_clone/core/extension/context_extensions.dart';
 import 'package:locket_clone/presentation/home/camera_screen/image_preview_screen.dart';
 import 'package:locket_clone/presentation/home/camera_screen/widget/locket_camera_preview.dart';
@@ -33,6 +34,7 @@ class _CameraScreenState extends BaseLayoutScreenState {
   static const String _sendIconPath = 'assets/send_ic.svg';
 
   late CameraController _cameraController;
+  final _helperInstant = TransitionHelper();
   Future<void>? _initializeControllerFuture;
   List<CameraDescription> _cameras = [];
   int _selectedCameraIndex = 0;
@@ -139,15 +141,16 @@ class _CameraScreenState extends BaseLayoutScreenState {
   @override
   void onMainButtonTap() async {
     debugPrint('📸 takePicture called');
-    final navigator = Navigator.of(context);
     final file = await _cameraController.takePicture();
     final xFlip = _isUsingFrontCamera();
     final capturedImageDataBuilder = CapturedImageDataBuilder();
     capturedImageDataBuilder.setImagePath(file.path).setXFlip(xFlip);
     if (!mounted) return;
-    context.router.push(
+    _helperInstant.lock();
+    await context.router.push(
       ImagePreviewRoute(capturedImageDataBuilder: capturedImageDataBuilder),
     );
+    _helperInstant.unlock();
   }
 
   @override

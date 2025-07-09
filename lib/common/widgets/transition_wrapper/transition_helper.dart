@@ -8,8 +8,6 @@ class TransitionHelper {
   static final TransitionHelper _singleton = TransitionHelper._internal();
   final mainController = PageController(); // Controlled
   var newsfeedController = PageController(); // Controller
-  VoidCallback? lock;
-  VoidCallback? unlock;
 
   var topOverScroll = 0.0;
   // bool _locked = false;
@@ -17,6 +15,11 @@ class TransitionHelper {
   factory TransitionHelper() {
     return _singleton;
   }
+
+  final ValueNotifier<bool> lockedNotifier = ValueNotifier(false);
+
+  void lock() => lockedNotifier.value = true;
+  void unlock() => lockedNotifier.value = false;
 
   bool notificationHandler(Notification notification) {
     if (notification is OverscrollNotification && notification.overscroll < 0) {
