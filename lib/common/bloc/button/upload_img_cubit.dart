@@ -9,30 +9,11 @@ import 'package:meta/meta.dart';
 part 'upload_img_state.dart';
 
 class UploadImgCubit extends Cubit<UploadImgState> {
-  UploadImgCubit({required this.takePicture, required this.onSendImageSuccess})
-    : super(CaptureState()) {
+  UploadImgCubit() : super(CaptureState()) {
     // emit(SendImageLoading());
   }
-  final VoidCallback takePicture;
-  final VoidCallback onSendImageSuccess;
 
-  Future sendImageHandler(CapturedImageData post) async {
-    // await Future.delayed(const Duration(seconds: 2));
+  void sendImage(CapturedImageData post) async {
     await sl<PostRepository>().addPost(post);
-  }
-
-  void onCapture() {
-    emit(ReadyToSendState());
-    takePicture();
-  }
-
-  void onCancel() {
-    emit(CaptureState());
-  }
-
-  Future onSendImage(CapturedImageData post) async {
-    emit(SendImageLoading());
-    await sendImageHandler(post);
-    emit(SendImageSuccess());
   }
 }
