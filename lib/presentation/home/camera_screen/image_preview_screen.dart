@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/common/bloc/button/upload_img_cubit.dart';
 import 'package:locket_clone/common/screen/base_layout_screen.dart';
+import 'package:locket_clone/core/configs/theme/app_theme.dart';
 import 'package:locket_clone/presentation/data/captured_image_data.dart';
 
 import '../../../common/widgets/button/circular_icon_button.dart';
@@ -21,7 +21,17 @@ class ImagePreviewScreen extends BaseLayoutScreen implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider<UploadImgCubit>(create: (ctx) => UploadImgCubit());
+    return BlocProvider<UploadImgCubit>(
+      create: (_) => UploadImgCubit(),
+      child: BlocListener<UploadImgCubit, UploadImgState>(
+        listener: (context, state) {
+          if (state is SendImageSuccess) {
+            context.router.pop();
+          }
+        },
+        child: this,
+      ),
+    );
   }
 }
 
@@ -96,15 +106,27 @@ class _ImagePreviewScreenState extends BaseLayoutScreenState {
   @override
   Widget mainButton() {
     const path = 'assets/send_ic.svg';
-    final Widget sendBtnIc = SvgPicture.asset(
-      path,
-      semanticsLabel: 'Send Picture',
-    );
 
-    return CircularIconButton(
-      outerColor: _outerCircleColor,
-      innerColor: _innerCircleColor,
-      child: SvgPicture.asset(path, semanticsLabel: ''),
+    return BlocBuilder<UploadImgCubit, UploadImgState>(
+      builder: (context, state) {
+        final Widget child = switch (state) {
+          SendImageLoading() => SizedBox(
+            width: 24,
+            height: 24,
+            child: CircularProgressIndicator(
+              strokeWidth: 2.5,
+              color: AppTheme.mainColor,
+            ),
+          ),
+          _ => SvgPicture.asset(path, semanticsLabel: ''),
+        };
+
+        return CircularIconButton(
+          outerColor: _outerCircleColor,
+          innerColor: _innerCircleColor,
+          child: child,
+        );
+      },
     );
   }
 

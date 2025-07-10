@@ -5,7 +5,7 @@ class NetworkConstant {
   static const SIGN_UP = '${BASE_URL}auth/sign-up';
   static const SIGN_IN = '${BASE_URL}auth/sign-in';
   static const USER = '${BASE_URL}auth/';
-  static const POSTS = '${BASE_URL}posts/';
+  static const POSTS = '${BASE_URL}posts';
   static String getInteractUrl(int postId) =>
       '${BASE_URL}posts/interact/$postId/';
 

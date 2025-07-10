@@ -214,7 +214,6 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
                             locked
                                 ? const NeverScrollableScrollPhysics()
                                 : const ClampingScrollPhysics(),
-                        // physics: const ClampingScrollPhysics(),
                         controller: _helperIst.mainController,
                         scrollDirection: Axis.vertical,
                         children: [

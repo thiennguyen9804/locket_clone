@@ -78,8 +78,8 @@ abstract class BaseLayoutScreenState extends State<BaseLayoutScreen> {
   Widget mainButton();
 
   @protected
-  Widget? rightButton() {
-    return null;
+  Widget rightButton() {
+    return SizedBox(width: 38, height: 38);
   }
 
   /// Optional overrides for tap logic

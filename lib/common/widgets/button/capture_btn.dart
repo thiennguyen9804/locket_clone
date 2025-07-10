@@ -22,9 +22,7 @@ class _CaptureBtnState extends State<CaptureBtn> {
   static const String _cameraIconPath = 'assets/camera_ic.svg';
   static const String _sendIconPath = 'assets/send_ic.svg';
 
-  void _onTakePicture() {
-    context.read<UploadImgCubit>().onCapture();
-  }
+  void _onTakePicture() {}
 
   Widget buildCaptureButton() {
     return GestureDetector(
@@ -58,18 +56,21 @@ class _CaptureBtnState extends State<CaptureBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UploadImgCubit, UploadImgState>(
-      builder: (context, state) {
-        switch (state) {
-          case CaptureState():
-          case SendImageSuccess():
-            return buildCaptureButton();
-          case ReadyToSendState():
-            return buildSendButton();
-          case SendImageLoading():
-            return buildLoadingButton();
-        }
-      },
-    );
+    return Container();
+    //   return BlocBuilder<UploadImgCubit, UploadImgState>(
+    //     builder: (context, state) {
+    //       switch (state) {
+    //         case CaptureState():
+    //         case SendImageSuccess():
+    //           return buildCaptureButton();
+    //         case ReadyToSendState():
+    //           return buildSendButton();
+    //         case SendImageLoading():
+    //           return buildLoadingButton();
+    //       }
+    //     },
+    //   );
+    // }
+    //
   }
 }
