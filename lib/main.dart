@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:locket_clone/core/configs/theme/app_theme.dart';
+import 'package:locket_clone/presentation/provider/auth_provider.dart';
 import 'package:locket_clone/presentation/test_screen/test_screen.dart';
 import 'package:locket_clone/set_up_fcm.dart';
 import 'package:locket_clone/set_up_local_db.dart';
@@ -41,12 +42,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appRouter = AppRouter();
+    final authProvider = AuthProvider();
 
     return MaterialApp.router(
       title: 'Locket clone',
       theme: AppTheme.appTheme,
       debugShowCheckedModeBanner: false,
-      routerConfig: appRouter.config(),
+      routerConfig: appRouter.config(reevaluateListenable: authProvider),
     );
   }
 }

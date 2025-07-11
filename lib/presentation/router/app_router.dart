@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:locket_clone/presentation/router/guard/auth_guard.dart';
 
 import 'app_router.gr.dart';
 
@@ -6,6 +7,7 @@ import 'app_router.gr.dart';
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
+    AutoRoute(page: SignInRoute.page), // ✅ Root level
     AutoRoute(
       page: TransitionWrapperRoute.page,
       initial: true,
@@ -19,6 +21,7 @@ class AppRouter extends RootStackRouter {
           ],
         ),
       ],
+      guards: [AuthGuard()],
     ),
   ];
 }

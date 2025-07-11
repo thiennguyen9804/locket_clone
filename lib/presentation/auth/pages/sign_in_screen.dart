@@ -1,11 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrapper.dart';
 import 'package:locket_clone/data/model/sign_in_req/sign_in_req.dart';
 import 'package:locket_clone/domain/usecases/sign_in_use_case.dart';
 import 'package:locket_clone/presentation/auth/pages/sign_up_screen.dart';
-import 'package:locket_clone/presentation/home/camera_screen/legacy_camera_screen.dart';
+import 'package:locket_clone/presentation/router/app_router.gr.dart';
 
 import '../../../common/bloc/button/button_cubit.dart';
 import '../../../common/utils/custom_navigate.dart';
@@ -13,6 +14,7 @@ import '../../../core/configs/theme/app_theme.dart';
 
 final textColor = Color(0xff626262);
 
+@RoutePage()
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -118,12 +120,7 @@ class _SignInScreenState extends State<SignInScreen> {
         body: BlocListener<ButtonCubit, ButtonState>(
           listener: (blocContext, state) {
             if (state is ButtonSuccessState) {
-              Navigator.push(
-                blocContext,
-                MaterialPageRoute(
-                  builder: (blocContext) => TransitionWrapperScreen(),
-                ),
-              );
+              context.router.replace(const TransitionWrapperRoute());
             }
             if (state is ButtonFailureState) {
               ScaffoldMessenger.of(
