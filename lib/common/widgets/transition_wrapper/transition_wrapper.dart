@@ -7,18 +7,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indexed/indexed.dart';
 import 'package:locket_clone/common/widgets/anim_pressable.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
-import 'package:locket_clone/domain/repository/post_repository.dart';
-import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
-import 'package:locket_clone/presentation/home/camera_screen/legacy_camera_screen.dart';
 import 'package:locket_clone/presentation/home/friend_screen/friend_screen.dart';
-import 'package:locket_clone/presentation/home/home_root.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart';
-import 'package:locket_clone/presentation/router/app_router.gr.dart';
 
 import '../../../core/configs/theme/app_theme.dart';
+import '../../../domain/repository/post_repository.dart';
 import '../../../domain/usecases/get_current_user_use_case.dart';
 import '../../../presentation/home/bloc/user_cubit.dart';
 import '../../../set_up_sl.dart';
@@ -39,7 +35,8 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
           ? const NeverScrollableScrollPhysics()
           : const ClampingScrollPhysics();
 
-  bool _locked = false;
+  final bool _locked = false;
+  late int _postId;
 
   final commentController = TextEditingController();
 
@@ -47,18 +44,14 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
   @override
   void initState() {
     super.initState();
-    // _helperIst.lock = lock;
-    // _helperIst.unlock = unlock;
   }
 
-  // Singleton
-  // void lock() {
-  //   setState(() => _locked = true);
-  // }
-  //
-  // void unlock() {
-  //   setState(() => _locked = false);
-  // }
+  void _onPostChanged(int postId) {
+    setState(() {
+      postId = postId;
+    });
+    debugPrint("🔥 Current post ID in wrapper: $postId");
+  }
 
   Widget _avatar(VoidCallback onPress, String? imageUrl) {
     return AnimPressable(
@@ -118,9 +111,7 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
     );
   }
 
-  void commentHandler() {
-    debugPrint('comment: ${commentController.text}');
-  }
+  void commentHandler() {}
 
   Widget _friendBtn(VoidCallback onPress) {
     return ElevatedButton(
@@ -220,6 +211,7 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
                           AutoRouter(), // Home Root goes here
                           // LegacyCameraScreen(),
                           NewsfeedScreenRoot(
+                            onPostChanged: _onPostChanged,
                             commentController: commentController,
                             commentHandler: commentHandler,
                             emojiSelectedHandler: emojiSelectedHandler,
@@ -240,7 +232,6 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     commentController.dispose();
     super.dispose();
   }
@@ -260,6 +251,7 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
   }
 
   emojiSelectedHandler(Emoji emoji) {
-    // sl<PostRepository>().react(postId: postId, emoji: emoji)
+    debugPrint('react to postid: $_postId with emoji: ${emoji.emoji}');
+    // sl<PostRepository>().react(postId: _postId, emoji: emoji.emoji);
   }
 }

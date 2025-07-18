@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +10,8 @@ import 'package:locket_clone/presentation/home/user_info_screen/widget/large_cir
 import 'package:locket_clone/presentation/home/user_info_screen/widget/section_btn.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
-class UserInfoScreen extends StatelessWidget {
+@RoutePage()
+class UserInfoScreen extends StatelessWidget implements AutoRouteWrapper {
   UserInfoScreen({super.key});
   final width = 148, height = 148;
 
@@ -92,10 +94,11 @@ class UserInfoScreen extends StatelessWidget {
     SectionBtn(
       svgPath: 'assets/sign_out_ic.svg',
       btnName: 'Log out',
-      onPressed: () {},
+      onPressed: () {
+        // context.read<UserCubit>
+      },
       pos: SectionPosition.TOP,
     ),
-
     SectionBtn(
       svgPath: 'assets/delete_ic.svg',
       btnName: 'Delete account',
@@ -117,122 +120,116 @@ class UserInfoScreen extends StatelessWidget {
     );
   }
 
-  // Icon(Icons.arrow_back_ios_new_rounded),
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create:
-          (context) => UserCubit()..getCurrentUser(sl<GetCurrentUserUseCase>()),
-      child: BlocListener<UserCubit, UserState>(
-        listener: (context, state) {
-          print('UserInfoScreen build $state');
-          if (state is UserLoadedSuccess) {
-            print('UserInfoScreen build ${state.userEntity}');
-          }
-        },
-        child: Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20.0,
-                  vertical: 8,
-                ),
-                child: BlocBuilder<UserCubit, UserState>(
-                  builder: (context, state) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+    return BlocListener<UserCubit, UserState>(
+      listener: (context, state) {
+        print('UserInfoScreen build $state');
+        if (state is UserLoadedSuccess) {
+          print('UserInfoScreen build ${state.userEntity}');
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
+            child: BlocBuilder<UserCubit, UserState>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Color(0xffAAC2B3),
+                          size: 35,
+                        ),
+                      ),
+                    ),
+                    Stack(
+                      alignment: Alignment.topCenter,
                       children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            icon: Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              color: Color(0xffAAC2B3),
-                              size: 35,
-                            ),
-                          ),
-                        ),
-                        Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            LargeCircleAvatar(
-                              state is UserLoadedSuccess
-                                  ? state.userEntity.avatarUrl ?? ""
-                                  : "",
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 10,
-                              child: addNewImageBtn(() {}),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 18),
-
-                        Text(
+                        LargeCircleAvatar(
                           state is UserLoadedSuccess
-                              ? state.userEntity.name
-                              : '',
-                          style: TextStyle(
-                            letterSpacing: 1.07,
-                            color: Color(0xff6B9080),
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              BoxShadow(
-                                blurRadius: 2,
-                                offset: Offset(0, 1),
-                                color: Color.fromARGB(64, 0, 0, 0),
-                              ),
-                            ],
-                          ),
+                              ? state.userEntity.avatarUrl ?? ""
+                              : "",
                         ),
-                        SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text(
-                            'Edit info',
-                            style: TextStyle(letterSpacing: 1.07),
-                          ),
+                        Positioned(
+                          bottom: 0,
+                          right: 10,
+                          child: addNewImageBtn(() {}),
                         ),
-                        SizedBox(height: 32),
-                        section(
-                          svgPath: 'assets/theme_section_ic.svg',
-                          sectionName: 'Theme',
-                          widgets: themeSection,
-                        ),
-                        SizedBox(height: 32),
-                        section(
-                          sectionName: 'General',
-                          svgPath: 'assets/general_ic.svg',
-                          widgets: generalSection,
-                        ),
-                        SizedBox(height: 32),
-                        section(
-                          sectionName: 'Community',
-                          svgPath: 'assets/community_ic.svg',
-                          widgets: communitySection,
-                        ),
-                        SizedBox(height: 32),
-                        section(
-                          sectionName: 'Manage',
-                          svgPath: 'assets/manage_ic.svg',
-                          widgets: manageSection,
-                        ),
-                        SizedBox(height: 32),
                       ],
-                    );
-                  },
-                ),
-              ),
+                    ),
+                    SizedBox(height: 18),
+                    Text(
+                      state is UserLoadedSuccess ? state.userEntity.name : '',
+                      style: TextStyle(
+                        letterSpacing: 1.07,
+                        color: Color(0xff6B9080),
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          BoxShadow(
+                            blurRadius: 2,
+                            offset: Offset(0, 1),
+                            color: Color.fromARGB(64, 0, 0, 0),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Edit info',
+                        style: TextStyle(letterSpacing: 1.07),
+                      ),
+                    ),
+                    SizedBox(height: 32),
+                    section(
+                      svgPath: 'assets/theme_section_ic.svg',
+                      sectionName: 'Theme',
+                      widgets: themeSection,
+                    ),
+                    SizedBox(height: 32),
+                    section(
+                      sectionName: 'General',
+                      svgPath: 'assets/general_ic.svg',
+                      widgets: generalSection,
+                    ),
+                    SizedBox(height: 32),
+                    section(
+                      sectionName: 'Community',
+                      svgPath: 'assets/community_ic.svg',
+                      widgets: communitySection,
+                    ),
+                    SizedBox(height: 32),
+                    section(
+                      sectionName: 'Manage',
+                      svgPath: 'assets/manage_ic.svg',
+                      widgets: manageSection,
+                    ),
+                    SizedBox(height: 32),
+                  ],
+                );
+              },
             ),
           ),
         ),
       ),
+    );
+  }
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return BlocProvider(
+      create:
+          (context) => UserCubit()..getCurrentUser(sl<GetCurrentUserUseCase>()),
+      child: this,
     );
   }
 

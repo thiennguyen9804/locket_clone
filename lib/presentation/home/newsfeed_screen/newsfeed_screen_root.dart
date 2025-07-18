@@ -8,12 +8,14 @@ class NewsfeedScreenRoot extends InheritedWidget {
     required this.commentController,
     required this.commentHandler,
     required this.emojiSelectedHandler,
+    required this.onPostChanged,
   }) : super(child: child);
   final Widget child;
   final TextEditingController commentController;
   final VoidCallback commentHandler;
 
   final Function(Emoji) emojiSelectedHandler;
+  final void Function(int postId) onPostChanged;
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {

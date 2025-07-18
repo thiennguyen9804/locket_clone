@@ -136,9 +136,9 @@ class _ImagePreviewScreenState extends BaseLayoutScreenState {
   }
 
   @override
-  void onMainButtonTap() {
-    context.read<UploadImgCubit>().sendImage(
-      (widget as ImagePreviewScreen).capturedImageDataBuilder.build(),
-    );
-  }
+  void onMainButtonTap() => context.read<UploadImgCubit>().sendImage(
+    (widget as ImagePreviewScreen).capturedImageDataBuilder
+        .setCaption(controller.text)
+        .build(),
+  );
 }

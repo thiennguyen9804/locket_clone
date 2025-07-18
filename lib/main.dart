@@ -29,6 +29,7 @@ void runMain() async {
       statusBarBrightness: Brightness.dark,
     ),
   );
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await Firebase.initializeApp();
   await setUpLocalDb();
   await setUpSl();

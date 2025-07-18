@@ -1,0 +1,6 @@
+enum InteractBarStatus {
+  MY_INTERACT_BAR,
+  OTHER_INTEARACT_BAR,
+  NO_INTERACT_BAR,
+  LOADING,
+}

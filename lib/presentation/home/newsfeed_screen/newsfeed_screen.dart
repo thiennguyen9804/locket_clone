@@ -5,28 +5,48 @@ import 'package:locket_clone/common/widgets/button/widget_btn.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/presentation/data/news_feed_info_ui.dart';
-import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/interact_bar_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
+import 'package:locket_clone/presentation/home/newsfeed_screen/interact_bar_status.dart';
+import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/my_interact_bar.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/other_interact_bar.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/post_widget.dart';
 
 import 'package:logging/logging.dart';
 
+import '../../../domain/usecases/get_current_user_use_case.dart';
+import '../../../set_up_sl.dart';
+
 const _outColor = Color(0xffAAC2B3);
 const _inColor = Color(0xffECF4F4);
 
 class NewsfeedScreen extends StatefulWidget {
-  NewsfeedScreen({super.key});
+  const NewsfeedScreen({super.key});
   @override
   State<NewsfeedScreen> createState() => _NewsfeedScreenState();
 }
 
 class _NewsfeedScreenState extends State<NewsfeedScreen> {
+  var interactBarStatus = InteractBarStatus.LOADING;
   PostEntity? currentPost;
   final _helperIst = TransitionHelper();
+  late final Function(int) onPostChanged;
 
   final log = Logger('NewsfeedScreen');
+
+  @override
+  void initState() {
+    super.initState();
+    _helperIst.newsfeedController.addListener(() {
+      final newIndex = _helperIst.newsfeedController.page?.round();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    onPostChanged = NewsfeedScreenRoot.of(context).onPostChanged;
+  }
 
   Widget backToCamBtn({Color outColor = _outColor, Color inColor = _inColor}) {
     return Container(
@@ -50,41 +70,11 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    // _helperIst.newsfeedController.addListener(() {
-    //   final page = _helperIst.newsfeedController.page?.round() ?? 0;
-    // });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // _onPostAppeared(0);
-  }
-
-  // void _onPostAppeared(int index) {
-  //   final state = context.read<NewsfeedCubit>().state;
-  //   if (index < state.posts.length + (state.endReached ? 0 : 1)) {
-  //     final post = state.posts[index];
-  //     debugPrint('Current post: $post!');
-  //     WidgetsBinding.instance.addPostFrameCallback((_) {
-  //       if (mounted) {
-  //         setState(() {
-  //           currentPost = post;
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
-
-  @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).viewPadding.top;
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => NewsfeedCubit()..loadPosts()),
-        BlocProvider(create: (context) => InteractBarCubit()),
       ],
       child: Stack(
         children: [
@@ -121,6 +111,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                     return PageView.builder(
                       physics: ClampingScrollPhysics(),
                       controller: _helperIst.newsfeedController,
+                      onPageChanged: (index) {},
                       scrollDirection: Axis.vertical,
                       itemCount:
                           state.posts.length + (state.endReached ? 0 : 1),
@@ -130,11 +121,25 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                           context.read<NewsfeedCubit>().loadPosts();
                         }
                         if (itemCount == 0) {
-                          context.read<InteractBarCubit>().setNoInteractBar();
+                          setState(() {
+                            interactBarStatus =
+                                InteractBarStatus.NO_INTERACT_BAR;
+                          });
                         } else {
-                          context.read<InteractBarCubit>().setInteractBar(
-                            state.posts[index],
-                          );
+                          setState(() async {
+                            final post = state.posts[index];
+
+                            onPostChanged(post.id);
+                            final currentUser =
+                                await sl<GetCurrentUserUseCase>().call();
+                            if (post.user.id == currentUser.id) {
+                              interactBarStatus =
+                                  InteractBarStatus.MY_INTERACT_BAR;
+                            } else {
+                              interactBarStatus =
+                                  InteractBarStatus.OTHER_INTEARACT_BAR;
+                            }
+                          });
                         }
                         return Padding(
                           padding: EdgeInsets.only(top: height + 100),
@@ -159,18 +164,24 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    BlocBuilder<InteractBarCubit, InteractBarState>(
-                      builder: (context, state) {
+                    Builder(
+                      builder: (context) {
                         final width = MediaQuery.of(context).size.width;
                         return AnimatedContainer(
                           width:
-                              state is MyInteractBarState ? width * 0.6 : width,
+                              interactBarStatus ==
+                                      InteractBarStatus.MY_INTERACT_BAR
+                                  ? width * 0.6
+                                  : width,
                           duration: const Duration(milliseconds: 400),
-                          child: switch (state) {
-                            InteractBarLoading() => CircularProgressIndicator(),
-                            MyInteractBarState() => MyInteractBar(),
-                            OthersInteractBarState() => OtherInteractBar(),
-                            NoInteractBar() => Container(),
+                          child: switch (interactBarStatus) {
+                            InteractBarStatus.LOADING =>
+                              CircularProgressIndicator(),
+                            InteractBarStatus.MY_INTERACT_BAR =>
+                              MyInteractBar(),
+                            InteractBarStatus.OTHER_INTEARACT_BAR =>
+                              OtherInteractBar(),
+                            InteractBarStatus.NO_INTERACT_BAR => Container(),
                           },
                         );
                       },

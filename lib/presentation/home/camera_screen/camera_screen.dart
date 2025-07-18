@@ -140,17 +140,22 @@ class _CameraScreenState extends BaseLayoutScreenState {
 
   @override
   void onMainButtonTap() async {
-    debugPrint('📸 takePicture called');
-    final file = await _cameraController.takePicture();
-    final xFlip = _isUsingFrontCamera();
-    final capturedImageDataBuilder = CapturedImageDataBuilder();
-    capturedImageDataBuilder.setImagePath(file.path).setXFlip(xFlip);
-    if (!mounted) return;
-    _helperInstant.lock();
-    await context.router.push(
-      ImagePreviewRoute(capturedImageDataBuilder: capturedImageDataBuilder),
-    );
-    _helperInstant.unlock();
+    try {
+      debugPrint('📸 takePicture called');
+      final file = await _cameraController.takePicture();
+      final xFlip = _isUsingFrontCamera();
+      final capturedImageDataBuilder = CapturedImageDataBuilder();
+      capturedImageDataBuilder.setImagePath(file.path).setXFlip(xFlip);
+      if (!mounted) return;
+      _helperInstant.lock();
+      await context.router.push(
+        ImagePreviewRoute(capturedImageDataBuilder: capturedImageDataBuilder),
+      );
+      _helperInstant.unlock();
+    } on Exception catch (e, stack) {
+      debugPrint('❌ Error during takePicture or navigation: $e');
+      debugPrint('📌 Stack trace:\n$stack');
+    }
   }
 
   @override
@@ -162,8 +167,8 @@ class _CameraScreenState extends BaseLayoutScreenState {
   }
 
   @override
-  void dispose() {
-    _cameraController.dispose();
+  void dispose() async {
+    await _cameraController.dispose();
     super.dispose();
   }
 }
