@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
-import 'package:locket_clone/domain/usecases/get_current_user_use_case.dart';
+import 'package:locket_clone/domain/repository/auth_repository.dart';
 import 'package:locket_clone/presentation/data/section_position.dart';
 import 'package:locket_clone/presentation/home/bloc/user_cubit.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/widget/large_circle_avatar.dart';
@@ -227,8 +227,7 @@ class UserInfoScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     return BlocProvider(
-      create:
-          (context) => UserCubit()..getCurrentUser(sl<GetCurrentUserUseCase>()),
+      create: (context) => UserCubit()..getCurrentUser(),
       child: this,
     );
   }

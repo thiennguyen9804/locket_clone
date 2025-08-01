@@ -7,7 +7,8 @@ import 'package:locket_clone/core/mapper/user_mapper/user_mapper.dart';
 import 'package:locket_clone/core/network/dio_client.dart';
 import 'package:locket_clone/data/app_database.dart';
 import 'package:locket_clone/data/repository/post_repository_impl.dart';
-import 'package:locket_clone/data/repository/user_repository_impl.dart' show UserRepositoryImpl;
+import 'package:locket_clone/data/repository/user_repository_impl.dart'
+    show UserRepositoryImpl;
 import 'package:locket_clone/data/source/auth_local_service.dart';
 import 'package:locket_clone/data/source/image_local_service.dart';
 import 'package:locket_clone/data/source/post_api_service.dart';
@@ -16,7 +17,6 @@ import 'package:locket_clone/data/source/user_api_service.dart';
 import 'package:locket_clone/data/source/user_local_service.dart';
 import 'package:locket_clone/domain/repository/post_repository.dart';
 import 'package:locket_clone/domain/repository/user_repository.dart';
-import 'package:locket_clone/domain/usecases/get_current_user_use_case.dart';
 import 'package:locket_clone/domain/usecases/login_user_use_case.dart';
 import 'package:locket_clone/domain/usecases/upload_user_post_use_case.dart';
 
@@ -39,7 +39,6 @@ Future setUpSl() async {
 
 void registerUseCase() {
   sl.registerSingleton<SignInUseCase>(SignInUseCase());
-  sl.registerSingleton<GetCurrentUserUseCase>(GetCurrentUserUseCase());
   sl.registerSingleton<LoginUserUseCase>(LoginUserUseCase());
   sl.registerSingleton<UploadUserPostUseCase>(UploadUserPostUseCase());
   // sl.registerSingleton<GetUserByIdUseCase>(GetUserByIdUseCase());
@@ -80,3 +79,4 @@ void registerMapper() {
 void registerDatabase() {
   sl.registerSingleton<AppDatabase>(AppDatabase());
 }
+

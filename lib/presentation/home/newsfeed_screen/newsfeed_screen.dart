@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locket_clone/common/widgets/button/share_btn.dart';
 import 'package:locket_clone/common/widgets/button/widget_btn.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
+import 'package:locket_clone/data/source/auth_local_service.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/presentation/data/news_feed_info_ui.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/widget/post_widge
 
 import 'package:logging/logging.dart';
 
-import '../../../domain/usecases/get_current_user_use_case.dart';
 import '../../../set_up_sl.dart';
 
 const _outColor = Color(0xffAAC2B3);
@@ -120,27 +120,27 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                         if (index >= itemCount - 1 && !state.endReached) {
                           context.read<NewsfeedCubit>().loadPosts();
                         }
-                        if (itemCount == 0) {
-                          setState(() {
-                            interactBarStatus =
-                                InteractBarStatus.NO_INTERACT_BAR;
-                          });
-                        } else {
-                          setState(() async {
-                            final post = state.posts[index];
-
-                            onPostChanged(post.id);
-                            final currentUser =
-                                await sl<GetCurrentUserUseCase>().call();
-                            if (post.user.id == currentUser.id) {
-                              interactBarStatus =
-                                  InteractBarStatus.MY_INTERACT_BAR;
-                            } else {
-                              interactBarStatus =
-                                  InteractBarStatus.OTHER_INTEARACT_BAR;
-                            }
-                          });
-                        }
+                        // if (itemCount == 0) {
+                        //   setState(() {
+                        //     interactBarStatus =
+                        //         InteractBarStatus.NO_INTERACT_BAR;
+                        //   });
+                        // } else {
+                        //   final post = state.posts[index];
+                        //
+                        //   onPostChanged(post.id);
+                        //   final currentUser =
+                        //       sl<AuthLocalService>().getLocalCurrentUser();
+                        //   setState(() {
+                        //     if (post.user.id == currentUser.id) {
+                        //       interactBarStatus =
+                        //           InteractBarStatus.MY_INTERACT_BAR;
+                        //     } else {
+                        //       interactBarStatus =
+                        //           InteractBarStatus.OTHER_INTEARACT_BAR;
+                        //     }
+                        //   });
+                        // }
                         return Padding(
                           padding: EdgeInsets.only(top: height + 100),
                           child: PostWidget(postEntity: state.posts[index]),
@@ -175,8 +175,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                                   : width,
                           duration: const Duration(milliseconds: 400),
                           child: switch (interactBarStatus) {
-                            InteractBarStatus.LOADING =>
-                              CircularProgressIndicator(),
+                            InteractBarStatus.LOADING => Text('Loading...'),
                             InteractBarStatus.MY_INTERACT_BAR =>
                               MyInteractBar(),
                             InteractBarStatus.OTHER_INTEARACT_BAR =>

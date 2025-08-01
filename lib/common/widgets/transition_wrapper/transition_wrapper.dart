@@ -15,7 +15,6 @@ import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen
 
 import '../../../core/configs/theme/app_theme.dart';
 import '../../../domain/repository/post_repository.dart';
-import '../../../domain/usecases/get_current_user_use_case.dart';
 import '../../../presentation/home/bloc/user_cubit.dart';
 import '../../../set_up_sl.dart';
 
@@ -146,12 +145,7 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
         builder: (context, locked, child) {
           return MultiBlocProvider(
             providers: [
-              BlocProvider(
-                create:
-                    (context) =>
-                        UserCubit()
-                          ..getCurrentUser(sl<GetCurrentUserUseCase>()),
-              ),
+              BlocProvider(create: (context) => UserCubit()..getCurrentUser()),
               BlocProvider(create: (context) => NewsfeedCubit()..loadPosts()),
             ],
             child: BlocListener<UserCubit, UserState>(
@@ -250,7 +244,7 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
     );
   }
 
-  emojiSelectedHandler(Emoji emoji) {
+  void emojiSelectedHandler(Emoji emoji) {
     debugPrint('react to postid: $_postId with emoji: ${emoji.emoji}');
     // sl<PostRepository>().react(postId: _postId, emoji: emoji.emoji);
   }

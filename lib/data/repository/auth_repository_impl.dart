@@ -3,6 +3,7 @@ import 'package:locket_clone/data/model/sign_in_req/sign_in_req.dart';
 import 'package:locket_clone/data/model/user_dto/user_dto.dart';
 import 'package:locket_clone/data/source/auth_api_service.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
+import 'package:locket_clone/live_data/LiveData.dart';
 
 import '../../core/mapper/user_mapper/user_mapper.dart';
 import '../../domain/repository/auth_repository.dart';
@@ -42,6 +43,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
       final token = sl<AuthLocalService>().getLocalToken();
       final userApi = await sl<AuthApiService>().getCurrentUser(token);
+      LiveData.token = token;
       if (userLocal != userApi) {
         sl<AuthLocalService>().writeToDb(
           SignInRes(token: token, user: userApi),

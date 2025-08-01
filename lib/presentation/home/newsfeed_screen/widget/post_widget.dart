@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
 import 'package:locket_clone/core/locale/my_custom_messages.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
-import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../core/configs/theme/app_theme.dart';
@@ -22,7 +21,6 @@ class PostWidget extends StatelessWidget {
       return CachedNetworkImage(imageUrl: path, fit: BoxFit.cover);
     } else {
       // Local path
-      print('Local image path: $path');
       return Image.file(File(path), fit: BoxFit.cover);
     }
   }
