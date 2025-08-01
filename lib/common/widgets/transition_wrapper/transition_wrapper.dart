@@ -47,7 +47,7 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
 
   void _onPostChanged(int postId) {
     setState(() {
-      postId = postId;
+      _postId = postId;
     });
     debugPrint("🔥 Current post ID in wrapper: $postId");
   }
@@ -246,6 +246,6 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
 
   void emojiSelectedHandler(Emoji emoji) {
     debugPrint('react to postid: $_postId with emoji: ${emoji.emoji}');
-    // sl<PostRepository>().react(postId: _postId, emoji: emoji.emoji);
+    sl<PostRepository>().react(postId: _postId, emoji: emoji.emoji);
   }
 }

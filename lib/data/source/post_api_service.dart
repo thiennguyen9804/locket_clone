@@ -88,7 +88,7 @@ class PostApiServiceImpl implements PostApiService {
   @override
   Future react({required int postId, required String emoji}) async {
     final token = sl<AuthLocalService>().getLocalToken();
-    await sl<DioClient>().post(
+    await sl<DioClient>().patch(
       NetworkConstant.getInteractUrl(postId),
       queryParameters: {'emoji': emoji},
       options: Options(headers: {'Authorization': 'Bearer $token'}),

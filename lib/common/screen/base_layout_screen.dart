@@ -17,8 +17,7 @@ abstract class BaseLayoutScreenState extends State<BaseLayoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      // padding: EdgeInsets.only(top: 132), // oppo reno 2f
-      padding: EdgeInsets.only(top: 95), // emulator
+      padding: EdgeInsets.only(top: 132),
       child: SizedBox(
         height: context.screenHeight,
         child: Column(
@@ -30,7 +29,7 @@ abstract class BaseLayoutScreenState extends State<BaseLayoutScreen> {
             ),
             const Spacer(),
             buildControlBar(),
-            const SizedBox(height: 20),
+            SizedBox(height: 80),
           ],
         ),
       ),

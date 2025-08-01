@@ -7,7 +7,7 @@ class NetworkConstant {
   static const USER = '${BASE_URL}auth/';
   static const POSTS = '${BASE_URL}posts';
   static String getInteractUrl(int postId) =>
-      '${BASE_URL}posts/interact/$postId/';
+      '${BASE_URL}posts/interact/$postId';
 
   static String getAllPostsUrl(int size, DateTime? cursor) {
     if (cursor == null) {

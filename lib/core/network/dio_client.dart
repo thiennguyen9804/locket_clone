@@ -6,15 +6,15 @@ class DioClient {
   late final Dio _dio;
 
   DioClient()
-      : _dio = Dio(
-          BaseOptions(
-              headers: {'Content-Type': 'application/json; charset=UTF-8'},
-              responseType: ResponseType.json,
-              // connectTimeout: const Duration(seconds: 4),
-              // sendTimeout: const Duration(seconds: 3),
-              // receiveTimeout: const Duration(seconds: 3)),
-          ),
-        )..interceptors.addAll([LoggerInterceptor()]);
+    : _dio = Dio(
+        BaseOptions(
+          headers: {'Content-Type': 'application/json; charset=UTF-8'},
+          responseType: ResponseType.json,
+          // connectTimeout: const Duration(seconds: 4),
+          // sendTimeout: const Duration(seconds: 3),
+          // receiveTimeout: const Duration(seconds: 3)),
+        ),
+      )..interceptors.addAll([LoggerInterceptor()]);
 
   // GET METHOD
   Future<Response> get(
@@ -105,6 +105,32 @@ class DioClient {
         cancelToken: cancelToken,
       );
       return response.data;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // PATCH METHOD
+  Future<Response> patch(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    try {
+      final Response response = await _dio.patch(
+        url,
+        data: data,
+        queryParameters: queryParameters,
+        options: options,
+        cancelToken: cancelToken,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+      return response;
     } catch (e) {
       rethrow;
     }

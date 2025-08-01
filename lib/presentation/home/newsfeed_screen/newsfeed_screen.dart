@@ -48,6 +48,19 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
     onPostChanged = NewsfeedScreenRoot.of(context).onPostChanged;
   }
 
+  void _updateInteractBarForPost(PostEntity post) {
+    onPostChanged(post.id);
+    final currentUser = sl<AuthLocalService>().getLocalCurrentUser();
+    setState(() {
+      currentPost = post;
+      if (post.user.id == currentUser.id) {
+        interactBarStatus = InteractBarStatus.MY_INTERACT_BAR;
+      } else {
+        interactBarStatus = InteractBarStatus.OTHER_INTEARACT_BAR;
+      }
+    });
+  }
+
   Widget backToCamBtn({Color outColor = _outColor, Color inColor = _inColor}) {
     return Container(
       width: 50,
@@ -76,127 +89,124 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
       providers: [
         BlocProvider(create: (context) => NewsfeedCubit()..loadPosts()),
       ],
-      child: Stack(
-        children: [
-          Builder(
-            builder: (context) {
-              return NotificationListener(
-                onNotification: _helperIst.notificationHandler,
-                child: BlocBuilder<NewsfeedCubit, NewsFeedInfoUi>(
-                  builder: (context, state) {
-                    if (state.posts.isEmpty) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.newspaper,
-                              size: 80,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              'Hiện chưa có bài viết\n nào để hiển thị',
-                              style: TextStyle(
+      child: BlocListener<NewsfeedCubit, NewsFeedInfoUi>(
+        listener: (context, state) {
+          if (state.posts.isNotEmpty && currentPost == null) {
+            _updateInteractBarForPost(state.posts[0]);
+          } else if (state.posts.isEmpty) {
+            setState(() {
+              interactBarStatus = InteractBarStatus.NO_INTERACT_BAR;
+              currentPost = null;
+            });
+          }
+        },
+        child: Stack(
+          children: [
+            Builder(
+              builder: (context) {
+                return NotificationListener(
+                  onNotification: _helperIst.notificationHandler,
+                  child: BlocBuilder<NewsfeedCubit, NewsFeedInfoUi>(
+                    builder: (context, state) {
+                      if (state.posts.isEmpty) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.newspaper,
+                                size: 80,
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
+                              Text(
+                                'Hiện chưa có bài viết\n nào để hiển thị',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                      return PageView.builder(
+                        physics: ClampingScrollPhysics(),
+                        controller: _helperIst.newsfeedController,
+                        onPageChanged: (index) {
+                          final state = context.read<NewsfeedCubit>().state;
+                          if (index < state.posts.length) {
+                            _updateInteractBarForPost(state.posts[index]);
+                          }
+                        },
+                        scrollDirection: Axis.vertical,
+                        itemCount:
+                            state.posts.length + (state.endReached ? 0 : 1),
+                        itemBuilder: (context, index) {
+                          var itemCount = state.posts.length;
+                          if (index >= itemCount - 1 && !state.endReached) {
+                            context.read<NewsfeedCubit>().loadPosts();
+                          }
+                          return Padding(
+                            padding: EdgeInsets.only(top: height + 100),
+                            child: PostWidget(postEntity: state.posts[index]),
+                          );
+                        },
                       );
-                    }
-                    return PageView.builder(
-                      physics: ClampingScrollPhysics(),
-                      controller: _helperIst.newsfeedController,
-                      onPageChanged: (index) {},
-                      scrollDirection: Axis.vertical,
-                      itemCount:
-                          state.posts.length + (state.endReached ? 0 : 1),
-                      itemBuilder: (context, index) {
-                        var itemCount = state.posts.length;
-                        if (index >= itemCount - 1 && !state.endReached) {
-                          context.read<NewsfeedCubit>().loadPosts();
-                        }
-                        // if (itemCount == 0) {
-                        //   setState(() {
-                        //     interactBarStatus =
-                        //         InteractBarStatus.NO_INTERACT_BAR;
-                        //   });
-                        // } else {
-                        //   final post = state.posts[index];
-                        //
-                        //   onPostChanged(post.id);
-                        //   final currentUser =
-                        //       sl<AuthLocalService>().getLocalCurrentUser();
-                        //   setState(() {
-                        //     if (post.user.id == currentUser.id) {
-                        //       interactBarStatus =
-                        //           InteractBarStatus.MY_INTERACT_BAR;
-                        //     } else {
-                        //       interactBarStatus =
-                        //           InteractBarStatus.OTHER_INTEARACT_BAR;
-                        //     }
-                        //   });
-                        // }
-                        return Padding(
-                          padding: EdgeInsets.only(top: height + 100),
-                          child: PostWidget(postEntity: state.posts[index]),
-                        );
-                      },
-                    );
-                  },
-                ),
-              );
-            },
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 35,
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Builder(
-                      builder: (context) {
-                        final width = MediaQuery.of(context).size.width;
-                        return AnimatedContainer(
-                          width:
-                              interactBarStatus ==
-                                      InteractBarStatus.MY_INTERACT_BAR
-                                  ? width * 0.6
-                                  : width,
-                          duration: const Duration(milliseconds: 400),
-                          child: switch (interactBarStatus) {
-                            InteractBarStatus.LOADING => Text('Loading...'),
-                            InteractBarStatus.MY_INTERACT_BAR =>
-                              MyInteractBar(),
-                            InteractBarStatus.OTHER_INTEARACT_BAR =>
-                              OtherInteractBar(),
-                            InteractBarStatus.NO_INTERACT_BAR => Container(),
-                          },
-                        );
-                      },
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [WidgetBtn(), backToCamBtn(), ShareBtn()],
-                    ),
-                  ],
+                    },
+                  ),
+                );
+              },
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 35,
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Builder(
+                        builder: (context) {
+                          final width = MediaQuery.of(context).size.width;
+                          return AnimatedContainer(
+                            width:
+                                interactBarStatus ==
+                                        InteractBarStatus.MY_INTERACT_BAR
+                                    ? width * 0.6
+                                    : width,
+                            duration: const Duration(milliseconds: 400),
+                            child: switch (interactBarStatus) {
+                              InteractBarStatus.LOADING => Text('Loading...'),
+                              InteractBarStatus.MY_INTERACT_BAR =>
+                                MyInteractBar(),
+                              InteractBarStatus.OTHER_INTEARACT_BAR =>
+                                OtherInteractBar(),
+                              InteractBarStatus.NO_INTERACT_BAR => Container(),
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [WidgetBtn(), backToCamBtn(), ShareBtn()],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+
