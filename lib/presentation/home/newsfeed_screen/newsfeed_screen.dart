@@ -185,7 +185,10 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                             child: switch (interactBarStatus) {
                               InteractBarStatus.LOADING => Text('Loading...'),
                               InteractBarStatus.MY_INTERACT_BAR =>
-                                MyInteractBar(),
+                                MyInteractBar(
+                                  interactList:
+                                      currentPost?.interactionList ?? [],
+                                ),
                               InteractBarStatus.OTHER_INTEARACT_BAR =>
                                 OtherInteractBar(),
                               InteractBarStatus.NO_INTERACT_BAR => Container(),
@@ -209,4 +212,3 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
     );
   }
 }
-
