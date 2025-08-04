@@ -1,32 +1,21 @@
-import 'dart:io';
-import 'dart:isolate';
-
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:locket_clone/core/id_generator.dart';
-import 'package:locket_clone/core/mapper/newsfeed_local_mapper.dart/newsfeed_local_mapper.dart';
 import 'package:locket_clone/core/mapper/newsfeed_mapper/newsfeed_mapper.dart';
-import 'package:locket_clone/core/mapper/post_local_mapper/post_local_mapper.dart';
 import 'package:locket_clone/core/mapper/post_mapper/post_mapper.dart';
 import 'package:locket_clone/core/mapper/user_mapper/user_mapper.dart';
-import 'package:locket_clone/data/model/all_post_local.dart';
 import 'package:locket_clone/data/model/all_posts_res.dart';
 import 'package:locket_clone/data/model/post_dto/post_dto.dart';
 import 'package:locket_clone/data/model/post_local_data.dart';
 import 'package:locket_clone/data/model/user_dto/user_dto.dart';
 import 'package:locket_clone/data/source/auth_local_service.dart';
-import 'package:locket_clone/data/source/image_local_service.dart';
 import 'package:locket_clone/data/source/post_api_service.dart';
 import 'package:locket_clone/data/source/post_local_service.dart';
-import 'package:locket_clone/data/source/user_api_service.dart';
 import 'package:locket_clone/data/source/user_local_service.dart';
 import 'package:locket_clone/domain/entities/newsfeed_entity.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:locket_clone/domain/repository/user_repository.dart';
 import 'package:locket_clone/presentation/data/captured_image_data.dart';
-import 'package:image/image.dart' as img;
 import 'package:locket_clone/set_up_fcm.dart';
 
 import '../../domain/repository/post_repository.dart';
@@ -48,7 +37,7 @@ class PostRepositoryImpl implements PostRepository {
       imageUrl: item.imageUrl,
       user: user,
       caption: item.caption,
-      interactionList: null,
+      interactionList: item.interactionList,
       createdAt: item.createdAt,
     );
     return res;
@@ -128,7 +117,7 @@ class PostRepositoryImpl implements PostRepository {
         post: newPost,
       );
       // await sl<ImageLocalService>().deleteImageLocal(imgPath);
-    } on DioException catch (e) {
+    } on DioException {
       // await sl<PostLocalService>().deleteLocalPostById(postLocal.id);
     } catch (e) {
       rethrow;

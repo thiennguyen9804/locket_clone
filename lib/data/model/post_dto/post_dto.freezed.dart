@@ -25,8 +25,9 @@ mixin _$PostDto {
   String get imageUrl => throw _privateConstructorUsedError;
   UserDto get user => throw _privateConstructorUsedError;
   String get caption => throw _privateConstructorUsedError;
-  dynamic get interactionList => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
+  List<InteractionDto> get interactionList =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this PostDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -47,8 +48,8 @@ abstract class $PostDtoCopyWith<$Res> {
     String imageUrl,
     UserDto user,
     String caption,
-    dynamic interactionList,
     DateTime createdAt,
+    List<InteractionDto> interactionList,
   });
 
   $UserDtoCopyWith<$Res> get user;
@@ -73,8 +74,8 @@ class _$PostDtoCopyWithImpl<$Res, $Val extends PostDto>
     Object? imageUrl = null,
     Object? user = null,
     Object? caption = null,
-    Object? interactionList = freezed,
     Object? createdAt = null,
+    Object? interactionList = null,
   }) {
     return _then(
       _value.copyWith(
@@ -98,16 +99,16 @@ class _$PostDtoCopyWithImpl<$Res, $Val extends PostDto>
                     ? _value.caption
                     : caption // ignore: cast_nullable_to_non_nullable
                         as String,
-            interactionList:
-                freezed == interactionList
-                    ? _value.interactionList
-                    : interactionList // ignore: cast_nullable_to_non_nullable
-                        as dynamic,
             createdAt:
                 null == createdAt
                     ? _value.createdAt
                     : createdAt // ignore: cast_nullable_to_non_nullable
                         as DateTime,
+            interactionList:
+                null == interactionList
+                    ? _value.interactionList
+                    : interactionList // ignore: cast_nullable_to_non_nullable
+                        as List<InteractionDto>,
           )
           as $Val,
     );
@@ -137,8 +138,8 @@ abstract class _$$PostDtoImplCopyWith<$Res> implements $PostDtoCopyWith<$Res> {
     String imageUrl,
     UserDto user,
     String caption,
-    dynamic interactionList,
     DateTime createdAt,
+    List<InteractionDto> interactionList,
   });
 
   @override
@@ -163,8 +164,8 @@ class __$$PostDtoImplCopyWithImpl<$Res>
     Object? imageUrl = null,
     Object? user = null,
     Object? caption = null,
-    Object? interactionList = freezed,
     Object? createdAt = null,
+    Object? interactionList = null,
   }) {
     return _then(
       _$PostDtoImpl(
@@ -188,16 +189,16 @@ class __$$PostDtoImplCopyWithImpl<$Res>
                 ? _value.caption
                 : caption // ignore: cast_nullable_to_non_nullable
                     as String,
-        interactionList:
-            freezed == interactionList
-                ? _value.interactionList
-                : interactionList // ignore: cast_nullable_to_non_nullable
-                    as dynamic,
         createdAt:
             null == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
                     as DateTime,
+        interactionList:
+            null == interactionList
+                ? _value._interactionList
+                : interactionList // ignore: cast_nullable_to_non_nullable
+                    as List<InteractionDto>,
       ),
     );
   }
@@ -211,9 +212,9 @@ class _$PostDtoImpl implements _PostDto {
     required this.imageUrl,
     required this.user,
     required this.caption,
-    required this.interactionList,
     required this.createdAt,
-  });
+    required final List<InteractionDto> interactionList,
+  }) : _interactionList = interactionList;
 
   factory _$PostDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$PostDtoImplFromJson(json);
@@ -227,13 +228,18 @@ class _$PostDtoImpl implements _PostDto {
   @override
   final String caption;
   @override
-  final dynamic interactionList;
-  @override
   final DateTime createdAt;
+  final List<InteractionDto> _interactionList;
+  @override
+  List<InteractionDto> get interactionList {
+    if (_interactionList is EqualUnmodifiableListView) return _interactionList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_interactionList);
+  }
 
   @override
   String toString() {
-    return 'PostDto(id: $id, imageUrl: $imageUrl, user: $user, caption: $caption, interactionList: $interactionList, createdAt: $createdAt)';
+    return 'PostDto(id: $id, imageUrl: $imageUrl, user: $user, caption: $caption, createdAt: $createdAt, interactionList: $interactionList)';
   }
 
   @override
@@ -246,12 +252,12 @@ class _$PostDtoImpl implements _PostDto {
                 other.imageUrl == imageUrl) &&
             (identical(other.user, user) || other.user == user) &&
             (identical(other.caption, caption) || other.caption == caption) &&
-            const DeepCollectionEquality().equals(
-              other.interactionList,
-              interactionList,
-            ) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(
+              other._interactionList,
+              _interactionList,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -262,8 +268,8 @@ class _$PostDtoImpl implements _PostDto {
     imageUrl,
     user,
     caption,
-    const DeepCollectionEquality().hash(interactionList),
     createdAt,
+    const DeepCollectionEquality().hash(_interactionList),
   );
 
   /// Create a copy of PostDto
@@ -286,8 +292,8 @@ abstract class _PostDto implements PostDto {
     required final String imageUrl,
     required final UserDto user,
     required final String caption,
-    required final dynamic interactionList,
     required final DateTime createdAt,
+    required final List<InteractionDto> interactionList,
   }) = _$PostDtoImpl;
 
   factory _PostDto.fromJson(Map<String, dynamic> json) = _$PostDtoImpl.fromJson;
@@ -301,9 +307,9 @@ abstract class _PostDto implements PostDto {
   @override
   String get caption;
   @override
-  dynamic get interactionList;
-  @override
   DateTime get createdAt;
+  @override
+  List<InteractionDto> get interactionList;
 
   /// Create a copy of PostDto
   /// with the given fields replaced by the non-null parameter values.

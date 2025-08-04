@@ -11,13 +11,13 @@
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
 
 import '../../../data/model/all_posts_res.dart' as _i2;
+import '../../../data/model/interaction_dto/interaction_dto.dart' as _i6;
 import '../../../data/model/post_dto/post_dto.dart' as _i4;
-import '../../../data/model/post_local_data.dart' as _i6;
-import '../../../data/model/user_dto/user_dto.dart' as _i7;
+import '../../../data/model/user_dto/user_dto.dart' as _i8;
+import '../../../domain/entities/interaction_entity.dart' as _i7;
 import '../../../domain/entities/newsfeed_entity.dart' as _i3;
 import '../../../domain/entities/post_entity.dart' as _i5;
-import '../../../domain/entities/user_entity.dart' as _i8;
-import '../post_mapper/post_mapper.dart' as _i9;
+import '../../../domain/entities/user_entity.dart' as _i9;
 
 /// {@template package:locket_clone/core/mapper/newsfeed_mapper/newsfeed_mapper.dart}
 /// Available mappings:
@@ -25,7 +25,8 @@ import '../post_mapper/post_mapper.dart' as _i9;
 /// - `NewsfeedEntity` → `AllPostsRes`.
 /// - `PostDto` → `PostEntity`.
 /// - `PostEntity` → `PostDto`.
-/// - `PostEntity` → `PostLocalData`.
+/// - `InteractionDto` → `InteractionEntity`.
+/// - `InteractionEntity` → `InteractionDto`.
 /// - `UserDto` → `UserEntity`.
 /// - `UserEntity` → `UserDto`.
 /// {@endtemplate}
@@ -66,22 +67,28 @@ class $NewsfeedMapper implements _i1.AutoMapprInterface {
             targetTypeOf == _typeOf<_i4.PostDto?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i5.PostEntity>() ||
-            sourceTypeOf == _typeOf<_i5.PostEntity?>()) &&
-        (targetTypeOf == _typeOf<_i6.PostLocalData>() ||
-            targetTypeOf == _typeOf<_i6.PostLocalData?>())) {
+    if ((sourceTypeOf == _typeOf<_i6.InteractionDto>() ||
+            sourceTypeOf == _typeOf<_i6.InteractionDto?>()) &&
+        (targetTypeOf == _typeOf<_i7.InteractionEntity>() ||
+            targetTypeOf == _typeOf<_i7.InteractionEntity?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i7.UserDto>() ||
-            sourceTypeOf == _typeOf<_i7.UserDto?>()) &&
-        (targetTypeOf == _typeOf<_i8.UserEntity>() ||
-            targetTypeOf == _typeOf<_i8.UserEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i7.InteractionEntity>() ||
+            sourceTypeOf == _typeOf<_i7.InteractionEntity?>()) &&
+        (targetTypeOf == _typeOf<_i6.InteractionDto>() ||
+            targetTypeOf == _typeOf<_i6.InteractionDto?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i8.UserEntity>() ||
-            sourceTypeOf == _typeOf<_i8.UserEntity?>()) &&
-        (targetTypeOf == _typeOf<_i7.UserDto>() ||
-            targetTypeOf == _typeOf<_i7.UserDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i8.UserDto>() ||
+            sourceTypeOf == _typeOf<_i8.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i9.UserEntity>() ||
+            targetTypeOf == _typeOf<_i9.UserEntity?>())) {
+      return true;
+    }
+    if ((sourceTypeOf == _typeOf<_i9.UserEntity>() ||
+            sourceTypeOf == _typeOf<_i9.UserEntity?>()) &&
+        (targetTypeOf == _typeOf<_i8.UserDto>() ||
+            targetTypeOf == _typeOf<_i8.UserDto?>())) {
       return true;
     }
     if (recursive) {
@@ -305,36 +312,48 @@ class $NewsfeedMapper implements _i1.AutoMapprInterface {
       return (_map__i5$PostEntity_To__i4$PostDto((model as _i5.PostEntity?))
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i5.PostEntity>() ||
-            sourceTypeOf == _typeOf<_i5.PostEntity?>()) &&
-        (targetTypeOf == _typeOf<_i6.PostLocalData>() ||
-            targetTypeOf == _typeOf<_i6.PostLocalData?>())) {
+    if ((sourceTypeOf == _typeOf<_i6.InteractionDto>() ||
+            sourceTypeOf == _typeOf<_i6.InteractionDto?>()) &&
+        (targetTypeOf == _typeOf<_i7.InteractionEntity>() ||
+            targetTypeOf == _typeOf<_i7.InteractionEntity?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i5$PostEntity_To__i6$PostLocalData(
-            (model as _i5.PostEntity?),
+      return (_map__i6$InteractionDto_To__i7$InteractionEntity(
+            (model as _i6.InteractionDto?),
           )
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i7.UserDto>() ||
-            sourceTypeOf == _typeOf<_i7.UserDto?>()) &&
-        (targetTypeOf == _typeOf<_i8.UserEntity>() ||
-            targetTypeOf == _typeOf<_i8.UserEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i7.InteractionEntity>() ||
+            sourceTypeOf == _typeOf<_i7.InteractionEntity?>()) &&
+        (targetTypeOf == _typeOf<_i6.InteractionDto>() ||
+            targetTypeOf == _typeOf<_i6.InteractionDto?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i7$UserDto_To__i8$UserEntity((model as _i7.UserDto?))
+      return (_map__i7$InteractionEntity_To__i6$InteractionDto(
+            (model as _i7.InteractionEntity?),
+          )
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i8.UserEntity>() ||
-            sourceTypeOf == _typeOf<_i8.UserEntity?>()) &&
-        (targetTypeOf == _typeOf<_i7.UserDto>() ||
-            targetTypeOf == _typeOf<_i7.UserDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i8.UserDto>() ||
+            sourceTypeOf == _typeOf<_i8.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i9.UserEntity>() ||
+            targetTypeOf == _typeOf<_i9.UserEntity?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i8$UserEntity_To__i7$UserDto((model as _i8.UserEntity?))
+      return (_map__i8$UserDto_To__i9$UserEntity((model as _i8.UserDto?))
+          as TARGET);
+    }
+    if ((sourceTypeOf == _typeOf<_i9.UserEntity>() ||
+            sourceTypeOf == _typeOf<_i9.UserEntity?>()) &&
+        (targetTypeOf == _typeOf<_i8.UserDto>() ||
+            targetTypeOf == _typeOf<_i8.UserDto?>())) {
+      if (canReturnNull && model == null) {
+        return null;
+      }
+      return (_map__i9$UserEntity_To__i8$UserDto((model as _i9.UserEntity?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
@@ -416,9 +435,15 @@ class $NewsfeedMapper implements _i1.AutoMapprInterface {
     return _i5.PostEntity(
       id: model.id,
       imageUrl: model.imageUrl,
-      user: _map__i7$UserDto_To__i8$UserEntity(model.user),
+      user: _map__i8$UserDto_To__i9$UserEntity(model.user),
       caption: model.caption,
-      interactionList: model.interactionList,
+      interactionList:
+          model.interactionList
+              .map<_i7.InteractionEntity>(
+                (value) =>
+                    _map__i6$InteractionDto_To__i7$InteractionEntity(value),
+              )
+              .toList(),
       createdAt: model.createdAt,
     );
   }
@@ -434,34 +459,56 @@ class $NewsfeedMapper implements _i1.AutoMapprInterface {
     return _i4.PostDto(
       id: model.id,
       imageUrl: model.imageUrl,
-      user: _map__i8$UserEntity_To__i7$UserDto(model.user),
+      user: _map__i9$UserEntity_To__i8$UserDto(model.user),
       caption: model.caption,
-      interactionList: model.interactionList,
       createdAt: model.createdAt,
+      interactionList:
+          model.interactionList
+              .map<_i6.InteractionDto>(
+                (value) =>
+                    _map__i7$InteractionEntity_To__i6$InteractionDto(value),
+              )
+              .toList(),
     );
   }
 
-  _i6.PostLocalData _map__i5$PostEntity_To__i6$PostLocalData(
-    _i5.PostEntity? input,
+  _i7.InteractionEntity _map__i6$InteractionDto_To__i7$InteractionEntity(
+    _i6.InteractionDto? input,
   ) {
     final model = input;
     if (model == null) {
       throw Exception(
-        r'Mapping PostEntity → PostLocalData failed because PostEntity was null, and no default value was provided. '
-        r'Consider setting the whenSourceIsNull parameter on the MapType<PostEntity, PostLocalData> to handle null values during mapping.',
+        r'Mapping InteractionDto → InteractionEntity failed because InteractionDto was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<InteractionDto, InteractionEntity> to handle null values during mapping.',
       );
     }
-    return _i6.PostLocalData(
+    return _i7.InteractionEntity(
       id: model.id,
-      imageUrl: model.imageUrl,
-      userId: _i9.PostMapper.userDtoToInt(model),
-      caption: model.caption,
-      interactionList: model.interactionList,
-      createdAt: model.createdAt,
+      user: _map__i8$UserDto_To__i9$UserEntity(model.user),
+      postId: model.postId,
+      emoji: model.emoji,
     );
   }
 
-  _i8.UserEntity _map__i7$UserDto_To__i8$UserEntity(_i7.UserDto? input) {
+  _i6.InteractionDto _map__i7$InteractionEntity_To__i6$InteractionDto(
+    _i7.InteractionEntity? input,
+  ) {
+    final model = input;
+    if (model == null) {
+      throw Exception(
+        r'Mapping InteractionEntity → InteractionDto failed because InteractionEntity was null, and no default value was provided. '
+        r'Consider setting the whenSourceIsNull parameter on the MapType<InteractionEntity, InteractionDto> to handle null values during mapping.',
+      );
+    }
+    return _i6.InteractionDto(
+      id: model.id,
+      user: _map__i9$UserEntity_To__i8$UserDto(model.user),
+      postId: model.postId,
+      emoji: model.emoji,
+    );
+  }
+
+  _i9.UserEntity _map__i8$UserDto_To__i9$UserEntity(_i8.UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -469,7 +516,7 @@ class $NewsfeedMapper implements _i1.AutoMapprInterface {
         r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, UserEntity> to handle null values during mapping.',
       );
     }
-    return _i8.UserEntity(
+    return _i9.UserEntity(
       id: model.id,
       name: model.name,
       avatarUrl: model.avatarUrl,
@@ -478,7 +525,7 @@ class $NewsfeedMapper implements _i1.AutoMapprInterface {
     );
   }
 
-  _i7.UserDto _map__i8$UserEntity_To__i7$UserDto(_i8.UserEntity? input) {
+  _i8.UserDto _map__i9$UserEntity_To__i8$UserDto(_i9.UserEntity? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -486,7 +533,7 @@ class $NewsfeedMapper implements _i1.AutoMapprInterface {
         r'Consider setting the whenSourceIsNull parameter on the MapType<UserEntity, UserDto> to handle null values during mapping.',
       );
     }
-    return _i7.UserDto(
+    return _i8.UserDto(
       id: model.id,
       name: model.name,
       avatarUrl: model.avatarUrl,

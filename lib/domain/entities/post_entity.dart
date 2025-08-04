@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:locket_clone/data/model/interaction_dto/interaction_dto.dart';
+import 'package:locket_clone/domain/entities/interaction_entity.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
 
 class PostEntity {
@@ -6,7 +8,7 @@ class PostEntity {
   final String imageUrl;
   final UserEntity user;
   final String caption;
-  final dynamic interactionList;
+  final List<InteractionEntity> interactionList;
   final DateTime createdAt;
 
   PostEntity({

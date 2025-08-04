@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:locket_clone/data/model/interaction_dto/interaction_dto.dart';
 import 'package:locket_clone/data/model/user_dto/user_dto.dart';
 
 part 'post_dto.g.dart';
@@ -12,8 +13,8 @@ class PostDto with _$PostDto {
     required String imageUrl,
     required UserDto user,
     required String caption,
-    required dynamic interactionList,
     required DateTime createdAt,
+    required List<InteractionDto> interactionList,
   }) = _PostDto;
 
   factory PostDto.fromJson(Map<String, Object?> json) =>

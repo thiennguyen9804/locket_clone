@@ -10,69 +10,53 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_mappr_annotation/auto_mappr_annotation.dart' as _i1;
 
-import '../../../data/model/interaction_dto/interaction_dto.dart' as _i4;
-import '../../../data/model/post_dto/post_dto.dart' as _i2;
-import '../../../data/model/user_dto/user_dto.dart' as _i6;
-import '../../../domain/entities/interaction_entity.dart' as _i5;
-import '../../../domain/entities/post_entity.dart' as _i3;
-import '../../../domain/entities/user_entity.dart' as _i7;
+import '../../../data/model/interaction_dto/interaction_dto.dart' as _i2;
+import '../../../data/model/user_dto/user_dto.dart' as _i4;
+import '../../../domain/entities/interaction_entity.dart' as _i3;
+import '../../../domain/entities/user_entity.dart' as _i5;
 
-/// {@template package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+/// {@template package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
 /// Available mappings:
-/// - `PostDto` → `PostEntity`.
-/// - `PostEntity` → `PostDto`.
 /// - `InteractionDto` → `InteractionEntity`.
 /// - `InteractionEntity` → `InteractionDto`.
 /// - `UserDto` → `UserEntity`.
 /// - `UserEntity` → `UserDto`.
 /// {@endtemplate}
-class $PostMapper implements _i1.AutoMapprInterface {
-  const $PostMapper();
+class $InteractionMapper implements _i1.AutoMapprInterface {
+  const $InteractionMapper();
 
   Type _typeOf<T>() => T;
 
   List<_i1.AutoMapprInterface> get _delegates => const [];
 
   /// {@macro AutoMapprInterface:canConvert}
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   bool canConvert<SOURCE, TARGET>({bool recursive = true}) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<_i2.PostDto>() ||
-            sourceTypeOf == _typeOf<_i2.PostDto?>()) &&
-        (targetTypeOf == _typeOf<_i3.PostEntity>() ||
-            targetTypeOf == _typeOf<_i3.PostEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.InteractionDto>() ||
+            sourceTypeOf == _typeOf<_i2.InteractionDto?>()) &&
+        (targetTypeOf == _typeOf<_i3.InteractionEntity>() ||
+            targetTypeOf == _typeOf<_i3.InteractionEntity?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i3.PostEntity>() ||
-            sourceTypeOf == _typeOf<_i3.PostEntity?>()) &&
-        (targetTypeOf == _typeOf<_i2.PostDto>() ||
-            targetTypeOf == _typeOf<_i2.PostDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i3.InteractionEntity>() ||
+            sourceTypeOf == _typeOf<_i3.InteractionEntity?>()) &&
+        (targetTypeOf == _typeOf<_i2.InteractionDto>() ||
+            targetTypeOf == _typeOf<_i2.InteractionDto?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i4.InteractionDto>() ||
-            sourceTypeOf == _typeOf<_i4.InteractionDto?>()) &&
-        (targetTypeOf == _typeOf<_i5.InteractionEntity>() ||
-            targetTypeOf == _typeOf<_i5.InteractionEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i4.UserDto>() ||
+            sourceTypeOf == _typeOf<_i4.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i5.UserEntity>() ||
+            targetTypeOf == _typeOf<_i5.UserEntity?>())) {
       return true;
     }
-    if ((sourceTypeOf == _typeOf<_i5.InteractionEntity>() ||
-            sourceTypeOf == _typeOf<_i5.InteractionEntity?>()) &&
-        (targetTypeOf == _typeOf<_i4.InteractionDto>() ||
-            targetTypeOf == _typeOf<_i4.InteractionDto?>())) {
-      return true;
-    }
-    if ((sourceTypeOf == _typeOf<_i6.UserDto>() ||
-            sourceTypeOf == _typeOf<_i6.UserDto?>()) &&
-        (targetTypeOf == _typeOf<_i7.UserEntity>() ||
-            targetTypeOf == _typeOf<_i7.UserEntity?>())) {
-      return true;
-    }
-    if ((sourceTypeOf == _typeOf<_i7.UserEntity>() ||
-            sourceTypeOf == _typeOf<_i7.UserEntity?>()) &&
-        (targetTypeOf == _typeOf<_i6.UserDto>() ||
-            targetTypeOf == _typeOf<_i6.UserDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i5.UserEntity>() ||
+            sourceTypeOf == _typeOf<_i5.UserEntity?>()) &&
+        (targetTypeOf == _typeOf<_i4.UserDto>() ||
+            targetTypeOf == _typeOf<_i4.UserDto?>())) {
       return true;
     }
     if (recursive) {
@@ -86,7 +70,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convert}
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   TARGET convert<SOURCE, TARGET>(SOURCE? model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -102,7 +86,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:tryConvert}
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   TARGET? tryConvert<SOURCE, TARGET>(
     SOURCE? model, {
@@ -122,7 +106,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertIterable}
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   Iterable<TARGET> convertIterable<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -141,7 +125,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   Iterable<TARGET?> tryConvertIterable<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
@@ -163,7 +147,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertList}
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   List<TARGET> convertList<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -182,7 +166,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   List<TARGET?> tryConvertList<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
@@ -205,7 +189,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:convertSet}
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   Set<TARGET> convertSet<SOURCE, TARGET>(Iterable<SOURCE?> model) {
     if (canConvert<SOURCE, TARGET>(recursive: false)) {
@@ -224,7 +208,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
   ///
   /// When an item in the source iterable is null, uses `whenSourceIsNull` if defined or null
   ///
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   Set<TARGET?> tryConvertSet<SOURCE, TARGET>(
     Iterable<SOURCE?> model, {
@@ -252,68 +236,48 @@ class $PostMapper implements _i1.AutoMapprInterface {
   }) {
     final sourceTypeOf = _typeOf<SOURCE>();
     final targetTypeOf = _typeOf<TARGET>();
-    if ((sourceTypeOf == _typeOf<_i2.PostDto>() ||
-            sourceTypeOf == _typeOf<_i2.PostDto?>()) &&
-        (targetTypeOf == _typeOf<_i3.PostEntity>() ||
-            targetTypeOf == _typeOf<_i3.PostEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i2.InteractionDto>() ||
+            sourceTypeOf == _typeOf<_i2.InteractionDto?>()) &&
+        (targetTypeOf == _typeOf<_i3.InteractionEntity>() ||
+            targetTypeOf == _typeOf<_i3.InteractionEntity?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i2$PostDto_To__i3$PostEntity((model as _i2.PostDto?))
-          as TARGET);
-    }
-    if ((sourceTypeOf == _typeOf<_i3.PostEntity>() ||
-            sourceTypeOf == _typeOf<_i3.PostEntity?>()) &&
-        (targetTypeOf == _typeOf<_i2.PostDto>() ||
-            targetTypeOf == _typeOf<_i2.PostDto?>())) {
-      if (canReturnNull && model == null) {
-        return null;
-      }
-      return (_map__i3$PostEntity_To__i2$PostDto((model as _i3.PostEntity?))
-          as TARGET);
-    }
-    if ((sourceTypeOf == _typeOf<_i4.InteractionDto>() ||
-            sourceTypeOf == _typeOf<_i4.InteractionDto?>()) &&
-        (targetTypeOf == _typeOf<_i5.InteractionEntity>() ||
-            targetTypeOf == _typeOf<_i5.InteractionEntity?>())) {
-      if (canReturnNull && model == null) {
-        return null;
-      }
-      return (_map__i4$InteractionDto_To__i5$InteractionEntity(
-            (model as _i4.InteractionDto?),
+      return (_map__i2$InteractionDto_To__i3$InteractionEntity(
+            (model as _i2.InteractionDto?),
           )
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i5.InteractionEntity>() ||
-            sourceTypeOf == _typeOf<_i5.InteractionEntity?>()) &&
-        (targetTypeOf == _typeOf<_i4.InteractionDto>() ||
-            targetTypeOf == _typeOf<_i4.InteractionDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i3.InteractionEntity>() ||
+            sourceTypeOf == _typeOf<_i3.InteractionEntity?>()) &&
+        (targetTypeOf == _typeOf<_i2.InteractionDto>() ||
+            targetTypeOf == _typeOf<_i2.InteractionDto?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i5$InteractionEntity_To__i4$InteractionDto(
-            (model as _i5.InteractionEntity?),
+      return (_map__i3$InteractionEntity_To__i2$InteractionDto(
+            (model as _i3.InteractionEntity?),
           )
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i6.UserDto>() ||
-            sourceTypeOf == _typeOf<_i6.UserDto?>()) &&
-        (targetTypeOf == _typeOf<_i7.UserEntity>() ||
-            targetTypeOf == _typeOf<_i7.UserEntity?>())) {
+    if ((sourceTypeOf == _typeOf<_i4.UserDto>() ||
+            sourceTypeOf == _typeOf<_i4.UserDto?>()) &&
+        (targetTypeOf == _typeOf<_i5.UserEntity>() ||
+            targetTypeOf == _typeOf<_i5.UserEntity?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i6$UserDto_To__i7$UserEntity((model as _i6.UserDto?))
+      return (_map__i4$UserDto_To__i5$UserEntity((model as _i4.UserDto?))
           as TARGET);
     }
-    if ((sourceTypeOf == _typeOf<_i7.UserEntity>() ||
-            sourceTypeOf == _typeOf<_i7.UserEntity?>()) &&
-        (targetTypeOf == _typeOf<_i6.UserDto>() ||
-            targetTypeOf == _typeOf<_i6.UserDto?>())) {
+    if ((sourceTypeOf == _typeOf<_i5.UserEntity>() ||
+            sourceTypeOf == _typeOf<_i5.UserEntity?>()) &&
+        (targetTypeOf == _typeOf<_i4.UserDto>() ||
+            targetTypeOf == _typeOf<_i4.UserDto?>())) {
       if (canReturnNull && model == null) {
         return null;
       }
-      return (_map__i7$UserEntity_To__i6$UserDto((model as _i7.UserEntity?))
+      return (_map__i5$UserEntity_To__i4$UserDto((model as _i5.UserEntity?))
           as TARGET);
     }
     throw Exception('No ${model.runtimeType} -> $targetTypeOf mapping.');
@@ -336,62 +300,14 @@ class $PostMapper implements _i1.AutoMapprInterface {
   }
 
   /// {@macro AutoMapprInterface:useSafeMapping}
-  /// {@macro package:locket_clone/core/mapper/post_mapper/post_mapper.dart}
+  /// {@macro package:locket_clone/core/mapper/interaction_mapper/interaction_mapper.dart}
   @override
   bool useSafeMapping<SOURCE, TARGET>() {
     return false;
   }
 
-  _i3.PostEntity _map__i2$PostDto_To__i3$PostEntity(_i2.PostDto? input) {
-    final model = input;
-    if (model == null) {
-      throw Exception(
-        r'Mapping PostDto → PostEntity failed because PostDto was null, and no default value was provided. '
-        r'Consider setting the whenSourceIsNull parameter on the MapType<PostDto, PostEntity> to handle null values during mapping.',
-      );
-    }
-    return _i3.PostEntity(
-      id: model.id,
-      imageUrl: model.imageUrl,
-      user: _map__i6$UserDto_To__i7$UserEntity(model.user),
-      caption: model.caption,
-      interactionList:
-          model.interactionList
-              .map<_i5.InteractionEntity>(
-                (value) =>
-                    _map__i4$InteractionDto_To__i5$InteractionEntity(value),
-              )
-              .toList(),
-      createdAt: model.createdAt,
-    );
-  }
-
-  _i2.PostDto _map__i3$PostEntity_To__i2$PostDto(_i3.PostEntity? input) {
-    final model = input;
-    if (model == null) {
-      throw Exception(
-        r'Mapping PostEntity → PostDto failed because PostEntity was null, and no default value was provided. '
-        r'Consider setting the whenSourceIsNull parameter on the MapType<PostEntity, PostDto> to handle null values during mapping.',
-      );
-    }
-    return _i2.PostDto(
-      id: model.id,
-      imageUrl: model.imageUrl,
-      user: _map__i7$UserEntity_To__i6$UserDto(model.user),
-      caption: model.caption,
-      createdAt: model.createdAt,
-      interactionList:
-          model.interactionList
-              .map<_i4.InteractionDto>(
-                (value) =>
-                    _map__i5$InteractionEntity_To__i4$InteractionDto(value),
-              )
-              .toList(),
-    );
-  }
-
-  _i5.InteractionEntity _map__i4$InteractionDto_To__i5$InteractionEntity(
-    _i4.InteractionDto? input,
+  _i3.InteractionEntity _map__i2$InteractionDto_To__i3$InteractionEntity(
+    _i2.InteractionDto? input,
   ) {
     final model = input;
     if (model == null) {
@@ -400,16 +316,16 @@ class $PostMapper implements _i1.AutoMapprInterface {
         r'Consider setting the whenSourceIsNull parameter on the MapType<InteractionDto, InteractionEntity> to handle null values during mapping.',
       );
     }
-    return _i5.InteractionEntity(
+    return _i3.InteractionEntity(
       id: model.id,
-      user: _map__i6$UserDto_To__i7$UserEntity(model.user),
+      user: _map__i4$UserDto_To__i5$UserEntity(model.user),
       postId: model.postId,
       emoji: model.emoji,
     );
   }
 
-  _i4.InteractionDto _map__i5$InteractionEntity_To__i4$InteractionDto(
-    _i5.InteractionEntity? input,
+  _i2.InteractionDto _map__i3$InteractionEntity_To__i2$InteractionDto(
+    _i3.InteractionEntity? input,
   ) {
     final model = input;
     if (model == null) {
@@ -418,15 +334,15 @@ class $PostMapper implements _i1.AutoMapprInterface {
         r'Consider setting the whenSourceIsNull parameter on the MapType<InteractionEntity, InteractionDto> to handle null values during mapping.',
       );
     }
-    return _i4.InteractionDto(
+    return _i2.InteractionDto(
       id: model.id,
-      user: _map__i7$UserEntity_To__i6$UserDto(model.user),
+      user: _map__i5$UserEntity_To__i4$UserDto(model.user),
       postId: model.postId,
       emoji: model.emoji,
     );
   }
 
-  _i7.UserEntity _map__i6$UserDto_To__i7$UserEntity(_i6.UserDto? input) {
+  _i5.UserEntity _map__i4$UserDto_To__i5$UserEntity(_i4.UserDto? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -434,7 +350,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
         r'Consider setting the whenSourceIsNull parameter on the MapType<UserDto, UserEntity> to handle null values during mapping.',
       );
     }
-    return _i7.UserEntity(
+    return _i5.UserEntity(
       id: model.id,
       name: model.name,
       avatarUrl: model.avatarUrl,
@@ -443,7 +359,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
     );
   }
 
-  _i6.UserDto _map__i7$UserEntity_To__i6$UserDto(_i7.UserEntity? input) {
+  _i4.UserDto _map__i5$UserEntity_To__i4$UserDto(_i5.UserEntity? input) {
     final model = input;
     if (model == null) {
       throw Exception(
@@ -451,7 +367,7 @@ class $PostMapper implements _i1.AutoMapprInterface {
         r'Consider setting the whenSourceIsNull parameter on the MapType<UserEntity, UserDto> to handle null values during mapping.',
       );
     }
-    return _i6.UserDto(
+    return _i4.UserDto(
       id: model.id,
       name: model.name,
       avatarUrl: model.avatarUrl,

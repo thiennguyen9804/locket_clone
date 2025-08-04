@@ -12,8 +12,11 @@ _$PostDtoImpl _$$PostDtoImplFromJson(Map<String, dynamic> json) =>
       imageUrl: json['imageUrl'] as String,
       user: UserDto.fromJson(json['user'] as Map<String, dynamic>),
       caption: json['caption'] as String,
-      interactionList: json['interactionList'],
       createdAt: DateTime.parse(json['createdAt'] as String),
+      interactionList:
+          (json['interactionList'] as List<dynamic>)
+              .map((e) => InteractionDto.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
 
 Map<String, dynamic> _$$PostDtoImplToJson(_$PostDtoImpl instance) =>
@@ -22,6 +25,6 @@ Map<String, dynamic> _$$PostDtoImplToJson(_$PostDtoImpl instance) =>
       'imageUrl': instance.imageUrl,
       'user': instance.user,
       'caption': instance.caption,
-      'interactionList': instance.interactionList,
       'createdAt': instance.createdAt.toIso8601String(),
+      'interactionList': instance.interactionList,
     };

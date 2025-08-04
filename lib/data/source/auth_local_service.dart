@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:isolate';
 
-import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mmkv/mmkv.dart';
 
@@ -16,6 +14,7 @@ abstract class AuthLocalService {
 
 class AuthLocalServiceImpl implements AuthLocalService {
   late MMKV mmkv;
+  UserDto? currentUser;
 
   AuthLocalServiceImpl() {
     mmkv = MMKV.defaultMMKV();
@@ -23,6 +22,9 @@ class AuthLocalServiceImpl implements AuthLocalService {
 
   @override
   UserDto getLocalCurrentUser() {
+    if (currentUser != null) {
+      return this.currentUser!;
+    }
     try {
       String? data = mmkv.decodeString('user');
 
@@ -35,32 +37,11 @@ class AuthLocalServiceImpl implements AuthLocalService {
       //   print('user type: ${data.runtimeType}');
       //   print('user: $data');
       // }
+      currentUser = userDto;
       return userDto;
     } catch (e) {
       rethrow;
     }
-  }
-
-  Future _writeToDb(SignInRes signInRes) async {
-    try {
-      final token = signInRes.token;
-      final userDto = signInRes.user;
-      String jsonString = jsonEncode(userDto.toJson());
-      mmkv.encodeString("user", jsonString);
-      mmkv.encodeString("token", token);
-      if (kDebugMode) {
-        print('write to db successfully');
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('failed to write to db');
-      }
-    }
-  }
-
-  @override
-  Future writeToDb(SignInRes signInRes) async {
-    await _writeToDb(signInRes);
   }
 
   @override
@@ -77,6 +58,28 @@ class AuthLocalServiceImpl implements AuthLocalService {
       return data;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  @override
+  Future writeToDb(SignInRes signInRes) async {
+    await _writeToDb(signInRes);
+  }
+
+  Future _writeToDb(SignInRes signInRes) async {
+    try {
+      final token = signInRes.token;
+      final userDto = signInRes.user;
+      String jsonString = jsonEncode(userDto.toJson());
+      mmkv.encodeString("user", jsonString);
+      mmkv.encodeString("token", token);
+      if (kDebugMode) {
+        print('write to db successfully');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('failed to write to db');
+      }
     }
   }
 }

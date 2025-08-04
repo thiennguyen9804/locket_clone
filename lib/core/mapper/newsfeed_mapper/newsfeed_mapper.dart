@@ -6,10 +6,8 @@ import 'package:locket_clone/data/model/all_post_local.dart';
 import 'package:locket_clone/data/model/all_posts_res.dart';
 import 'package:locket_clone/domain/entities/newsfeed_entity.dart';
 
-@AutoMappr([
-  MapType<AllPostsRes, NewsfeedEntity>(reverse: true),
-
-], includes: [
-  PostMapper(),
-])
+@AutoMappr(
+  [MapType<AllPostsRes, NewsfeedEntity>(reverse: true)],
+  includes: [PostMapper()],
+)
 class NewsfeedMapper extends $NewsfeedMapper {}
