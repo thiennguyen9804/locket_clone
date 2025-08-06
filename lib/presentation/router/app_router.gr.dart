@@ -1,5 +1,5 @@
-// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format width=80
 
 // **************************************************************************
 // AutoRouterGenerator
@@ -9,30 +9,32 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i7;
-import 'package:flutter/material.dart' as _i9;
+import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:flutter/foundation.dart' as _i10;
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrapper.dart'
-    as _i5;
+    as _i6;
 import 'package:locket_clone/presentation/auth/pages/sign_in_screen.dart'
-    as _i4;
-import 'package:locket_clone/presentation/data/captured_image_data.dart' as _i8;
+    as _i5;
+import 'package:locket_clone/presentation/data/captured_image_data.dart' as _i9;
 import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart'
     as _i1;
 import 'package:locket_clone/presentation/home/camera_screen/image_preview_screen.dart'
-    as _i3;
-import 'package:locket_clone/presentation/home/home_root.dart' as _i2;
+    as _i4;
+import 'package:locket_clone/presentation/home/chat_screen/chat_screen.dart'
+    as _i2;
+import 'package:locket_clone/presentation/home/home_root.dart' as _i3;
 import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart'
-    as _i6;
+    as _i7;
 
 /// generated route for
 /// [_i1.CameraScreen]
-class CameraRoute extends _i7.PageRouteInfo<void> {
-  const CameraRoute({List<_i7.PageRouteInfo>? children})
+class CameraRoute extends _i8.PageRouteInfo<void> {
+  const CameraRoute({List<_i8.PageRouteInfo>? children})
     : super(CameraRoute.name, initialChildren: children);
 
   static const String name = 'CameraRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       return const _i1.CameraScreen();
@@ -41,28 +43,44 @@ class CameraRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.HomeRoot]
-class HomeRoute extends _i7.PageRouteInfo<void> {
-  const HomeRoute({List<_i7.PageRouteInfo>? children})
-    : super(HomeRoute.name, initialChildren: children);
+/// [_i2.ChatScreen]
+class ChatRoute extends _i8.PageRouteInfo<void> {
+  const ChatRoute({List<_i8.PageRouteInfo>? children})
+    : super(ChatRoute.name, initialChildren: children);
 
-  static const String name = 'HomeRoute';
+  static const String name = 'ChatRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i2.HomeRoot();
+      return const _i2.ChatScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i3.ImagePreviewScreen]
-class ImagePreviewRoute extends _i7.PageRouteInfo<ImagePreviewRouteArgs> {
+/// [_i3.HomeRoot]
+class HomeRoute extends _i8.PageRouteInfo<void> {
+  const HomeRoute({List<_i8.PageRouteInfo>? children})
+    : super(HomeRoute.name, initialChildren: children);
+
+  static const String name = 'HomeRoute';
+
+  static _i8.PageInfo page = _i8.PageInfo(
+    name,
+    builder: (data) {
+      return const _i3.HomeRoot();
+    },
+  );
+}
+
+/// generated route for
+/// [_i4.ImagePreviewScreen]
+class ImagePreviewRoute extends _i8.PageRouteInfo<ImagePreviewRouteArgs> {
   ImagePreviewRoute({
-    required _i8.CapturedImageDataBuilder capturedImageDataBuilder,
-    _i9.Key? key,
-    List<_i7.PageRouteInfo>? children,
+    required _i9.CapturedImageDataBuilder capturedImageDataBuilder,
+    _i10.Key? key,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
          ImagePreviewRoute.name,
          args: ImagePreviewRouteArgs(
@@ -74,15 +92,13 @@ class ImagePreviewRoute extends _i7.PageRouteInfo<ImagePreviewRouteArgs> {
 
   static const String name = 'ImagePreviewRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<ImagePreviewRouteArgs>();
-      return _i7.WrappedRoute(
-        child: _i3.ImagePreviewScreen(
-          args.capturedImageDataBuilder,
-          key: args.key,
-        ),
+      return _i4.ImagePreviewScreen(
+        args.capturedImageDataBuilder,
+        key: args.key,
       );
     },
   );
@@ -94,9 +110,9 @@ class ImagePreviewRouteArgs {
     this.key,
   });
 
-  final _i8.CapturedImageDataBuilder capturedImageDataBuilder;
+  final _i9.CapturedImageDataBuilder capturedImageDataBuilder;
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   @override
   String toString() {
@@ -116,77 +132,49 @@ class ImagePreviewRouteArgs {
 }
 
 /// generated route for
-/// [_i4.SignInScreen]
-class SignInRoute extends _i7.PageRouteInfo<void> {
-  const SignInRoute({List<_i7.PageRouteInfo>? children})
+/// [_i5.SignInScreen]
+class SignInRoute extends _i8.PageRouteInfo<void> {
+  const SignInRoute({List<_i8.PageRouteInfo>? children})
     : super(SignInRoute.name, initialChildren: children);
 
   static const String name = 'SignInRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i4.SignInScreen();
+      return const _i5.SignInScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i5.TransitionWrapperScreen]
-class TransitionWrapperRoute extends _i7.PageRouteInfo<void> {
-  const TransitionWrapperRoute({List<_i7.PageRouteInfo>? children})
+/// [_i6.TransitionWrapperScreen]
+class TransitionWrapperRoute extends _i8.PageRouteInfo<void> {
+  const TransitionWrapperRoute({List<_i8.PageRouteInfo>? children})
     : super(TransitionWrapperRoute.name, initialChildren: children);
 
   static const String name = 'TransitionWrapperRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i5.TransitionWrapperScreen();
+      return const _i6.TransitionWrapperScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i6.UserInfoScreen]
-class UserInfoRoute extends _i7.PageRouteInfo<UserInfoRouteArgs> {
-  UserInfoRoute({_i9.Key? key, List<_i7.PageRouteInfo>? children})
-    : super(
-        UserInfoRoute.name,
-        args: UserInfoRouteArgs(key: key),
-        initialChildren: children,
-      );
+/// [_i7.UserInfoScreen]
+class UserInfoRoute extends _i8.PageRouteInfo<void> {
+  const UserInfoRoute({List<_i8.PageRouteInfo>? children})
+    : super(UserInfoRoute.name, initialChildren: children);
 
   static const String name = 'UserInfoRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<UserInfoRouteArgs>(
-        orElse: () => const UserInfoRouteArgs(),
-      );
-      return _i7.WrappedRoute(child: _i6.UserInfoScreen(key: args.key));
+      return const _i7.UserInfoScreen();
     },
   );
-}
-
-class UserInfoRouteArgs {
-  const UserInfoRouteArgs({this.key});
-
-  final _i9.Key? key;
-
-  @override
-  String toString() {
-    return 'UserInfoRouteArgs{key: $key}';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! UserInfoRouteArgs) return false;
-    return key == other.key;
-  }
-
-  @override
-  int get hashCode => key.hashCode;
 }

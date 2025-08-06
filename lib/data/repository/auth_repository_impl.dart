@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:locket_clone/core/constant/network_constant.dart';
+import 'package:locket_clone/core/network/dio_client.dart';
 import 'package:locket_clone/data/model/sign_in_req/sign_in_req.dart';
 import 'package:locket_clone/data/model/user_dto/user_dto.dart';
 import 'package:locket_clone/data/source/auth_api_service.dart';
@@ -55,5 +57,11 @@ class AuthRepositoryImpl implements AuthRepository {
     } catch (e) {
       rethrow;
     }
+  }
+
+  @override
+  Future logout() async {
+    await sl<AuthApiService>().logout();
+    sl<AuthLocalService>().deleteLocalUser();
   }
 }

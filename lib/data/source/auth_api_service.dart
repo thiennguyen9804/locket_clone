@@ -14,7 +14,8 @@ abstract class AuthApiService {
 
   Future<UserDto> getCurrentUser(String token);
 
-// Future<Either<String, SignInRes>> getUserById(String id);
+  Future logout();
+  // Future<Either<String, SignInRes>> getUserById(String id);
 }
 
 class AuthApiServiceImpl implements AuthApiService {
@@ -24,8 +25,10 @@ class AuthApiServiceImpl implements AuthApiService {
       print('signIn req: $req');
     }
     try {
-      final res = await sl<DioClient>()
-          .post(NetworkConstant.SIGN_IN, data: req.toJson());
+      final res = await sl<DioClient>().post(
+        NetworkConstant.SIGN_IN,
+        data: req.toJson(),
+      );
 
       final signInRes = SignInRes.fromJson(res.data);
 
@@ -46,14 +49,10 @@ class AuthApiServiceImpl implements AuthApiService {
     try {
       final res = await sl<DioClient>().get(
         NetworkConstant.USER,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
       UserDto userDto = UserDto.fromJson(res.data);
-      print("AuthApiServiceImpl getCurrentUser userDto: $userDto");
+      debugPrint("AuthApiServiceImpl getCurrentUser userDto: $userDto");
       return userDto;
     } catch (e) {
       if (kDebugMode) {
@@ -61,5 +60,10 @@ class AuthApiServiceImpl implements AuthApiService {
       }
       rethrow;
     }
+  }
+
+  @override
+  Future logout() async {
+    await sl<DioClient>().get(NetworkConstant.SIGN_OUT);
   }
 }

@@ -8,14 +8,15 @@ import 'package:locket_clone/presentation/data/section_position.dart';
 import 'package:locket_clone/presentation/home/bloc/user_cubit.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/widget/large_circle_avatar.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/widget/section_btn.dart';
+import 'package:locket_clone/presentation/router/app_router.gr.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
 @RoutePage()
 class UserInfoScreen extends StatelessWidget implements AutoRouteWrapper {
-  UserInfoScreen({super.key});
+  const UserInfoScreen({super.key});
   final width = 148, height = 148;
 
-  final List<SectionBtn> themeSection = [
+  List<SectionBtn> themeSection(BuildContext context) => [
     SectionBtn(
       svgPath: 'assets/change_theme_ic.svg',
       btnName: 'Change Theme',
@@ -24,7 +25,7 @@ class UserInfoScreen extends StatelessWidget implements AutoRouteWrapper {
     ),
   ];
 
-  final List<SectionBtn> generalSection = [
+  List<SectionBtn> generalSection(BuildContext context) => [
     SectionBtn(
       svgPath: 'assets/change_phone_ic.svg',
       btnName: 'Change phone number',
@@ -57,7 +58,7 @@ class UserInfoScreen extends StatelessWidget implements AutoRouteWrapper {
     ),
   ];
 
-  final List<SectionBtn> communitySection = [
+  List<SectionBtn> communitySection(BuildContext context) => [
     SectionBtn(
       btnName: 'Share OurZone',
       svgPath: 'assets/white_share_ic.svg',
@@ -90,12 +91,13 @@ class UserInfoScreen extends StatelessWidget implements AutoRouteWrapper {
     ),
   ];
 
-  final List<SectionBtn> manageSection = [
+  List<SectionBtn> manageSection(BuildContext context) => [
     SectionBtn(
       svgPath: 'assets/sign_out_ic.svg',
       btnName: 'Log out',
       onPressed: () {
-        // context.read<UserCubit>
+        sl<AuthRepository>().logout();
+        context.router.replaceAll([SignInRoute()]);
       },
       pos: SectionPosition.TOP,
     ),
@@ -122,102 +124,94 @@ class UserInfoScreen extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UserCubit, UserState>(
-      listener: (context, state) {
-        print('UserInfoScreen build $state');
-        if (state is UserLoadedSuccess) {
-          print('UserInfoScreen build ${state.userEntity}');
-        }
-      },
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
-            child: BlocBuilder<UserCubit, UserState>(
-              builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          color: Color(0xffAAC2B3),
-                          size: 35,
-                        ),
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8),
+          child: BlocBuilder<UserCubit, UserState>(
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      onPressed: context.router.pop,
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Color(0xffAAC2B3),
+                        size: 35,
                       ),
                     ),
-                    Stack(
-                      alignment: Alignment.topCenter,
-                      children: [
-                        LargeCircleAvatar(
-                          state is UserLoadedSuccess
-                              ? state.userEntity.avatarUrl ?? ""
-                              : "",
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 10,
-                          child: addNewImageBtn(() {}),
+                  ),
+                  Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      LargeCircleAvatar(
+                        state is UserLoadedSuccess
+                            ? state.userEntity.avatarUrl ?? ""
+                            : "",
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 10,
+                        child: addNewImageBtn(() {}),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 18),
+                  Text(
+                    state is UserLoadedSuccess ? state.userEntity.name : '',
+                    style: TextStyle(
+                      letterSpacing: 1.07,
+                      color: Color(0xff6B9080),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      shadows: [
+                        BoxShadow(
+                          blurRadius: 2,
+                          offset: Offset(0, 1),
+                          color: Color.fromARGB(64, 0, 0, 0),
                         ),
                       ],
                     ),
-                    SizedBox(height: 18),
-                    Text(
-                      state is UserLoadedSuccess ? state.userEntity.name : '',
-                      style: TextStyle(
-                        letterSpacing: 1.07,
-                        color: Color(0xff6B9080),
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        shadows: [
-                          BoxShadow(
-                            blurRadius: 2,
-                            offset: Offset(0, 1),
-                            color: Color.fromARGB(64, 0, 0, 0),
-                          ),
-                        ],
-                      ),
+                  ),
+                  SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Edit info',
+                      style: TextStyle(letterSpacing: 1.07),
                     ),
-                    SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text(
-                        'Edit info',
-                        style: TextStyle(letterSpacing: 1.07),
-                      ),
-                    ),
-                    SizedBox(height: 32),
-                    section(
-                      svgPath: 'assets/theme_section_ic.svg',
-                      sectionName: 'Theme',
-                      widgets: themeSection,
-                    ),
-                    SizedBox(height: 32),
-                    section(
-                      sectionName: 'General',
-                      svgPath: 'assets/general_ic.svg',
-                      widgets: generalSection,
-                    ),
-                    SizedBox(height: 32),
-                    section(
-                      sectionName: 'Community',
-                      svgPath: 'assets/community_ic.svg',
-                      widgets: communitySection,
-                    ),
-                    SizedBox(height: 32),
-                    section(
-                      sectionName: 'Manage',
-                      svgPath: 'assets/manage_ic.svg',
-                      widgets: manageSection,
-                    ),
-                    SizedBox(height: 32),
-                  ],
-                );
-              },
-            ),
+                  ),
+                  SizedBox(height: 32),
+                  section(
+                    svgPath: 'assets/theme_section_ic.svg',
+                    sectionName: 'Theme',
+                    widgets: themeSection(context),
+                  ),
+                  SizedBox(height: 32),
+                  section(
+                    sectionName: 'General',
+                    svgPath: 'assets/general_ic.svg',
+                    widgets: generalSection(context),
+                  ),
+                  SizedBox(height: 32),
+                  section(
+                    sectionName: 'Community',
+                    svgPath: 'assets/community_ic.svg',
+                    widgets: communitySection(context),
+                  ),
+                  SizedBox(height: 32),
+                  section(
+                    sectionName: 'Manage',
+                    svgPath: 'assets/manage_ic.svg',
+                    widgets: manageSection(context),
+                  ),
+                  SizedBox(height: 32),
+                ],
+              );
+            },
           ),
         ),
       ),

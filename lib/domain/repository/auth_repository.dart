@@ -7,4 +7,5 @@ abstract class AuthRepository {
   Future<Either<String, UserEntity>> signIn(SignInReq req);
   Future<UserEntity> getCurrentUser();
   Future<UserEntity> loginCurrentUser();
+  Future logout();
 }

@@ -12,6 +12,7 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cub
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 import 'package:locket_clone/presentation/home/user_info_screen/user_info_screen.dart';
+import 'package:locket_clone/presentation/router/app_router.gr.dart';
 
 import '../../../core/configs/theme/app_theme.dart';
 import '../../../domain/repository/post_repository.dart';
@@ -100,10 +101,7 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
             child: Icon(Icons.account_circle_outlined, color: Colors.white),
           ),
           UserLoadedSuccess() => _avatar(() {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => UserInfoScreen()),
-            );
+            context.router.push(UserInfoRoute());
           }, state.userEntity.avatarUrl),
         };
       },
@@ -175,7 +173,9 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
                           children: [
                             _avatarBtn(() {}),
                             _friendBtn(() {}),
-                            _chatBtn(() {}),
+                            _chatBtn(() {
+                              context.router.push(ChatRoute());
+                            }),
                           ],
                         ),
                       ),

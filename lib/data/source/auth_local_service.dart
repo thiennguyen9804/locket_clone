@@ -7,9 +7,15 @@ import '../model/sign_in_res/sign_in_res.dart';
 import '../model/user_dto/user_dto.dart';
 
 abstract class AuthLocalService {
+  void deleteLocalUser();
   UserDto getLocalCurrentUser();
   String getLocalToken();
   Future writeToDb(SignInRes res);
+}
+
+class LocalKey {
+  static String USER = 'user';
+  static String TOKEN = 'token';
 }
 
 class AuthLocalServiceImpl implements AuthLocalService {
@@ -23,10 +29,10 @@ class AuthLocalServiceImpl implements AuthLocalService {
   @override
   UserDto getLocalCurrentUser() {
     if (currentUser != null) {
-      return this.currentUser!;
+      return currentUser!;
     }
     try {
-      String? data = mmkv.decodeString('user');
+      String? data = mmkv.decodeString(LocalKey.USER);
 
       if (data == null) {
         throw Exception("No such Element");
@@ -47,7 +53,7 @@ class AuthLocalServiceImpl implements AuthLocalService {
   @override
   String getLocalToken() {
     try {
-      String? data = mmkv.decodeString('token');
+      String? data = mmkv.decodeString(LocalKey.TOKEN);
       if (data == null) {
         if (kDebugMode) {
           print('user not found in local db, $data');
@@ -71,8 +77,8 @@ class AuthLocalServiceImpl implements AuthLocalService {
       final token = signInRes.token;
       final userDto = signInRes.user;
       String jsonString = jsonEncode(userDto.toJson());
-      mmkv.encodeString("user", jsonString);
-      mmkv.encodeString("token", token);
+      mmkv.encodeString(LocalKey.USER, jsonString);
+      mmkv.encodeString(LocalKey.TOKEN, token);
       if (kDebugMode) {
         print('write to db successfully');
       }
@@ -81,5 +87,12 @@ class AuthLocalServiceImpl implements AuthLocalService {
         print('failed to write to db');
       }
     }
+  }
+
+  @override
+  void deleteLocalUser() {
+    mmkv.removeValue(LocalKey.USER);
+    mmkv.removeValue(LocalKey.TOKEN);
+    currentUser = null;
   }
 }
