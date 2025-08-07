@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 
 class CommentInput extends StatefulWidget {
   final TextEditingController commentController;
   final VoidCallback commentHandler;
+  final bool autoFocus;
   const CommentInput({
     super.key,
     required this.commentController,
     required this.commentHandler,
+    this.autoFocus = true,
   });
 
   @override
@@ -29,13 +30,7 @@ class _CommentInputState extends State<CommentInput> {
           color: Color(0xff738F81).withAlpha(_canSend ? 255 : 153),
         ),
       ),
-      onPressed:
-          _canSend
-              ? () {
-                widget.commentHandler();
-                Navigator.pop(context);
-              }
-              : null,
+      onPressed: _canSend ? widget.commentHandler : null,
     );
   }
 
@@ -53,7 +48,7 @@ class _CommentInputState extends State<CommentInput> {
             _canSend = value.isNotEmpty;
           });
         },
-        autofocus: true,
+        autofocus: widget.autoFocus,
         cursorColor: Colors.white,
         style: TextStyle(color: Colors.white),
         decoration: InputDecoration(

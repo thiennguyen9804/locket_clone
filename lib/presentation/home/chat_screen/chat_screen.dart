@@ -18,9 +18,26 @@ class ChatScreen extends StatelessWidget {
         title: Text('Tin nhắn'),
       ),
       body: SizedBox.expand(
-        child: PageView(
+        child: ListView(
+          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           children: [
-            ChatItem(
+            MessageItem(
+              id: 2,
+              avatar: _avatar,
+              name: 'Kiana',
+              latestMessage: 'Hello Hayashing',
+              createdAt: DateTime.now(),
+            ),
+
+            MessageItem(
+              id: 2,
+              avatar: _avatar,
+              name: 'Kiana',
+              latestMessage: 'Hello Hayashing',
+              createdAt: DateTime.now(),
+            ),
+            MessageItem(
+              id: 2,
               avatar: _avatar,
               name: 'Kiana',
               latestMessage: 'Hello Hayashing',

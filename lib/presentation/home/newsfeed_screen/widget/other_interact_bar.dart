@@ -52,7 +52,10 @@ class _OtherInteractBarState extends State<OtherInteractBar> {
           builder: (innerContext) {
             return CommentInput(
               commentController: controller,
-              commentHandler: commentHandler,
+              commentHandler: () {
+                commentHandler();
+                Navigator.pop(context);
+              },
             );
           },
         );
