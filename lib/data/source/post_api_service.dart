@@ -34,7 +34,7 @@ class PostApiServiceImpl implements PostApiService {
     try {
       final token = sl<AuthLocalService>().getLocalToken();
       final response = await sl<DioClient>().get(
-        NetworkConstant.getAllPostsUrl(size, cursorCreatedAt),
+        HttpConstant.getAllPostsUrl(size, cursorCreatedAt),
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
       final List list = response.data['content'];
@@ -69,7 +69,7 @@ class PostApiServiceImpl implements PostApiService {
       'file': file,
     });
     await sl<DioClient>().post(
-      NetworkConstant.POSTS,
+      HttpConstant.POSTS,
       queryParameters: {
         'caption': post.caption,
         'flip': post.xFlip,
@@ -89,7 +89,7 @@ class PostApiServiceImpl implements PostApiService {
   Future react({required int postId, required String emoji}) async {
     final token = sl<AuthLocalService>().getLocalToken();
     await sl<DioClient>().patch(
-      NetworkConstant.getInteractUrl(postId),
+      HttpConstant.getInteractUrl(postId),
       queryParameters: {'emoji': emoji},
       options: Options(headers: {'Authorization': 'Bearer $token'}),
     );

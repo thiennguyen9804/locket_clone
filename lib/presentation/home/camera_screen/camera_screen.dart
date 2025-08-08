@@ -1,18 +1,12 @@
-import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/common/screen/base_layout_screen.dart';
-import 'package:locket_clone/common/widgets/button/capture_btn.dart';
-import 'package:locket_clone/common/widgets/button/change_cam_btn.dart';
 import 'package:locket_clone/common/widgets/button/circular_icon_button.dart';
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
 import 'package:locket_clone/core/extension/context_extensions.dart';
-import 'package:locket_clone/presentation/home/camera_screen/image_preview_screen.dart';
-import 'package:locket_clone/presentation/home/camera_screen/widget/locket_camera_preview.dart';
 import 'package:locket_clone/presentation/router/app_router.gr.dart';
-import 'package:locket_clone/set_up_sl.dart';
 
 import '../../../core/configs/theme/app_theme.dart';
 import '../../data/captured_image_data.dart';

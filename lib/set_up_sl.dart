@@ -1,7 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
-import 'package:locket_clone/common/bloc/button/upload_img_cubit.dart';
+import 'package:locket_clone/core/constant/network_constant.dart';
 import 'package:locket_clone/core/mapper/newsfeed_mapper/newsfeed_mapper.dart';
-import 'package:locket_clone/core/mapper/post_local_mapper/post_local_mapper.dart';
 import 'package:locket_clone/core/mapper/post_mapper/post_mapper.dart';
 import 'package:locket_clone/core/mapper/user_mapper/user_mapper.dart';
 import 'package:locket_clone/core/network/dio_client.dart';
@@ -11,6 +11,7 @@ import 'package:locket_clone/data/repository/user_repository_impl.dart'
     show UserRepositoryImpl;
 import 'package:locket_clone/data/source/auth_local_service.dart';
 import 'package:locket_clone/data/source/image_local_service.dart';
+import 'package:locket_clone/data/source/message_api_service.dart';
 import 'package:locket_clone/data/source/post_api_service.dart';
 import 'package:locket_clone/data/source/post_local_service.dart';
 import 'package:locket_clone/data/source/user_api_service.dart';
@@ -19,6 +20,7 @@ import 'package:locket_clone/domain/repository/post_repository.dart';
 import 'package:locket_clone/domain/repository/user_repository.dart';
 import 'package:locket_clone/domain/usecases/login_user_use_case.dart';
 import 'package:locket_clone/domain/usecases/upload_user_post_use_case.dart';
+import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 import 'data/repository/auth_repository_impl.dart';
 import 'data/source/auth_api_service.dart';
@@ -64,6 +66,24 @@ void registerService() {
     return UserLocalServiceImpl(db);
   });
   sl.registerSingleton<ImageLocalService>(ImageLocalServiceImpl());
+  sl.registerSingletonAsync<MessageApiService>(() async {
+    final stompClient = StompClient(
+      config: StompConfig(
+        url: SocketConstant.CONNECT,
+        onConnect: (frame) {},
+        onWebSocketError: (dynamic error) => debugPrint(error.toString()),
+        stompConnectHeaders: {
+          'Authorization': 'Bearer ${sl<AuthLocalService>().getLocalToken()}',
+        },
+        webSocketConnectHeaders: {
+          'Authorization': 'Bearer ${sl<AuthLocalService>().getLocalToken()}',
+        },
+      ),
+    );
+    stompClient.activate();
+
+    return MessageApiServiceImpl(stompClient);
+  });
 }
 
 void registerDio() {
@@ -79,4 +99,3 @@ void registerMapper() {
 void registerDatabase() {
   sl.registerSingleton<AppDatabase>(AppDatabase());
 }
-

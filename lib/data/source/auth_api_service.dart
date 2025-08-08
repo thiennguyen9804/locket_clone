@@ -26,7 +26,7 @@ class AuthApiServiceImpl implements AuthApiService {
     }
     try {
       final res = await sl<DioClient>().post(
-        NetworkConstant.SIGN_IN,
+        HttpConstant.SIGN_IN,
         data: req.toJson(),
       );
 
@@ -48,7 +48,7 @@ class AuthApiServiceImpl implements AuthApiService {
   Future<UserDto> getCurrentUser(String token) async {
     try {
       final res = await sl<DioClient>().get(
-        NetworkConstant.USER,
+        HttpConstant.USER,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
       UserDto userDto = UserDto.fromJson(res.data);
@@ -64,6 +64,6 @@ class AuthApiServiceImpl implements AuthApiService {
 
   @override
   Future logout() async {
-    await sl<DioClient>().get(NetworkConstant.SIGN_OUT);
+    await sl<DioClient>().get(HttpConstant.SIGN_OUT);
   }
 }

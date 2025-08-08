@@ -28,7 +28,7 @@ class UserApiServiceImpl implements UserApiService {
       'file': file,
     });
     await sl<DioClient>().post(
-      NetworkConstant.POSTS,
+      HttpConstant.POSTS,
       queryParameters: {'caption': post.caption},
       data: formData,
       options: Options(
