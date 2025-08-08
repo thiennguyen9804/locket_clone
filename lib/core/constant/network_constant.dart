@@ -1,5 +1,5 @@
 class NetworkInfo {
-  static const _IP = '192.168.1.110';
+  static const _IP = '10.0.2.2';
   static const _PORT = '8181';
 }
 
@@ -12,7 +12,7 @@ class HttpConstant {
   static const SIGN_OUT = '${BASE_URL}auth/logout';
   static const USER = '${BASE_URL}auth/';
   static const POSTS = '${BASE_URL}posts';
-  static const MESSAGES = '${BASE_URL}messages';
+  static const MESSAGES = '${BASE_URL}messages/';
   static String getInteractUrl(int postId) =>
       '${BASE_URL}posts/interact/$postId';
 
@@ -27,7 +27,7 @@ class HttpConstant {
   }
 
   static String getAllMessagesUrl(int receiverId, int page, int size) {
-    return '$MESSAGES/$receiverId?page=$page&size=$size';
+    return '$MESSAGES$receiverId?page=$page&size=$size';
   }
 }
 
@@ -35,7 +35,7 @@ class SocketConstant {
   static const _IP = NetworkInfo._IP;
   static const _PORT = NetworkInfo._PORT;
   static const BASE_SOCKET = 'ws://$_IP:$_PORT/';
-  static const CONNECT = '${BASE_SOCKET}chat-websocket';
-  static const SUBCRIBE = '${BASE_SOCKET}secured/user/queue/updates';
-  static const SEND = '$BASE_SOCKET/secured/chat.add-message';
+  static const CONNECT = '${BASE_SOCKET}app-ws';
+  static String getSubscribe(int userId) => '/user/$userId/queue/updates';
+  static const SEND = '/app/chat.add-message';
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -55,7 +56,11 @@ class MessageApiServiceImpl implements MessageApiService {
   }
 
   void subcribeSocket(Function(StompFrame) cb) {
-    stomp.subscribe(destination: SocketConstant.SUBCRIBE, callback: cb);
+    final userId = sl<AuthLocalService>().getLocalCurrentUser().id;
+    stomp.subscribe(
+      destination: SocketConstant.getSubscribe(userId),
+      callback: cb,
+    );
   }
 
   @override
@@ -65,6 +70,6 @@ class MessageApiServiceImpl implements MessageApiService {
     String? imageUrl,
   }) async {
     final body = <String, dynamic>{'text': text, 'receiverId': receiverId};
-    stomp.send(destination: SocketConstant.SEND, body: body.toString());
+    stomp.send(destination: SocketConstant.SEND, body: jsonEncode(body));
   }
 }
