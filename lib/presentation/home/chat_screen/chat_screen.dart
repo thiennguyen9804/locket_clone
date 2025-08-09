@@ -1,11 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:locket_clone/presentation/home/chat_screen/widget/chat_item.dart';
+
+final _user2 = UserEntity(
+  id: 2,
+  name: 'Kiana',
+  avatarUrl: 'https://i.pravatar.cc/301',
+  email: 'kiana@example.com',
+  phoneNumber: '111111111',
+);
 
 @RoutePage()
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
-  static const _avatar = 'https://i.pravatar.cc/300';
 
   @override
   Widget build(BuildContext context) {
@@ -22,24 +30,18 @@ class ChatScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           children: [
             MessageItem(
-              id: 2,
-              avatar: _avatar,
-              name: 'Kiana',
+              receiver: _user2,
               latestMessage: 'Hello Hayashing',
               createdAt: DateTime.now(),
             ),
 
             MessageItem(
-              id: 2,
-              avatar: _avatar,
-              name: 'Kiana',
+              receiver: _user2,
               latestMessage: 'Hello Hayashing',
               createdAt: DateTime.now(),
             ),
             MessageItem(
-              id: 2,
-              avatar: _avatar,
-              name: 'Kiana',
+              receiver: _user2,
               latestMessage: 'Hello Hayashing',
               createdAt: DateTime.now(),
             ),

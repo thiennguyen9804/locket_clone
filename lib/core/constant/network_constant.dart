@@ -1,5 +1,5 @@
 class NetworkInfo {
-  static const _IP = '10.0.2.2';
+  static const _IP = '192.168.1.110';
   static const _PORT = '8181';
 }
 
@@ -36,6 +36,6 @@ class SocketConstant {
   static const _PORT = NetworkInfo._PORT;
   static const BASE_SOCKET = 'ws://$_IP:$_PORT/';
   static const CONNECT = '${BASE_SOCKET}app-ws';
-  static String getSubscribe(int userId) => '/user/$userId/queue/updates';
+  static String getSubscribe(int userId) => '/user/$userId/queue/messages';
   static const SEND = '/app/chat.add-message';
 }

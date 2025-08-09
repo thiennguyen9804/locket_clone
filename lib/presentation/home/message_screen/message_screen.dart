@@ -6,6 +6,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:locket_clone/data/model/message_dto/message_dto.dart';
 import 'package:locket_clone/data/model/user_dto/user_dto.dart';
 import 'package:locket_clone/data/source/auth_local_service.dart';
+import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:locket_clone/domain/repository/auth_repository.dart';
 import 'package:locket_clone/presentation/home/message_screen/bloc/message_bloc.dart';
 import 'package:locket_clone/presentation/home/message_screen/bloc/message_event.dart';
@@ -57,8 +58,9 @@ final _user2 = UserDto(
 class MessageScreen extends StatelessWidget implements AutoRouteWrapper {
   final controller = TextEditingController();
 
-  final int receiverId;
-  MessageScreen({super.key, required this.receiverId});
+  final UserEntity receiver;
+
+  MessageScreen({super.key, required this.receiver});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +76,7 @@ class MessageScreen extends StatelessWidget implements AutoRouteWrapper {
                     state: state,
                     fetchNextPage: () async {
                       context.read<MessageBloc>().add(
-                        FetchNextMessagesPage(receiverId),
+                        FetchNextMessagesPage(receiver),
                       );
                     },
                     builderDelegate: PagedChildBuilderDelegate<MessageDto>(
@@ -108,12 +110,15 @@ class MessageScreen extends StatelessWidget implements AutoRouteWrapper {
 
   void chatHandler(BuildContext context) {
     context.read<MessageBloc>().add(
-      SendMessageEvent(receiverId: receiverId, text: controller.text),
+      SendMessageEvent(receiver: receiver, text: controller.text),
     );
   }
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(create: (context) => MessageBloc(), child: this);
+    return BlocProvider(
+      create: (context) => MessageBloc(receiver),
+      child: this,
+    );
   }
 }

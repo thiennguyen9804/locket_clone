@@ -13,6 +13,7 @@ import 'package:auto_route/auto_route.dart' as _i9;
 import 'package:flutter/foundation.dart' as _i11;
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrapper.dart'
     as _i7;
+import 'package:locket_clone/domain/entities/user_entity.dart' as _i12;
 import 'package:locket_clone/presentation/auth/pages/sign_in_screen.dart'
     as _i6;
 import 'package:locket_clone/presentation/data/captured_image_data.dart'
@@ -139,11 +140,11 @@ class ImagePreviewRouteArgs {
 class MessageRoute extends _i9.PageRouteInfo<MessageRouteArgs> {
   MessageRoute({
     _i11.Key? key,
-    required int receiverId,
+    required _i12.UserEntity receiver,
     List<_i9.PageRouteInfo>? children,
   }) : super(
          MessageRoute.name,
-         args: MessageRouteArgs(key: key, receiverId: receiverId),
+         args: MessageRouteArgs(key: key, receiver: receiver),
          initialChildren: children,
        );
 
@@ -153,32 +154,32 @@ class MessageRoute extends _i9.PageRouteInfo<MessageRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<MessageRouteArgs>();
-      return _i5.MessageScreen(key: args.key, receiverId: args.receiverId);
+      return _i5.MessageScreen(key: args.key, receiver: args.receiver);
     },
   );
 }
 
 class MessageRouteArgs {
-  const MessageRouteArgs({this.key, required this.receiverId});
+  const MessageRouteArgs({this.key, required this.receiver});
 
   final _i11.Key? key;
 
-  final int receiverId;
+  final _i12.UserEntity receiver;
 
   @override
   String toString() {
-    return 'MessageRouteArgs{key: $key, receiverId: $receiverId}';
+    return 'MessageRouteArgs{key: $key, receiver: $receiver}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! MessageRouteArgs) return false;
-    return key == other.key && receiverId == other.receiverId;
+    return key == other.key && receiver == other.receiver;
   }
 
   @override
-  int get hashCode => key.hashCode ^ receiverId.hashCode;
+  int get hashCode => key.hashCode ^ receiver.hashCode;
 }
 
 /// generated route for
