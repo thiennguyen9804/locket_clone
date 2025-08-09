@@ -45,7 +45,6 @@ class _OtherInteractBarState extends State<OtherInteractBar> {
 
     showModalBottomSheet(
       context: context,
-      // isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (modalContext) {
         return Builder(

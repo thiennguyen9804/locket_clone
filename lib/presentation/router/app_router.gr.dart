@@ -1,5 +1,5 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format width=80
+// GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
 // AutoRouterGenerator
@@ -10,7 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
-import 'package:flutter/foundation.dart' as _i11;
+import 'package:flutter/material.dart' as _i11;
 import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrapper.dart'
     as _i7;
 import 'package:locket_clone/domain/entities/user_entity.dart' as _i12;
@@ -100,9 +100,11 @@ class ImagePreviewRoute extends _i9.PageRouteInfo<ImagePreviewRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<ImagePreviewRouteArgs>();
-      return _i4.ImagePreviewScreen(
-        args.capturedImageDataBuilder,
-        key: args.key,
+      return _i9.WrappedRoute(
+        child: _i4.ImagePreviewScreen(
+          args.capturedImageDataBuilder,
+          key: args.key,
+        ),
       );
     },
   );
@@ -154,7 +156,9 @@ class MessageRoute extends _i9.PageRouteInfo<MessageRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<MessageRouteArgs>();
-      return _i5.MessageScreen(key: args.key, receiver: args.receiver);
+      return _i9.WrappedRoute(
+        child: _i5.MessageScreen(key: args.key, receiver: args.receiver),
+      );
     },
   );
 }
@@ -209,7 +213,7 @@ class TransitionWrapperRoute extends _i9.PageRouteInfo<void> {
   static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i7.TransitionWrapperScreen();
+      return _i9.WrappedRoute(child: const _i7.TransitionWrapperScreen());
     },
   );
 }
@@ -225,7 +229,7 @@ class UserInfoRoute extends _i9.PageRouteInfo<void> {
   static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i8.UserInfoScreen();
+      return _i9.WrappedRoute(child: const _i8.UserInfoScreen());
     },
   );
 }

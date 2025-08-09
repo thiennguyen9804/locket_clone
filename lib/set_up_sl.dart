@@ -19,7 +19,6 @@ import 'package:locket_clone/data/source/user_local_service.dart';
 import 'package:locket_clone/domain/repository/post_repository.dart';
 import 'package:locket_clone/domain/repository/user_repository.dart';
 import 'package:locket_clone/domain/usecases/login_user_use_case.dart';
-import 'package:locket_clone/domain/usecases/upload_user_post_use_case.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 import 'data/repository/auth_repository_impl.dart';
@@ -42,7 +41,6 @@ Future setUpSl() async {
 void registerUseCase() {
   sl.registerSingleton<SignInUseCase>(SignInUseCase());
   sl.registerSingleton<LoginUserUseCase>(LoginUserUseCase());
-  sl.registerSingleton<UploadUserPostUseCase>(UploadUserPostUseCase());
   // sl.registerSingleton<GetUserByIdUseCase>(GetUserByIdUseCase());
 }
 

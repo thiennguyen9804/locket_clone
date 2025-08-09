@@ -9,7 +9,10 @@ part of 'message_dto.dart';
 _$MessageDtoImpl _$$MessageDtoImplFromJson(Map<String, dynamic> json) =>
     _$MessageDtoImpl(
       text: json['text'] as String,
-      imageUrl: json['imageUrl'] as String?,
+      post:
+          json['post'] == null
+              ? null
+              : PostDto.fromJson(json['post'] as Map<String, dynamic>),
       sender: UserDto.fromJson(json['sender'] as Map<String, dynamic>),
       receiver: UserDto.fromJson(json['receiver'] as Map<String, dynamic>),
       createdAt: DateTime.parse(json['createdAt'] as String),
@@ -18,7 +21,7 @@ _$MessageDtoImpl _$$MessageDtoImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$MessageDtoImplToJson(_$MessageDtoImpl instance) =>
     <String, dynamic>{
       'text': instance.text,
-      'imageUrl': instance.imageUrl,
+      'post': instance.post,
       'sender': instance.sender,
       'receiver': instance.receiver,
       'createdAt': instance.createdAt.toIso8601String(),

@@ -4,7 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:locket_clone/common/bloc/button/upload_img_cubit.dart';
+import 'package:locket_clone/presentation/home/camera_screen/bloc/upload_img_cubit.dart';
 import 'package:locket_clone/common/screen/base_layout_screen.dart';
 import 'package:locket_clone/core/configs/theme/app_theme.dart';
 import 'package:locket_clone/presentation/data/captured_image_data.dart';

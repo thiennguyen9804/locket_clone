@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:locket_clone/common/bloc/button/upload_img_cubit.dart';
+import 'package:locket_clone/presentation/home/camera_screen/bloc/upload_img_cubit.dart';
 import 'package:locket_clone/presentation/data/captured_image_data.dart';
 
 import 'circular_icon_button.dart';

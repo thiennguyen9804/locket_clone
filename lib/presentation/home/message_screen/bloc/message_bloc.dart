@@ -1,22 +1,26 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:auto_mappr_annotation/auto_mappr_annotation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:locket_clone/core/mapper/post_mapper/post_mapper.dart';
 import 'package:locket_clone/core/mapper/user_mapper/user_mapper.dart';
 import 'package:locket_clone/data/model/message_dto/message_dto.dart';
+import 'package:locket_clone/data/model/post_dto/post_dto.dart';
+import 'package:locket_clone/data/model/sent_message_dto/send_message_dto.dart';
 import 'package:locket_clone/data/model/user_dto/user_dto.dart';
 import 'package:locket_clone/data/source/auth_local_service.dart';
 import 'package:locket_clone/data/source/message_api_service.dart';
+import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:locket_clone/presentation/home/message_screen/bloc/message_event.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
 class MessageBloc extends Bloc<MessageEvent, PagingState<int, MessageDto>> {
   late MessageApiServiceImpl messageService;
-  final UserEntity receiver;
-  MessageBloc(this.receiver) : super(PagingState()) {
+  MessageBloc() : super(PagingState()) {
     messageService = sl<MessageApiService>() as MessageApiServiceImpl;
     messageService.subcribeSocket((frame) {
       final message = MessageDto.fromJson(jsonDecode(frame.body!));
@@ -62,8 +66,15 @@ class MessageBloc extends Bloc<MessageEvent, PagingState<int, MessageDto>> {
     SendMessageEvent event,
     Emitter<PagingState<int, MessageDto>> emit,
   ) {
-    messageService.sendMessage(receiverId: event.receiver.id, text: event.text);
-    final receiverDto = sl<UserMapper>().convert<UserEntity, UserDto>(receiver);
+    final sendDto = SendMessageDto(
+      text: event.text,
+      receiverId: event.receiver.id,
+      post: sl<PostMapper>().convert<PostEntity, PostDto>(event.post),
+    );
+    messageService.sendMessage(sendDto);
+    final receiverDto = sl<UserMapper>().convert<UserEntity, UserDto>(
+      event.receiver,
+    );
     final message = MessageDto(
       text: event.text,
       sender: sl<AuthLocalService>().getLocalCurrentUser(),

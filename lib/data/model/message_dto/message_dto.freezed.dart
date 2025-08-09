@@ -22,7 +22,7 @@ MessageDto _$MessageDtoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MessageDto {
   String get text => throw _privateConstructorUsedError;
-  String? get imageUrl => throw _privateConstructorUsedError;
+  PostDto? get post => throw _privateConstructorUsedError;
   UserDto get sender => throw _privateConstructorUsedError;
   UserDto get receiver => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -46,12 +46,13 @@ abstract class $MessageDtoCopyWith<$Res> {
   @useResult
   $Res call({
     String text,
-    String? imageUrl,
+    PostDto? post,
     UserDto sender,
     UserDto receiver,
     DateTime createdAt,
   });
 
+  $PostDtoCopyWith<$Res>? get post;
   $UserDtoCopyWith<$Res> get sender;
   $UserDtoCopyWith<$Res> get receiver;
 }
@@ -72,7 +73,7 @@ class _$MessageDtoCopyWithImpl<$Res, $Val extends MessageDto>
   @override
   $Res call({
     Object? text = null,
-    Object? imageUrl = freezed,
+    Object? post = freezed,
     Object? sender = null,
     Object? receiver = null,
     Object? createdAt = null,
@@ -84,11 +85,11 @@ class _$MessageDtoCopyWithImpl<$Res, $Val extends MessageDto>
                     ? _value.text
                     : text // ignore: cast_nullable_to_non_nullable
                         as String,
-            imageUrl:
-                freezed == imageUrl
-                    ? _value.imageUrl
-                    : imageUrl // ignore: cast_nullable_to_non_nullable
-                        as String?,
+            post:
+                freezed == post
+                    ? _value.post
+                    : post // ignore: cast_nullable_to_non_nullable
+                        as PostDto?,
             sender:
                 null == sender
                     ? _value.sender
@@ -107,6 +108,20 @@ class _$MessageDtoCopyWithImpl<$Res, $Val extends MessageDto>
           )
           as $Val,
     );
+  }
+
+  /// Create a copy of MessageDto
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PostDtoCopyWith<$Res>? get post {
+    if (_value.post == null) {
+      return null;
+    }
+
+    return $PostDtoCopyWith<$Res>(_value.post!, (value) {
+      return _then(_value.copyWith(post: value) as $Val);
+    });
   }
 
   /// Create a copy of MessageDto
@@ -141,12 +156,14 @@ abstract class _$$MessageDtoImplCopyWith<$Res>
   @useResult
   $Res call({
     String text,
-    String? imageUrl,
+    PostDto? post,
     UserDto sender,
     UserDto receiver,
     DateTime createdAt,
   });
 
+  @override
+  $PostDtoCopyWith<$Res>? get post;
   @override
   $UserDtoCopyWith<$Res> get sender;
   @override
@@ -168,7 +185,7 @@ class __$$MessageDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? text = null,
-    Object? imageUrl = freezed,
+    Object? post = freezed,
     Object? sender = null,
     Object? receiver = null,
     Object? createdAt = null,
@@ -180,11 +197,11 @@ class __$$MessageDtoImplCopyWithImpl<$Res>
                 ? _value.text
                 : text // ignore: cast_nullable_to_non_nullable
                     as String,
-        imageUrl:
-            freezed == imageUrl
-                ? _value.imageUrl
-                : imageUrl // ignore: cast_nullable_to_non_nullable
-                    as String?,
+        post:
+            freezed == post
+                ? _value.post
+                : post // ignore: cast_nullable_to_non_nullable
+                    as PostDto?,
         sender:
             null == sender
                 ? _value.sender
@@ -210,7 +227,7 @@ class __$$MessageDtoImplCopyWithImpl<$Res>
 class _$MessageDtoImpl implements _MessageDto {
   const _$MessageDtoImpl({
     required this.text,
-    this.imageUrl,
+    this.post,
     required this.sender,
     required this.receiver,
     required this.createdAt,
@@ -222,7 +239,7 @@ class _$MessageDtoImpl implements _MessageDto {
   @override
   final String text;
   @override
-  final String? imageUrl;
+  final PostDto? post;
   @override
   final UserDto sender;
   @override
@@ -232,7 +249,7 @@ class _$MessageDtoImpl implements _MessageDto {
 
   @override
   String toString() {
-    return 'MessageDto(text: $text, imageUrl: $imageUrl, sender: $sender, receiver: $receiver, createdAt: $createdAt)';
+    return 'MessageDto(text: $text, post: $post, sender: $sender, receiver: $receiver, createdAt: $createdAt)';
   }
 
   @override
@@ -241,8 +258,7 @@ class _$MessageDtoImpl implements _MessageDto {
         (other.runtimeType == runtimeType &&
             other is _$MessageDtoImpl &&
             (identical(other.text, text) || other.text == text) &&
-            (identical(other.imageUrl, imageUrl) ||
-                other.imageUrl == imageUrl) &&
+            (identical(other.post, post) || other.post == post) &&
             (identical(other.sender, sender) || other.sender == sender) &&
             (identical(other.receiver, receiver) ||
                 other.receiver == receiver) &&
@@ -253,7 +269,7 @@ class _$MessageDtoImpl implements _MessageDto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, text, imageUrl, sender, receiver, createdAt);
+      Object.hash(runtimeType, text, post, sender, receiver, createdAt);
 
   /// Create a copy of MessageDto
   /// with the given fields replaced by the non-null parameter values.
@@ -272,7 +288,7 @@ class _$MessageDtoImpl implements _MessageDto {
 abstract class _MessageDto implements MessageDto {
   const factory _MessageDto({
     required final String text,
-    final String? imageUrl,
+    final PostDto? post,
     required final UserDto sender,
     required final UserDto receiver,
     required final DateTime createdAt,
@@ -284,7 +300,7 @@ abstract class _MessageDto implements MessageDto {
   @override
   String get text;
   @override
-  String? get imageUrl;
+  PostDto? get post;
   @override
   UserDto get sender;
   @override

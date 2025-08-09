@@ -116,9 +116,6 @@ class MessageScreen extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget wrappedRoute(BuildContext context) {
-    return BlocProvider(
-      create: (context) => MessageBloc(receiver),
-      child: this,
-    );
+    return BlocProvider(create: (context) => MessageBloc(), child: this);
   }
 }

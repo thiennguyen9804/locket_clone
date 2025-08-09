@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:locket_clone/common/widgets/button/share_btn.dart';
@@ -6,6 +7,7 @@ import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper
 import 'package:locket_clone/data/source/auth_local_service.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
 import 'package:locket_clone/presentation/data/news_feed_info_ui.dart';
+import 'package:locket_clone/presentation/home/message_screen/bloc/message_bloc.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_cubit.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/interact_bar_status.dart';
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
@@ -20,27 +22,29 @@ import '../../../set_up_sl.dart';
 const _outColor = Color(0xffAAC2B3);
 const _inColor = Color(0xffECF4F4);
 
-class NewsfeedScreen extends StatefulWidget {
+class NewsfeedScreen extends StatefulWidget implements AutoRouteWrapper {
   const NewsfeedScreen({super.key});
   @override
   State<NewsfeedScreen> createState() => _NewsfeedScreenState();
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => NewsfeedCubit()..loadPosts()),
+      ],
+      child: this,
+    );
+  }
 }
 
 class _NewsfeedScreenState extends State<NewsfeedScreen> {
   var interactBarStatus = InteractBarStatus.LOADING;
   PostEntity? currentPost;
   final _helperIst = TransitionHelper();
-  late final Function(int) onPostChanged;
+  late final Function(PostEntity) onPostChanged;
 
   final log = Logger('NewsfeedScreen');
-
-  @override
-  void initState() {
-    super.initState();
-    _helperIst.newsfeedController.addListener(() {
-      final newIndex = _helperIst.newsfeedController.page?.round();
-    });
-  }
 
   @override
   void didChangeDependencies() {
@@ -49,7 +53,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
   }
 
   void _updateInteractBarForPost(PostEntity post) {
-    onPostChanged(post.id);
+    onPostChanged(post);
     final currentUser = sl<AuthLocalService>().getLocalCurrentUser();
     setState(() {
       currentPost = post;

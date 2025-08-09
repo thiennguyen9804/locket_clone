@@ -1,5 +1,6 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/widgets.dart';
+import 'package:locket_clone/domain/entities/post_entity.dart';
 
 class NewsfeedScreenRoot extends InheritedWidget {
   const NewsfeedScreenRoot({
@@ -15,7 +16,7 @@ class NewsfeedScreenRoot extends InheritedWidget {
   final VoidCallback commentHandler;
 
   final Function(Emoji) emojiSelectedHandler;
-  final void Function(int postId) onPostChanged;
+  final void Function(PostEntity post) onPostChanged;
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {

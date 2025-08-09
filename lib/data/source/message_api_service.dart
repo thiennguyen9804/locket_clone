@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:locket_clone/core/constant/network_constant.dart';
 import 'package:locket_clone/core/network/dio_client.dart';
 import 'package:locket_clone/data/model/message_dto/message_dto.dart';
+import 'package:locket_clone/data/model/sent_message_dto/send_message_dto.dart';
 import 'package:locket_clone/data/source/auth_local_service.dart';
 import 'package:locket_clone/set_up_sl.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
@@ -17,11 +18,7 @@ abstract class MessageApiService {
     int page = 0,
   });
 
-  Future sendMessage({
-    required int receiverId,
-    required String text,
-    String? imageUrl,
-  });
+  Future sendMessage(SendMessageDto dto);
 }
 
 class MessageApiServiceImpl implements MessageApiService {
@@ -64,12 +61,8 @@ class MessageApiServiceImpl implements MessageApiService {
   }
 
   @override
-  Future sendMessage({
-    required int receiverId,
-    required String text,
-    String? imageUrl,
-  }) async {
-    final body = <String, dynamic>{'text': text, 'receiverId': receiverId};
+  Future sendMessage(SendMessageDto dto) async {
+    final body = dto.toJson();
     stomp.send(destination: SocketConstant.SEND, body: jsonEncode(body));
   }
 }

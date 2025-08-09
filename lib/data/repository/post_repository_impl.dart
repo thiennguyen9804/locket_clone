@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:locket_clone/core/id_generator.dart';
 import 'package:locket_clone/core/mapper/newsfeed_mapper/newsfeed_mapper.dart';
 import 'package:locket_clone/core/mapper/post_mapper/post_mapper.dart';
 import 'package:locket_clone/core/mapper/user_mapper/user_mapper.dart';
@@ -22,7 +21,6 @@ import '../../domain/repository/post_repository.dart';
 import '../../set_up_sl.dart';
 
 class PostRepositoryImpl implements PostRepository {
-  final tempIdGen = IdGenerator();
   @override
   Future<PostEntity> getPostById(String postId) async {
     final dto = await sl<PostApiService>().getPostById(postId);
@@ -96,19 +94,8 @@ class PostRepositoryImpl implements PostRepository {
   Future addPost(CapturedImageData post) async {
     final userDto = sl<AuthLocalService>().getLocalCurrentUser();
     final token = sl<AuthLocalService>().getLocalToken();
-    // await sl<UserLocalService>().writeUserToLocal(userDto);
-    // final imgPath = await sl<ImageLocalService>().writeImageToLocal(post.flip, post.imagePath);
     final imgPath = post.imagePath;
 
-    final postLocal = PostLocalData(
-      id: tempIdGen.gen(),
-      imageUrl: imgPath,
-      userId: userDto.id,
-      caption: post.caption,
-      interactionList: null,
-      createdAt: DateTime.now().toUtc(),
-    );
-    // await sl<PostLocalService>().writePostToLocal(postLocal);
     final newPost = post.copyWith(imagePath: imgPath, xFlip: post.xFlip);
     try {
       await sl<PostApiService>().addPost(
