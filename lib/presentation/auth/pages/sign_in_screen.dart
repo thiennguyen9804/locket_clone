@@ -2,7 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrapper.dart';
+import 'package:locket_clone/common/screen/transition_wrapper/transition_wrapper.dart';
 import 'package:locket_clone/data/model/sign_in_req/sign_in_req.dart';
 import 'package:locket_clone/domain/usecases/sign_in_use_case.dart';
 import 'package:locket_clone/presentation/auth/pages/sign_up_screen.dart';

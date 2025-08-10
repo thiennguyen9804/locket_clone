@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:locket_clone/common/screen/base_layout_screen.dart';
 import 'package:locket_clone/common/widgets/button/circular_icon_button.dart';
-import 'package:locket_clone/common/widgets/transition_wrapper/transition_helper.dart';
+import 'package:locket_clone/common/screen/transition_wrapper/transition_helper.dart';
 import 'package:locket_clone/core/extension/context_extensions.dart';
 import 'package:locket_clone/presentation/router/app_router.gr.dart';
 

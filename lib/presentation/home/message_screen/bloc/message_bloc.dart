@@ -65,21 +65,24 @@ class MessageBloc extends Bloc<MessageEvent, PagingState<int, MessageDto>> {
   FutureOr<void> _sendMessageEvent(
     SendMessageEvent event,
     Emitter<PagingState<int, MessageDto>> emit,
-  ) {
+  ) async {
     final sendDto = SendMessageDto(
       text: event.text,
       receiverId: event.receiver.id,
-      post: sl<PostMapper>().convert<PostEntity, PostDto>(event.post),
+      postId: sl<PostMapper>().convert<PostEntity, PostDto>(event.post).id,
     );
     messageService.sendMessage(sendDto);
     final receiverDto = sl<UserMapper>().convert<UserEntity, UserDto>(
       event.receiver,
     );
+    if (event.post != null) {
+      return;
+    }
     final message = MessageDto(
       text: event.text,
       sender: sl<AuthLocalService>().getLocalCurrentUser(),
       receiver: receiverDto,
-      imageUrl: null,
+      post: null,
       createdAt: DateTime.now(),
     );
 

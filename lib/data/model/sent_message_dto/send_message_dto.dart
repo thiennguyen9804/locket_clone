@@ -9,7 +9,7 @@ class SendMessageDto with _$SendMessageDto {
   const factory SendMessageDto({
     required String text,
     required int receiverId,
-    PostDto? post,
+    int? postId,
   }) = _SendMessageDto;
 
   factory SendMessageDto.fromJson(Map<String, Object?> json) =>

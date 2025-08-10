@@ -10,10 +10,7 @@ _$SendMessageDtoImpl _$$SendMessageDtoImplFromJson(Map<String, dynamic> json) =>
     _$SendMessageDtoImpl(
       text: json['text'] as String,
       receiverId: (json['receiverId'] as num).toInt(),
-      post:
-          json['post'] == null
-              ? null
-              : PostDto.fromJson(json['post'] as Map<String, dynamic>),
+      postId: (json['postId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$SendMessageDtoImplToJson(
@@ -21,5 +18,5 @@ Map<String, dynamic> _$$SendMessageDtoImplToJson(
 ) => <String, dynamic>{
   'text': instance.text,
   'receiverId': instance.receiverId,
-  'post': instance.post,
+  'postId': instance.postId,
 };

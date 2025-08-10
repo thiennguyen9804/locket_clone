@@ -14,46 +14,6 @@ import 'package:locket_clone/presentation/home/message_screen/widget/message_bub
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/comment_input.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
-final _messages = <MessageDto>[
-  MessageDto(
-    text: 'Hey Kiana!',
-    imageUrl: null,
-    sender: _user1,
-    receiver: _user2,
-    createdAt: DateTime.now().subtract(Duration(minutes: 3)),
-  ),
-  MessageDto(
-    text: 'Hey Hayashing, how are you?',
-    imageUrl: null,
-    sender: _user2,
-    receiver: _user1,
-    createdAt: DateTime.now().subtract(Duration(minutes: 2)),
-  ),
-  MessageDto(
-    text: 'I just sent you a picture!',
-    imageUrl: 'https://example.com/image.jpg',
-    sender: _user1,
-    receiver: _user2,
-    createdAt: DateTime.now().subtract(Duration(minutes: 1)),
-  ),
-];
-
-final _user1 = UserDto(
-  id: 1,
-  name: 'Hayashing',
-  avatarUrl: 'https://i.pravatar.cc/300',
-  email: 'hayashing@example.com',
-  phoneNumber: '000000000',
-);
-
-final _user2 = UserDto(
-  id: 2,
-  name: 'Kiana',
-  avatarUrl: 'https://i.pravatar.cc/301',
-  email: 'kiana@example.com',
-  phoneNumber: '111111111',
-);
-
 @RoutePage()
 class MessageScreen extends StatelessWidget implements AutoRouteWrapper {
   final controller = TextEditingController();
@@ -65,6 +25,13 @@ class MessageScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: context.router.pop,
+          icon: Icon(Icons.arrow_back_ios_outlined),
+        ),
+        title: Text(receiver.name),
+      ),
       body: SizedBox.expand(
         child: Column(
           children: [

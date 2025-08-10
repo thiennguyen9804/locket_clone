@@ -23,7 +23,7 @@ SendMessageDto _$SendMessageDtoFromJson(Map<String, dynamic> json) {
 mixin _$SendMessageDto {
   String get text => throw _privateConstructorUsedError;
   int get receiverId => throw _privateConstructorUsedError;
-  PostDto? get post => throw _privateConstructorUsedError;
+  int? get postId => throw _privateConstructorUsedError;
 
   /// Serializes this SendMessageDto to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,9 +42,7 @@ abstract class $SendMessageDtoCopyWith<$Res> {
     $Res Function(SendMessageDto) then,
   ) = _$SendMessageDtoCopyWithImpl<$Res, SendMessageDto>;
   @useResult
-  $Res call({String text, int receiverId, PostDto? post});
-
-  $PostDtoCopyWith<$Res>? get post;
+  $Res call({String text, int receiverId, int? postId});
 }
 
 /// @nodoc
@@ -64,7 +62,7 @@ class _$SendMessageDtoCopyWithImpl<$Res, $Val extends SendMessageDto>
   $Res call({
     Object? text = null,
     Object? receiverId = null,
-    Object? post = freezed,
+    Object? postId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -78,28 +76,14 @@ class _$SendMessageDtoCopyWithImpl<$Res, $Val extends SendMessageDto>
                     ? _value.receiverId
                     : receiverId // ignore: cast_nullable_to_non_nullable
                         as int,
-            post:
-                freezed == post
-                    ? _value.post
-                    : post // ignore: cast_nullable_to_non_nullable
-                        as PostDto?,
+            postId:
+                freezed == postId
+                    ? _value.postId
+                    : postId // ignore: cast_nullable_to_non_nullable
+                        as int?,
           )
           as $Val,
     );
-  }
-
-  /// Create a copy of SendMessageDto
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $PostDtoCopyWith<$Res>? get post {
-    if (_value.post == null) {
-      return null;
-    }
-
-    return $PostDtoCopyWith<$Res>(_value.post!, (value) {
-      return _then(_value.copyWith(post: value) as $Val);
-    });
   }
 }
 
@@ -112,10 +96,7 @@ abstract class _$$SendMessageDtoImplCopyWith<$Res>
   ) = __$$SendMessageDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String text, int receiverId, PostDto? post});
-
-  @override
-  $PostDtoCopyWith<$Res>? get post;
+  $Res call({String text, int receiverId, int? postId});
 }
 
 /// @nodoc
@@ -134,7 +115,7 @@ class __$$SendMessageDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? text = null,
     Object? receiverId = null,
-    Object? post = freezed,
+    Object? postId = freezed,
   }) {
     return _then(
       _$SendMessageDtoImpl(
@@ -148,11 +129,11 @@ class __$$SendMessageDtoImplCopyWithImpl<$Res>
                 ? _value.receiverId
                 : receiverId // ignore: cast_nullable_to_non_nullable
                     as int,
-        post:
-            freezed == post
-                ? _value.post
-                : post // ignore: cast_nullable_to_non_nullable
-                    as PostDto?,
+        postId:
+            freezed == postId
+                ? _value.postId
+                : postId // ignore: cast_nullable_to_non_nullable
+                    as int?,
       ),
     );
   }
@@ -164,7 +145,7 @@ class _$SendMessageDtoImpl implements _SendMessageDto {
   const _$SendMessageDtoImpl({
     required this.text,
     required this.receiverId,
-    this.post,
+    this.postId,
   });
 
   factory _$SendMessageDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -175,11 +156,11 @@ class _$SendMessageDtoImpl implements _SendMessageDto {
   @override
   final int receiverId;
   @override
-  final PostDto? post;
+  final int? postId;
 
   @override
   String toString() {
-    return 'SendMessageDto(text: $text, receiverId: $receiverId, post: $post)';
+    return 'SendMessageDto(text: $text, receiverId: $receiverId, postId: $postId)';
   }
 
   @override
@@ -190,12 +171,12 @@ class _$SendMessageDtoImpl implements _SendMessageDto {
             (identical(other.text, text) || other.text == text) &&
             (identical(other.receiverId, receiverId) ||
                 other.receiverId == receiverId) &&
-            (identical(other.post, post) || other.post == post));
+            (identical(other.postId, postId) || other.postId == postId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, text, receiverId, post);
+  int get hashCode => Object.hash(runtimeType, text, receiverId, postId);
 
   /// Create a copy of SendMessageDto
   /// with the given fields replaced by the non-null parameter values.
@@ -218,7 +199,7 @@ abstract class _SendMessageDto implements SendMessageDto {
   const factory _SendMessageDto({
     required final String text,
     required final int receiverId,
-    final PostDto? post,
+    final int? postId,
   }) = _$SendMessageDtoImpl;
 
   factory _SendMessageDto.fromJson(Map<String, dynamic> json) =
@@ -229,7 +210,7 @@ abstract class _SendMessageDto implements SendMessageDto {
   @override
   int get receiverId;
   @override
-  PostDto? get post;
+  int? get postId;
 
   /// Create a copy of SendMessageDto
   /// with the given fields replaced by the non-null parameter values.

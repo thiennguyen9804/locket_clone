@@ -11,7 +11,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i9;
 import 'package:flutter/material.dart' as _i11;
-import 'package:locket_clone/common/widgets/transition_wrapper/transition_wrapper.dart'
+import 'package:locket_clone/common/screen/transition_wrapper/transition_wrapper.dart'
     as _i7;
 import 'package:locket_clone/domain/entities/user_entity.dart' as _i12;
 import 'package:locket_clone/presentation/auth/pages/sign_in_screen.dart'
