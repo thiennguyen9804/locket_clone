@@ -1,15 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:locket_clone/core/mapper/user_mapper/user_mapper.dart';
+import 'package:locket_clone/data/model/message_dto/message_dto.dart';
+import 'package:locket_clone/data/model/user_dto/user_dto.dart';
+import 'package:locket_clone/data/source/auth_local_service.dart';
+import 'package:locket_clone/data/source/message_api_service.dart';
 import 'package:locket_clone/domain/entities/user_entity.dart';
 import 'package:locket_clone/presentation/home/chat_screen/widget/chat_item.dart';
-
-final _user2 = UserEntity(
-  id: 2,
-  name: 'Kiana',
-  avatarUrl: 'https://i.pravatar.cc/301',
-  email: 'kiana@example.com',
-  phoneNumber: '111111111',
-);
+import 'package:locket_clone/set_up_sl.dart';
 
 @RoutePage()
 class ChatScreen extends StatelessWidget {
@@ -25,28 +23,37 @@ class ChatScreen extends StatelessWidget {
         ),
         title: Text('Tin nhắn'),
       ),
-      body: SizedBox.expand(
-        child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-          children: [
-            MessageItem(
-              receiver: _user2,
-              latestMessage: 'Hello Hayashing',
-              createdAt: DateTime.now(),
-            ),
+      body: FutureBuilder(
+        future: sl<MessageApiService>().getAllMessages(),
+        builder: (context, asyncSnapshot) {
+          if (asyncSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-            MessageItem(
-              receiver: _user2,
-              latestMessage: 'Hello Hayashing',
-              createdAt: DateTime.now(),
+          final messageList = asyncSnapshot.data!;
+
+          return SizedBox.expand(
+            child: ListView.builder(
+              itemCount: messageList.length,
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              itemBuilder: (context, index) {
+                final MessageDto(:text, :sender, :receiver, :createdAt) =
+                    messageList[index];
+                final currentUser =
+                    sl<AuthLocalService>().getLocalCurrentUser();
+                final trueReceiver = sl<UserMapper>()
+                    .convert<UserDto, UserEntity>(
+                      sender.id == currentUser.id ? receiver : sender,
+                    );
+                return MessageItem(
+                  latestMessage: text,
+                  createdAt: createdAt,
+                  receiver: trueReceiver,
+                );
+              },
             ),
-            MessageItem(
-              receiver: _user2,
-              latestMessage: 'Hello Hayashing',
-              createdAt: DateTime.now(),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

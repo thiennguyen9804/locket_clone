@@ -8,7 +8,7 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/bloc/newsfeed_sta
 import 'package:locket_clone/set_up_sl.dart';
 
 class NewsfeedCubit extends Cubit<NewsFeedInfoUi> {
-  NewsFeedInfoUi _info = NewsFeedInfoUi();
+  final NewsFeedInfoUi _info = NewsFeedInfoUi();
   DateTime? _cursor;
   NewsfeedCubit() : super(NewsFeedInfoUi());
 

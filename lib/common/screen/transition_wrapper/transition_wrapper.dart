@@ -19,7 +19,6 @@ import 'package:locket_clone/presentation/router/app_router.gr.dart';
 
 import '../../../core/configs/theme/app_theme.dart';
 import '../../../domain/repository/post_repository.dart';
-// import '../../../presentation/home/bloc/user_cubit.dart';
 import '../../../set_up_sl.dart';
 
 @RoutePage()
@@ -35,7 +34,6 @@ class TransitionWrapperScreen extends StatefulWidget
   Widget wrappedRoute(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // BlocProvider(create: (context) => UserCubit()..getCurrentUser()),
         BlocProvider(create: (context) => NewsfeedCubit()..loadPosts()),
         BlocProvider(create: (context) => MessageBloc()),
       ],
@@ -46,21 +44,11 @@ class TransitionWrapperScreen extends StatefulWidget
 
 class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
     with SingleTickerProviderStateMixin {
-  ScrollPhysics get currentScrollPhysics =>
-      _locked
-          ? const NeverScrollableScrollPhysics()
-          : const ClampingScrollPhysics();
-
-  final bool _locked = false;
   late PostEntity post;
 
   final commentController = TextEditingController();
 
   final TransitionHelper _helperIst = TransitionHelper();
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void _onPostChanged(PostEntity post) {
     setState(() {
@@ -119,16 +107,35 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
   }
 
   Widget _friendBtn() {
-    return ElevatedButton(
-      onPressed: openFriendScreen,
-      style: ElevatedButton.styleFrom(elevation: 3),
-      child: Row(
-        children: [
-          Icon(Icons.people, color: Colors.white, size: 20),
-          SizedBox(width: 12),
-          Text('1 Bạn bè', style: TextStyle().copyWith()),
-        ],
-      ),
+    return ValueListenableBuilder(
+      valueListenable: _helperIst.isInCameraNotifier,
+      builder: (context, value, child) {
+        if (value) {
+          return ElevatedButton(
+            onPressed: openFriendScreen,
+            style: ElevatedButton.styleFrom(elevation: 3),
+            child: Row(
+              children: [
+                Icon(Icons.people, color: Colors.white, size: 20),
+                SizedBox(width: 12),
+                Text('1 Bạn bè', style: TextStyle().copyWith()),
+              ],
+            ),
+          );
+        } else {
+          return ElevatedButton(
+            onPressed: openFriendScreen,
+            style: ElevatedButton.styleFrom(elevation: 3),
+            child: Row(
+              children: [
+                Icon(Icons.people, color: Colors.white, size: 20),
+                SizedBox(width: 12),
+                Text('Tất cả bạn bè', style: TextStyle().copyWith()),
+              ],
+            ),
+          );
+        }
+      },
     );
   }
 

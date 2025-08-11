@@ -10,17 +10,9 @@ import 'package:locket_clone/domain/repository/user_repository.dart';
 import 'package:locket_clone/set_up_sl.dart';
 
 @AutoMappr(
-  [
-    MapType<PostDto, PostEntity>(reverse: true),
-    // MapType<PostEntity, PostLocalData>(
-    //   fields: [Field.custom('userId', custom: PostMapper.userDtoToInt)],
-    // ),
-  ],
+  [MapType<PostDto, PostEntity>(reverse: true)],
   includes: [InteractionMapper()],
 )
 class PostMapper extends $PostMapper {
   const PostMapper();
-  // static int userDtoToInt(PostEntity post) {
-  //   return post.user.id;
-  // }
 }

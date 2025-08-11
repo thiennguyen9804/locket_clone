@@ -30,21 +30,21 @@ class MyInteractBar extends StatelessWidget {
           children: [
             if (interactList.isEmpty)
               Text('No reaction', style: TextStyle(color: Colors.white)),
-
-            GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return _interactionSection();
-                  },
-                );
-              },
-              child: Text(
-                'There\'re reactions!!!',
-                style: TextStyle(color: Colors.white),
+            if (interactList.isNotEmpty)
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return _interactionSection();
+                    },
+                  );
+                },
+                child: Text(
+                  'There\'re reactions!!!',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-            ),
           ],
         ),
       ),

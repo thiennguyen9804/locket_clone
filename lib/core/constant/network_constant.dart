@@ -1,5 +1,5 @@
 class NetworkInfo {
-  static const _IP = '192.168.1.110';
+  static const _IP = '10.0.2.2';
   static const _PORT = '8181';
 }
 
@@ -12,22 +12,22 @@ class HttpConstant {
   static const SIGN_OUT = '${BASE_URL}auth/logout';
   static const USER = '${BASE_URL}auth/';
   static const POSTS = '${BASE_URL}posts';
-  static const MESSAGES = '${BASE_URL}messages/';
+  static const MESSAGES = '${BASE_URL}messages';
   static String getInteractUrl(int postId) =>
       '${BASE_URL}posts/interact/$postId';
 
   static String getAllPostsUrl(int size, DateTime? cursor) {
     if (cursor == null) {
       return '$POSTS?limit=$size';
-    } else if (cursor.toIso8601String().endsWith('Z')) {
-      return '$POSTS?limit=$size&cursorCreatedAt=${cursor.toIso8601String()}';
+    } else if (true) {
+      return '$POSTS?limit=$size&cursorCreatedAt=${cursor.toUtc().toIso8601String()}';
     } else {
       return '$POSTS?limit=$size&cursorCreatedAt=${cursor.toIso8601String()}Z';
     }
   }
 
   static String getAllMessagesUrl(int receiverId, int page, int size) {
-    return '$MESSAGES$receiverId?page=$page&size=$size';
+    return '$MESSAGES/$receiverId?page=$page&size=$size';
   }
 }
 

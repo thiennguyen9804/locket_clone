@@ -12,11 +12,13 @@ import 'package:locket_clone/set_up_sl.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
 abstract class MessageApiService {
-  Future<List<MessageDto>> getAllMessages({
+  Future<List<MessageDto>> getAllMessagesWithUser({
     required int receiverId,
     int size = 20,
     int page = 0,
   });
+
+  Future<List<MessageDto>> getAllMessages();
 
   Future sendMessage(SendMessageDto dto);
 }
@@ -26,7 +28,7 @@ class MessageApiServiceImpl implements MessageApiService {
 
   MessageApiServiceImpl(this.stomp);
   @override
-  Future<List<MessageDto>> getAllMessages({
+  Future<List<MessageDto>> getAllMessagesWithUser({
     required int receiverId,
     int size = 20,
     int page = 0,
@@ -64,5 +66,22 @@ class MessageApiServiceImpl implements MessageApiService {
   Future sendMessage(SendMessageDto dto) async {
     final body = dto.toJson();
     stomp.send(destination: SocketConstant.SEND, body: jsonEncode(body));
+  }
+
+  @override
+  Future<List<MessageDto>> getAllMessages() async {
+    final token = sl<AuthLocalService>().getLocalToken();
+    final response = await sl<DioClient>().get(
+      HttpConstant.MESSAGES,
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
+    );
+
+    final List list = response.data;
+    final List<MessageDto> res = [];
+    for (var item in list) {
+      res.add(MessageDto.fromJson(item));
+    }
+
+    return res;
   }
 }

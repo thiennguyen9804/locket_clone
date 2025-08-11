@@ -42,7 +42,7 @@ class MessageBloc extends Bloc<MessageEvent, PagingState<int, MessageDto>> {
 
     try {
       final newKey = (state.keys?.last ?? -1) + 1;
-      final newItems = await sl<MessageApiService>().getAllMessages(
+      final newItems = await sl<MessageApiService>().getAllMessagesWithUser(
         page: newKey,
         receiverId: event.receiver.id,
       );
