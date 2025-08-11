@@ -16,6 +16,7 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/widget/other_inte
 import 'package:locket_clone/presentation/home/newsfeed_screen/widget/post_widget.dart';
 
 import 'package:logging/logging.dart';
+import 'package:nested_scroll_views/widgets.dart';
 
 import '../../../set_up_sl.dart';
 
@@ -136,7 +137,7 @@ class _NewsfeedScreenState extends State<NewsfeedScreen> {
                           ),
                         );
                       }
-                      return PageView.builder(
+                      return NestedPageView.builder(
                         physics: ClampingScrollPhysics(),
                         controller: _helperIst.newsfeedController,
                         onPageChanged: (index) {

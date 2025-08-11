@@ -29,45 +29,45 @@ class TransitionHelper {
   void unlock() => lockedNotifier.value = false;
 
   bool notificationHandler(Notification notification) {
-    try {
-      if (notification is OverscrollNotification &&
-          notification.overscroll < 0) {
-        _topOverScroll += notification.overscroll;
-        mainController.position.correctPixels(
-          mainController.position.pixels + notification.overscroll,
-        );
-        mainController.position.notifyListeners();
-      }
-
-      if (_topOverScroll < 0) {
-        if (notification is ScrollUpdateNotification) {
-          final newOverScroll = min(
-            notification.metrics.pixels + _topOverScroll,
-            0.0,
-          );
-          final diff = newOverScroll - _topOverScroll;
-          mainController.position.correctPixels(
-            mainController.position.pixels + diff,
-          );
-          mainController.position.notifyListeners();
-          _topOverScroll = newOverScroll;
-          newsfeedController.position.correctPixels(0);
-          newsfeedController.position.notifyListeners();
-        }
-      }
-
-      if (notification is UserScrollNotification &&
-          notification.direction == ScrollDirection.idle &&
-          _topOverScroll != 0) {
-        mainController.previousPage(
-          curve: Curves.ease,
-          duration: const Duration(milliseconds: 400),
-        );
-        _topOverScroll = 0;
-      }
-    } on Exception catch (e) {
-      debugPrint("TransitionHelper {} $e");
-    }
+    // try {
+    //   if (notification is OverscrollNotification &&
+    //       notification.overscroll < 0) {
+    //     _topOverScroll += notification.overscroll;
+    //     mainController.position.correctPixels(
+    //       mainController.position.pixels + notification.overscroll,
+    //     );
+    //     mainController.position.notifyListeners();
+    //   }
+    //
+    //   if (_topOverScroll < 0) {
+    //     if (notification is ScrollUpdateNotification) {
+    //       final newOverScroll = min(
+    //         notification.metrics.pixels + _topOverScroll,
+    //         0.0,
+    //       );
+    //       final diff = newOverScroll - _topOverScroll;
+    //       mainController.position.correctPixels(
+    //         mainController.position.pixels + diff,
+    //       );
+    //       mainController.position.notifyListeners();
+    //       _topOverScroll = newOverScroll;
+    //       newsfeedController.position.correctPixels(0);
+    //       newsfeedController.position.notifyListeners();
+    //     }
+    //   }
+    //
+    //   if (notification is UserScrollNotification &&
+    //       notification.direction == ScrollDirection.idle &&
+    //       _topOverScroll != 0) {
+    //     mainController.previousPage(
+    //       curve: Curves.ease,
+    //       duration: const Duration(milliseconds: 400),
+    //     );
+    //     _topOverScroll = 0;
+    //   }
+    // } on Exception catch (e) {
+    //   debugPrint("TransitionHelper {} $e");
+    // }
     return false;
   }
 

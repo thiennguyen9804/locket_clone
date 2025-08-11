@@ -20,6 +20,7 @@ import 'package:locket_clone/presentation/router/app_router.gr.dart';
 import 'package:locket_clone/core/configs/theme/app_theme.dart';
 import 'package:locket_clone/domain/repository/post_repository.dart';
 import 'package:locket_clone/set_up_sl.dart';
+import 'package:nested_scroll_views/widgets.dart';
 
 @RoutePage()
 class TransitionWrapperScreen extends StatefulWidget
@@ -195,7 +196,7 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
                       radius: 1,
                     ),
                   ),
-                  child: PageView(
+                  child: NestedPageView(
                     physics:
                         locked
                             ? const NeverScrollableScrollPhysics()

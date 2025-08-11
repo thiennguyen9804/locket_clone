@@ -9,13 +9,27 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     CustomRoute(
-      transitionsBuilder: TransitionsBuilders.slideLeft,
-      duration: Duration(milliseconds: 400),
+      transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+      ) {
+        // you get an animation object and a widget
+        // make your own transition
+        return ScaleTransition(scale: animation, child: child);
+      },
       page: MessageRoute.page,
     ),
-    AutoRoute(page: ChatRoute.page),
+    CustomRoute(
+      transitionsBuilder: TransitionsBuilders.slideLeft,
+      page: ChatRoute.page,
+    ),
     AutoRoute(page: SignInRoute.page),
-    AutoRoute(page: UserInfoRoute.page),
+    CustomRoute(
+      transitionsBuilder: TransitionsBuilders.slideRight,
+      page: UserInfoRoute.page,
+    ),
     AutoRoute(
       page: TransitionWrapperRoute.page,
       initial: true,
