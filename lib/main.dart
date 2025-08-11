@@ -63,7 +63,7 @@ class TestApp extends StatelessWidget {
       title: 'Locket clone',
       theme: AppTheme.appTheme,
       debugShowCheckedModeBanner: true,
-      home: const TestScreen(),
+      home: const NestedPageViewDemo(),
     );
   }
 }

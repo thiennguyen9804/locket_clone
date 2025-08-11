@@ -16,24 +16,52 @@ class CameraScreen extends BaseLayoutScreen {
   const CameraScreen({super.key});
 
   @override
-  State<BaseLayoutScreen> createState() => _CameraScreenState();
+  State<BaseLayoutScreen> createState() => CameraScreenState();
 }
 
-class _CameraScreenState extends BaseLayoutScreenState {
+class CameraScreenState extends BaseLayoutScreenState with AutoRouteAware {
   static const Color _outerCircleColor = Color(0xffAAC2B3);
   static const Color _innerCircleColor = Color(0xffECF4F4);
-  static const Color _loadingIndicatorColor = Color(0xff738F81);
 
   static const String _cameraIconPath = 'assets/camera_ic.svg';
-  static const String _sendIconPath = 'assets/send_ic.svg';
 
   late CameraController _cameraController;
   final _helperInstant = TransitionHelper();
+  AutoRouteObserver? _observer;
   Future<void>? _initializeControllerFuture;
   List<CameraDescription> _cameras = [];
   int _selectedCameraIndex = 0;
   bool _isUsingFrontCamera() =>
       _cameras[_selectedCameraIndex].lensDirection == CameraLensDirection.front;
+
+  void cameraHandler(int page) {
+    if (page == 0) {
+      _cameraController.resumePreview(); // Hoặc startCamera()
+    } else {
+      _cameraController.pausePreview(); // Hoặc stopCamera()
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // RouterScope exposes the list of provided observers
+    // including inherited observers
+    _observer =
+        RouterScope.of(context).firstObserverOfType<AutoRouteObserver>();
+    _observer?.subscribe(this, context.routeData);
+  }
+
+  @override
+  void didPush() {
+    _cameraController.resumePreview();
+  }
+
+  // Khi quay lại từ route khác
+  @override
+  void didPop() {
+    _cameraController.pausePreview();
+  }
 
   @override
   void initState() {
@@ -163,6 +191,7 @@ class _CameraScreenState extends BaseLayoutScreenState {
   @override
   void dispose() async {
     await _cameraController.dispose();
+    _observer?.unsubscribe(this);
     super.dispose();
   }
 }

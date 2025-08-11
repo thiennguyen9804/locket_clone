@@ -3,12 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:indexed/indexed.dart';
 import 'package:locket_clone/common/screen/transition_wrapper/transition_helper.dart';
 import 'package:locket_clone/common/widgets/anim_pressable.dart';
 import 'package:locket_clone/data/source/auth_local_service.dart';
 import 'package:locket_clone/domain/entities/post_entity.dart';
+import 'package:locket_clone/presentation/home/camera_screen/camera_screen.dart';
 import 'package:locket_clone/presentation/home/friend_screen/friend_screen.dart';
 import 'package:locket_clone/presentation/home/message_screen/bloc/message_bloc.dart';
 import 'package:locket_clone/presentation/home/message_screen/bloc/message_event.dart';
@@ -17,9 +17,9 @@ import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen.d
 import 'package:locket_clone/presentation/home/newsfeed_screen/newsfeed_screen_root.dart';
 import 'package:locket_clone/presentation/router/app_router.gr.dart';
 
-import '../../../core/configs/theme/app_theme.dart';
-import '../../../domain/repository/post_repository.dart';
-import '../../../set_up_sl.dart';
+import 'package:locket_clone/core/configs/theme/app_theme.dart';
+import 'package:locket_clone/domain/repository/post_repository.dart';
+import 'package:locket_clone/set_up_sl.dart';
 
 @RoutePage()
 class TransitionWrapperScreen extends StatefulWidget
@@ -49,6 +49,13 @@ class _TransitionWrapperScreenState extends State<TransitionWrapperScreen>
   final commentController = TextEditingController();
 
   final TransitionHelper _helperIst = TransitionHelper();
+  final GlobalKey<CameraScreenState> cameraKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _helperIst.acceptCameraHandler(cameraKey.currentState?.cameraHandler);
+  }
 
   void _onPostChanged(PostEntity post) {
     setState(() {
